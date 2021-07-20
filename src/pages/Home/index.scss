@@ -1,0 +1,29 @@
+@import '../../shared/sass/variables';
+@import '../../shared/sass/utils';
+
+.home-page {
+  @include absolute-center;
+  text-align: center;
+  .hero {
+    padding: 2em 0;
+    font-weight: bold;
+    .title { font-size: 2em }
+    h1, p { line-height: 1 }
+    p { color: $darkGray }
+  }
+  .loadpkg-btn {
+    width: 75%; height: 55px;
+    max-width: 375px;
+    font-size: 1.1em;
+    background-color: $lightBlue;
+    color: white;
+    border: 2px solid $lightBlue;
+    border-radius: 10px;
+    transition-duration: .25s;    
+    cursor: pointer;
+    &:hover {
+      background-color: white;
+      color: $lightBlue;
+    }
+  }
+}
