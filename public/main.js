@@ -5,7 +5,12 @@ path = require('path');
 function createWindow() {
   let win = new BrowserWindow({
     width: 950, height: 700,
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true
+    }
   });
   win.loadURL(
     isDev ?

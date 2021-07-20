@@ -5,11 +5,11 @@
   @include absolute-center;
   text-align: center;
   .hero {
-    padding: 2em 0;
     font-weight: bold;
     .title { font-size: 2em }
     h1, p { line-height: 1 }
     p { color: $darkGray }
+    figure { margin: 15px 0 }
   }
   .loadpkg-btn {
     width: 75%; height: 55px;

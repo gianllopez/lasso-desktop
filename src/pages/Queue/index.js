@@ -4,23 +4,23 @@ import './index.scss';
 export function Queue() {
   return (
     <Fragment>
-      <div class="presentation">
+      <div className="presentation">
         <h2>Current downloads</h2>
         <p>That’s your listed queue</p>
       </div>
-      <div class="current-queue">
-        <div class="buttons-group">
-          <button class="cancel-all">
+      <div className="current-queue">
+        <div className="buttons-group">
+          <button className="cancel-all">
             Cancel all
-            <i class="uil uil-times-circle"></i>
+            <i className="uil uil-times-circle"></i>
           </button>
-          <button class="pause-all">
+          <button className="pause-all">
             Pause all
-            <i class="uil uil-pause-circle"></i>
+            <i className="uil uil-pause-circle"></i>
           </button>
         </div>
-        <div class="songs-container">
-          <p class="empty-msg">You are not downloading any song</p>
+        <div className="songs-container">
+          <p className="empty-msg">You are not downloading any song</p>
         </div>
       </div>
     </Fragment>
