@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import cls from 'classnames';
+import { parse } from '../../services/package';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 const { remote: electron } = window.require('electron');
@@ -8,7 +9,7 @@ export function Home() {
 
   const [path, setPath] = useState('');
 
-  const load = () => {
+  const load = async () => {
     let pkg = electron.dialog.showOpenDialogSync({
       title: 'Package loader',
       properties: ['openFile'],
@@ -18,7 +19,9 @@ export function Home() {
       }],
       defaultPath: electron.app.getPath('downloads')
     });
-    setPath(pkg);
+    let packageContent = await parse(pkg[0]);
+    debugger;
+    // setPath(pkg);
   };
 
   const unload = () => { setPath('') };
