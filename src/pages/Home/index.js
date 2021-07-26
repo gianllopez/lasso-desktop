@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import cls from 'classnames';
-import { parse } from '../../services/package';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 const { remote: electron } = window.require('electron');
+const fs = window.require('fs');
 
 export function Home() {
 
-  const [path, setPath] = useState('');
+  const [pkg, setPkg] = useState([]);
 
   const load = async () => {
-    let pkg = electron.dialog.showOpenDialogSync({
+    let path = electron.dialog.showOpenDialogSync({
       title: 'Package loader',
       properties: ['openFile'],
       filters: [{
@@ -19,15 +19,16 @@ export function Home() {
       }],
       defaultPath: electron.app.getPath('downloads')
     });
-    let packageContent = await parse(pkg[0]);
-    debugger;
-    // setPath(pkg);
+    fs.readFile(path[0], 'utf-8', (err, data) => {
+      if (err) return;
+      setPkg(data);
+    });
   };
 
-  const unload = () => { setPath('') };
+  const unload = () => { setPkg([]) };
 
   return (
-    <div className="home-page" onClick={() => console.log(path)}>
+    <div className="home-page">
       <div className="hero">
         <div className="title">
           <h1>Lasso</h1>
@@ -37,7 +38,7 @@ export function Home() {
           <img src={homeHero} alt=""/>
         </figure>
       </div>
-      <button className={cls({ 'loaded': path })} onClick={ path ? unload : load }>
+      <button className={cls({ 'loaded': pkg?.length })} onClick={ pkg.length ? unload : load }>
         Load package
         <div className="unloader">
           <p>Unload package</p>
