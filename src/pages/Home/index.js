@@ -15,7 +15,7 @@ export function Home() {
 
   const load = () => {
     let path = fileLoader();
-    fs.readFile(path[0], 'utf-8', (err, data) => {
+    fs.readFile(path ? path[0] : '', 'utf-8', (err, data) => {
       let parsedPackage = JSON.parse(data);
       if (parsedPackage.length === 0) {
         messageBox({

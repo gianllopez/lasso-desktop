@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { useStore } from 'react-redux';
+import { Song } from '../../shared/components/Song';
 import './index.scss';
 
 export function Package() {
@@ -14,10 +15,12 @@ export function Package() {
         <p>The current loaded package contains the following songs</p>
       </div>
       <div className="songs-container list">
-        { !loaded && (
+        { loaded ? 
+          content.map((song, i) => (
+            <Song data={song} key={i}/> )) :
           <p className="missing c-gray">
             You haven't load your package
-          </p> )}
+          </p> }
       </div>
     </Fragment>
   );
