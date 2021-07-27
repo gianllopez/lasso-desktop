@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Button } from '../../shared/components/Button';
 import './index.scss';
 
 export function Queue() {
@@ -8,21 +9,25 @@ export function Queue() {
         <h2>Current downloads</h2>
         <p>That’s your listed queue</p>
       </div>
-      <div className="current-queue">
+      <div className="current-queue list">
         <div className="buttons-group">
-          <button className="cancel-all">
-            Cancel all
-            <i className="uil uil-times-circle"></i>
-          </button>
-          <button className="pause-all">
-            Pause all
-            <i className="uil uil-pause-circle"></i>
-          </button>
+          <Button
+            label="Cancel all"
+            className="cancel-all"
+            unicon="uil uil-times-circle"
+          />
+          <Button
+            label="Pause all"
+            className="pause-all"
+            unicon="uil uil-pause-circle"
+          />
         </div>
         <div className="songs-container">
-          <p className="empty-msg">You are not downloading any song</p>
+          <p className="missing c-gray" style={{ maxWidth: 'initial' }}>
+            You are not downloading any song
+          </p>
         </div>
       </div>
     </Fragment>
-  )
-};
+  );
+}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { SET_PACKAGE, CLEAR_PACKAGE } from '../../redux/actions';
 import cls from 'classnames';
-import { fileLoader } from '../../shared/utils';
+import { fileLoader, messageBox } from '../../shared/utils';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 
@@ -17,8 +17,16 @@ export function Home() {
     let path = fileLoader();
     fs.readFile(path[0], 'utf-8', (err, data) => {
       let parsedPackage = JSON.parse(data);
-      dispatch(SET_PACKAGE(parsedPackage || []));
-      setLoaded(true);
+      if (parsedPackage.length === 0) {
+        messageBox({
+          type: 'error',
+          title: 'Empty package',
+          detail: "You're trying to load an empty package."
+        });
+      } else {
+        dispatch(SET_PACKAGE(parsedPackage || []));
+        setLoaded(true);
+      };
     });
   };
 

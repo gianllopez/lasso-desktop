@@ -1,26 +1,14 @@
 @import '../../shared/sass/variables';
 
-.presentation { padding: 1.25em 0 .4em 0 }
-
 .current-queue {
-  width: 70%; max-width: 750px;
-  margin: 0 auto;  
   .buttons-group {
     margin-bottom: 7px;
     text-align: right;
-    button {
-      padding: 7px 20px;
-      font-size: 1em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      i { font-size: 1.1em; margin-left: 7px }
-      &.cancel-all {
-        margin-right: 5px;
-        color: white;
-        background-color: $babyRed;
-      }
-      &.pause-all { background-color: $lightGray }
+    button.cancel-all {
+      margin-right: 10px;
+      color: white;
+      background-color: $babyRed;
     }
+    button.pause-all { background-color: $lightGray }
   }
 }

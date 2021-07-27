@@ -1,7 +1,8 @@
-const { remote: electron } = window.require('electron');
+const { remote: electron } = window.require('electron'),
+{ dialog } = electron;
 
 function fileLoader() {
-  let path = electron.dialog.showOpenDialogSync({
+  let path = dialog.showOpenDialogSync({
     title: 'Package loader',
     properties: ['openFile'],
     filters: [{
@@ -13,4 +14,11 @@ function fileLoader() {
   return path;
 };
 
-export { fileLoader };
+function messageBox(config) {
+  dialog.showMessageBox({
+    message: 'Lasso - Downloader',
+    ...config    
+  })
+};
+
+export { fileLoader, messageBox };
