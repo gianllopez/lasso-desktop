@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import cls from 'classnames';
 import { TagInput } from './TagInput';
 import { Button } from '../../../shared/components/Button'
+import { fileLoader } from '../../../shared/utils';
+import defaultCover from '../../../assets/default-cover.jpg';
 import './index.scss';
 
 export function Editor(props) {
@@ -17,21 +19,36 @@ export function Editor(props) {
     setEdition({ ...edition, [name]: value });
   };
 
+  const onUploadCover = () => {
+    let cover = fileLoader({
+      name: 'Cover/Image',
+      extensions: [ 'jpg', 'png' ]
+    });
+    if (cover) setEdition({ ...edition, cover });
+  };
+
   return (
     <div className={cls('modal', { 'open': data })}>
       <div className="content">
-        <div className="header-text" onClick={() => console.log(edition, data)}>
+        <div className="header-text">
           <h2>Package song editor</h2>
           <p>You're editing:</p>
         </div>
         <div className="entries">
-          <TagInput
-            valid={edition.cover?.length > 0}            
-            value={edition.cover || ''}
-            onChange={changeHandler}
-            placeholder="Cover"
-            name="cover"
-          />
+          <div className="cover-input">
+            <TagInput
+              valid={edition.cover?.length > 0}
+              value={edition.cover || ''}
+              onChange={changeHandler}
+              placeholder="Cover"
+              name="cover"
+            />
+            <figure onClick={onUploadCover}>
+              <div>
+                <img src={edition.cover} alt=""/>
+              </div>
+            </figure>
+          </div>
           <TagInput
             valid={edition.title?.length > 0}
             value={edition.title || ''}
