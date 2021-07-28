@@ -1,7 +1,7 @@
 @import '../../../shared/sass/variables';
 
 .modal {
-  position: fixed;
+  position: fixed; z-index: -1;
   top: 0;
   display: flex;
   align-items: center;
@@ -9,6 +9,8 @@
   width: 100vw;
   height: 100vh;
   background-color: #00000059;
+  opacity: 0;
+  transition-duration: .25s;
   .content {
     position: relative;
     display: flex;
@@ -48,5 +50,9 @@
       cursor: pointer;
       &:hover { color: $babyRed }
     }
+  }
+  &.open {
+    z-index: 3;
+    opacity: 1;
   }
 }

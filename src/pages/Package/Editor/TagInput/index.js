@@ -7,8 +7,13 @@ export function TagInput(props) {
   let { placeholder, valid, ...rest } = props;
 
   return (
-    <div className={cls('tag-input', { 'valid': valid })}>
-      <input type="text" autocomplete="off" {...rest}/>
+    <div className="tag-input">
+      <input
+        className={cls({ 'valid': valid })}
+        autoComplete="off"
+        type="text"
+        {...rest}
+      />
       <label>{ placeholder }</label>
     </div>
   );

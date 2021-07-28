@@ -2,9 +2,10 @@ import React from 'react';
 import defaultCover from '../../../assets/default-cover.jpg'
 import './index.scss';
 
-export function Song({ data = {}, ...rest }) {
+export function Song(props) {
 
-  let { title, artist, album, cover } = data;
+  let { data, onEdit, ...rest } = props,
+  { title, artist, album, cover } = data;
 
   return (
     <div className="song" {...rest}>
@@ -19,7 +20,7 @@ export function Song({ data = {}, ...rest }) {
       <div className="actions">
         <i className="uil uil-arrow-to-bottom download"/>
         <i className="uil uil-trash-alt delete"/>
-        <i className="uil uil-edit-alt edit"/>
+        <i className="uil uil-edit-alt edit" onClick={onEdit}/>
       </div>
     </div>
   );

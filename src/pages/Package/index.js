@@ -60,7 +60,7 @@ export function Package() {
         text="Package was cleared"
         unicon="uil uil-check-circle"
       />
-      <Editor data={editing}/>
+      <Editor data={editing} toClose={() => setEditing(false)}/>
     </div>
   );
 };
