@@ -1,8 +1,9 @@
 .btn {
-  padding: 7px 20px;
+  padding: 10px 20px;
   font-size: 1em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  i { font-size: 1.1em; margin-left: 7px }  
+  &:disabled { cursor: not-allowed }
+  i { font-size: 1.1em; margin-left: 7px }
 }

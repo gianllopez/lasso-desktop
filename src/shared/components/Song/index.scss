@@ -16,7 +16,13 @@
   }
   .tags {
     font-size: .85em;
-    .artist, .album { color: $darkGray }    
+    .artist, .album { color: $darkGray }
+    p {
+      max-width: 440px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
   }
   .actions {
     flex: 1;

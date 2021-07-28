@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { useStore } from 'react-redux';
 import { Song } from '../../shared/components/Song';
+import { Button } from '../../shared/components/Button';
 import './index.scss';
 
 export function Package() {
@@ -14,7 +15,21 @@ export function Package() {
         <h2>Loaded package</h2>
         <p>The current loaded package contains the following songs</p>
       </div>
-      <div className="songs-container list">
+      <div className="btns st-w">
+        <Button
+          className="dl-all"
+          label="Download all"
+          unicon="uil uil-arrow-to-bottom"
+          disabled={!loaded}
+        />
+        <Button
+          className="clear-all"
+          label="Clear package"
+          unicon="uil uil-trash-alt"
+          disabled={!loaded}
+        />
+      </div>
+      <div className="songs-container st-w">
         { loaded ? 
           content.map((song, i) => (
             <Song data={song} key={i}/> )) :
