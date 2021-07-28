@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { useStore } from 'react-redux';
 import { Song } from '../../shared/components/Song';
 import { Button } from '../../shared/components/Button';
+import { Message } from '../../shared/components/Message';
 import './index.scss';
 
 export function Package() {
@@ -10,7 +11,7 @@ export function Package() {
   { loaded, content } = cnt[0] || {};
 
   return (
-    <Fragment>
+    <div className="package-page">
       <div className="presentation">
         <h2>Loaded package</h2>
         <p>The current loaded package contains the following songs</p>
@@ -37,6 +38,10 @@ export function Package() {
             You haven't load your package
           </p> }
       </div>
-    </Fragment>
+      <Message
+        text="Package was cleared"
+        unicon="uil uil-check-circle"
+      />
+    </div>
   );
 };

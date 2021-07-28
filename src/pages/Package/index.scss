@@ -1,30 +1,34 @@
 @import '../../shared/sass/variables';
 
-.songs-container {
-  padding: 10px;
-  border-radius: 5px;
-  background-color: $lightGray;
-  width: calc(70% - 20px);
-  margin-bottom: 2.5em !important;
-  max-width: 730px !important;
-  .song:not(:last-of-type) { margin-bottom: 10px }
-}
-
-.btns {
-  margin: 10px auto !important;
-  text-align: right;
-  button { color: white }
-  .dl-all {
-    margin-right: 10px;
-    background-color: $lightBlue;
-    &:hover, &:disabled {
-      background-color: lighten($lightBlue, 5%)
-    }
+.package-page {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  .songs-container {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: $lightGray;
+    width: calc(70% - 20px);
+    margin-bottom: 2.5em !important;
+    max-width: 730px !important;
+    .song:not(:last-of-type) { margin-bottom: 10px }
   }
-  .clear-all {
-    background-color: $babyRed;
-    &:hover, &:disabled {
-      background-color: lighten($babyRed, 5%);
+  .btns {
+    margin: 10px auto !important;
+    text-align: right;
+    button { color: white }
+    .dl-all {
+      margin-right: 10px;
+      background-color: $lightBlue;
+      &:hover, &:disabled {
+        background-color: lighten($lightBlue, 5%)
+      }
+    }
+    .clear-all {
+      background-color: $babyRed;
+      &:hover, &:disabled {
+        background-color: lighten($babyRed, 5%);
+      }
     }
   }
 }

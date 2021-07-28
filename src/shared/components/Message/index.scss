@@ -1,0 +1,23 @@
+@import '../../sass/variables';
+
+.message {
+  position: absolute;
+  bottom: calc(-55px - 1em); right: 50%;
+  transform: translateX(50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 275px; height: 55px;
+  font-size: 1.1em;
+  background-color: $babyGreen;
+  color: white;
+  border-radius: 7px;
+  margin-bottom: 1em;
+  transition-duration: .25s;
+  i {
+    margin-left: 5px;
+    font-size: 1.25em;
+  }
+  &.neutral { background-color: $darkGray }
+  &.display { bottom: 0 }
+}

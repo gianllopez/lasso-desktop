@@ -17,9 +17,9 @@ export function Song({ data = {}, ...rest }) {
         <p className="album">{ album }</p>
       </div>
       <div className="actions">
-        <i class="uil uil-arrow-to-bottom download"/>
-        <i class="uil uil-trash-alt delete"/>
-        <i class="uil uil-edit-alt edit"/>
+        <i className="uil uil-arrow-to-bottom download"/>
+        <i className="uil uil-trash-alt delete"/>
+        <i className="uil uil-edit-alt edit"/>
       </div>
     </div>
   );
