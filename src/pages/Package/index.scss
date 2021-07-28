@@ -1,0 +1,8 @@
+@import '../../shared/sass/variables';
+
+.songs-container {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: $lightGray;
+  .song:not(:last-of-type) { margin-bottom: 10px }
+}

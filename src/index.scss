@@ -7,16 +7,27 @@
 }
 
 .presentation {
-  padding: 1.25em 0;
+  padding: 1.25em 0 .4em 0;
   font-size: 1.25em;
   text-align: center;
   p { color: $darkGray }
 }
 
-.empty-msg {
-  margin: 10px 0;
-  text-align: center;
-  color: $darkGray;
+.c-gray { color: $darkGray }
+
+.list {
+  width: 70%;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.missing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3em 0;
+  border-radius: 5px;
+  background-color: $lightGray;
 }
 
 #my-creds {

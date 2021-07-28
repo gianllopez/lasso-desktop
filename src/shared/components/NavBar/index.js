@@ -1,22 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { messageBox } from '../../utils';
 import './index.scss';
 const { remote: Electron } = window.require('electron');
 
 export function NavBar() {
 
-  const showInformation = e => {
-    e.preventDefault();
+  const showInformation = () => {
     let { node, electron, chrome } = window.process.versions;
-    Electron.dialog.showMessageBox({
+    messageBox({
       type: 'info',
       title: 'Information',
-      message: 'Lasso - Downloader',
       detail: `Development versions: \
         \nNode: ${node} \
         \nElectron: ${electron} \
         \nChrome: ${chrome}`
-    });
+      });
   };
 
   const pageRedirect = () => {
@@ -39,7 +38,6 @@ export function NavBar() {
         title="Downloads queue"
         className="uil uil-layer-group"/>
       <a
-        to="/"
         title="Go to package creator"
         className="uil uil-globe"
         onClick={pageRedirect}/>

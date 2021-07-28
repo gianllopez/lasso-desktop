@@ -1,31 +1,39 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { SET_PACKAGE, CLEAR_PACKAGE } from '../../redux/actions';
 import cls from 'classnames';
+import { fileLoader, messageBox } from '../../shared/utils';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
-const { remote: electron } = window.require('electron');
+
 const fs = window.require('fs');
 
 export function Home() {
 
-  const [pkg, setPkg] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const dispatch = useDispatch();
 
-  const load = async () => {
-    let path = electron.dialog.showOpenDialogSync({
-      title: 'Package loader',
-      properties: ['openFile'],
-      filters: [{
-        name: 'Lasso JSON Package',
-        extensions: ['json']
-      }],
-      defaultPath: electron.app.getPath('downloads')
-    });
-    fs.readFile(path[0], 'utf-8', (err, data) => {
-      if (err) return;
-      setPkg(data);
+  const load = () => {
+    let path = fileLoader();
+    fs.readFile(path ? path[0] : '', 'utf-8', (err, data) => {
+      let parsedPackage = JSON.parse(data);
+      if (parsedPackage.length === 0) {
+        messageBox({
+          type: 'error',
+          title: 'Empty package',
+          detail: "You're trying to load an empty package."
+        });
+      } else {
+        dispatch(SET_PACKAGE(parsedPackage || []));
+        setLoaded(true);
+      };
     });
   };
 
-  const unload = () => { setPkg([]) };
+  const unload = () => {
+    dispatch(CLEAR_PACKAGE());
+    setLoaded(false);
+  };
 
   return (
     <div className="home-page">
@@ -38,7 +46,7 @@ export function Home() {
           <img src={homeHero} alt=""/>
         </figure>
       </div>
-      <button className={cls({ 'loaded': pkg?.length })} onClick={ pkg.length ? unload : load }>
+      <button className={cls({ 'loaded': loaded })} onClick={ loaded ? unload : load }>
         Load package
         <div className="unloader">
           <p>Unload package</p>
@@ -47,4 +55,5 @@ export function Home() {
       </button>
     </div>
   );
+
 };
