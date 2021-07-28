@@ -1,0 +1,28 @@
+@import '../../../../shared/sass/variables';
+
+.tag-input {
+  position: relative;
+  margin-bottom: 10px;
+  input, label { transition-duration: .25s }
+  input {
+    background-color: $lightGray;
+    padding: 12.5px 10px;
+    border-radius: 5px;
+    width: calc(100% - 20px);
+    border: none;
+    outline: none;
+    &.valid {
+      padding-top: 25px;
+      & + label { top: 15px }
+    }
+    &:focus-within { @extend .valid }
+  }
+  label {
+    position: absolute;
+    top: 50%; left: 10px;
+    transform: translateY(-50%);
+    font-size: .9em;
+    color: $darkGray;
+    pointer-events: none;
+  }
+}

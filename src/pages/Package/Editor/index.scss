@@ -1,0 +1,52 @@
+@import '../../../shared/sass/variables';
+
+.modal {
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000059;
+  .content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 55%;
+    height: 70%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 7px;
+    .header-text {
+      width: calc(80% - (5px + 14px));
+      margin: 0 0 15px 10px;
+      border-left: 5px solid $lightBlue;
+      padding: 7px;
+    }
+    .entries { width: 80% }
+    .grouped-btns {
+      width: 80%;
+      .cancel-edit, .save-edit { color: white }
+      .cancel-edit {
+        width: 30%;
+        background-color: $babyRed;
+      }
+      .save-edit {
+        width: calc(70% - 10px);
+        margin-left: 10px;
+        background-color: $lightBlue;
+      }      
+    }
+    i {
+      position: absolute;
+      top: 0; right: 0;
+      margin: 10px;
+      font-size: 2em;
+      cursor: pointer;
+      &:hover { color: $babyRed }
+    }
+  }
+}

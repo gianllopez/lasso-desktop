@@ -31,7 +31,7 @@ export function Home() {
   };
 
   const unload = () => {
-    dispatch(CLEAR_PACKAGE());
+    dispatch(CLEAR_PACKAGE);
     setLoaded(false);
   };
 
