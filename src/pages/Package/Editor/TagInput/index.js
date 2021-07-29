@@ -9,9 +9,10 @@ export function TagInput(props) {
   return (
     <div className="tag-input">
       <input
+        type="text"
         className={cls({ 'valid': valid })}
         autoComplete="off"
-        type="text"
+        spellCheck="false"
         {...rest}
       />
       <label>{ placeholder }</label>
