@@ -1,7 +1,7 @@
 const { remote: electron } = window.require('electron'),
 { dialog } = electron;
 
-function fileLoader(filter) {
+function fileLoader(filter, defPath = 'downloads') {
 
   const defaultFilter = {
     name: 'Lasso JSON Package',
@@ -12,7 +12,7 @@ function fileLoader(filter) {
     title: 'Package loader',
     properties: ['openFile'],
     filters: [ filter || defaultFilter ],
-    defaultPath: electron.app.getPath('downloads')
+    defaultPath: electron.app.getPath(defPath)
   });
 
   return path ? path[0] : '';

@@ -5,11 +5,14 @@ import { Button } from '../../../shared/components/Button'
 import { fileLoader } from '../../../shared/utils';
 import './index.scss';
 
+const fs = window.require('fs');
+
 export function Editor(props) {
 
   let { data, toClose } = props;
 
   const [edition, setEdition] = useState(data);
+  const [loadedCover, setLoadedCover] = useState('');
 
   useEffect(() => setEdition(data), [data]);
 
@@ -22,8 +25,14 @@ export function Editor(props) {
     let cover = fileLoader({
       name: 'Cover/Image',
       extensions: [ 'jpg', 'png' ]
-    });
-    if (cover) setEdition({ ...edition, cover });
+    }, 'pictures');
+    if (cover) {
+      let buffer = fs.readFileSync(cover),
+      file = new File([buffer], cover),
+      url = URL.createObjectURL(file);
+      setEdition({ ...edition, cover: url });
+      setLoadedCover(cover);
+    };
   };
 
   return (
@@ -37,7 +46,7 @@ export function Editor(props) {
           <div className="cover-input">
             <TagInput
               valid={edition.cover?.length > 0}
-              value={edition.cover || ''}
+              value={loadedCover || edition.cover}
               onChange={changeHandler}
               placeholder="Cover"
               name="cover"
