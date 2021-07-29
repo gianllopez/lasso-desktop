@@ -3,7 +3,6 @@ import cls from 'classnames';
 import { TagInput } from './TagInput';
 import { Button } from '../../../shared/components/Button'
 import { fileLoader } from '../../../shared/utils';
-import defaultCover from '../../../assets/default-cover.jpg';
 import './index.scss';
 
 export function Editor(props) {
@@ -44,9 +43,7 @@ export function Editor(props) {
               name="cover"
             />
             <figure onClick={onUploadCover}>
-              <div>
-                <img src={edition.cover} alt=""/>
-              </div>
+              <img src={edition.cover} alt=""/>
             </figure>
           </div>
           <TagInput

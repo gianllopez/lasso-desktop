@@ -3,6 +3,7 @@
 .tag-input {
   position: relative;
   margin-bottom: 10px;
+  height: 55px;
   input, label { transition-duration: .25s }
   input {
     background-color: $lightGray;
