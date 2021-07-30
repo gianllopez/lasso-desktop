@@ -60,9 +60,9 @@ function Package() {
       <div className="btns st-w">
         <Button          
           disabled={!loaded}
-          label="Download all"
-          unicon="uil uil-arrow-to-bottom"
-          className={cls('dl-all', { 'modified': modified })}
+          label={modified ? 'Save package' : 'Download all'}
+          className={cls('dl-all', { 'save-all': modified })}
+          unicon={ modified ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
         />
         <Button
           onClick={onClear}

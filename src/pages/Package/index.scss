@@ -18,10 +18,28 @@
     text-align: right;
     button { color: white }
     .dl-all {
+      width: 165px;
       margin-right: 10px;
       background-color: $lightBlue;
       &:hover, &:disabled {
         background-color: lighten($lightBlue, 5%)
+      }
+    }
+    .save-all {
+      position: relative;
+      background-color: $babyGreen;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 10px; height: 10px;
+        background-color: $lightBlue;
+        border-radius: 50%;
+        margin: -3px;
+      }
+      &:hover {
+        background-color: lighten($babyGreen, 5%);
+        &::before { background-color: lighten($lightBlue, 5%) }
       }
     }
     .clear-all {
