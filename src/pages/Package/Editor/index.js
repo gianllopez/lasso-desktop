@@ -55,7 +55,7 @@ export function Editor(props) {
       <div className="content">
         <div className="header-text">
           <h2>Package song editor</h2>
-          <p className="c-gray">{data.title} - {data.artist}</p>
+          <p className="c-gray">{data?.title} - {data?.artist}</p>
         </div>
         <div className="entries">
           <div className="cover-input">

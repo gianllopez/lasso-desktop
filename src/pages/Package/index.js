@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useStore } from 'react-redux';
 import { Song } from '../../shared/components/Song';
 import { Button } from '../../shared/components/Button';
@@ -9,12 +9,20 @@ import { Editor } from './Editor';
 
 export function Package() {
 
-  const store = useStore(), cnt = store.getState(),
-  { loaded, content } = cnt[0] || {};
-
+  const store = useStore();
   const dispatch = useDispatch();
+
+  const [data, setData] = useState(null);
+  const [editingSong, setEditingSong] = useState(false);
+
+  const [loaded, setLoaded] = useState(false);
   const [cleared, setCleared] = useState(false);
-  const [edit, setEdit] = useState(false);
+
+  useEffect(() => {
+    let storeState = store.getState(),
+    { loaded, content } = storeState[0] || {};
+    setData(content); setLoaded(loaded);
+  }, [store]);
 
   const onClear = () => {
     dispatch(CLEAR_PACKAGE);
@@ -57,11 +65,11 @@ export function Package() {
       </div>
       <div className="songs-container st-w">
         { loaded ? 
-          content.map((song, i) => (
+          data?.map((song, i) => (
             <Song data={song} key={i}
               onDownload={() => downloadHandler(song)}
               onDelete={() => deleteHandler(i)}
-              onEdit={() => setEdit(song)}
+              onEdit={() => setEditingSong(song)}
             /> )) :
           <p className="missing c-gray">
             You haven't load your package
@@ -72,8 +80,8 @@ export function Package() {
         text="Package was cleared"
         unicon="uil uil-check-circle"
       />
-      <Editor data={edit}
-        toClose={() => setEdit(false)}
+      <Editor data={editingSong}
+        toClose={() => setEditingSong(null)}
         onSave={editHandler}
       />
     </div>
