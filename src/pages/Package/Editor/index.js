@@ -12,7 +12,7 @@ export function Editor(props) {
 
   let { data, toClose, onSave } = props;
 
-  const [edition, setEdition] = useState(data);
+  const [edition, setEdition] = useState(data || {});
   const [loadedCover, setLoadedCover] = useState('');
   const [valid, setValid] = useState(false);
 

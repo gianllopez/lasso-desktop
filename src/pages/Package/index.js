@@ -7,6 +7,7 @@ import { Button } from '../../shared/components/Button';
 import { Message } from '../../shared/components/Message';
 import { useStoreState } from '../../shared/hooks/useStoreState';
 import './index.scss';
+import { equalObjects } from '../../shared/utils';
 
 function Package() {
 
@@ -14,8 +15,9 @@ function Package() {
   { loaded, content } = store;
   const dispatch = useDispatch();
 
-  const [editingSong, setEditingSong] = useState(false);
+  const [editingSong, setEditingSong] = useState(null);
   const [cleared, setCleared] = useState(false);
+  const [edited, setEdited] = useState(false);
 
   const onClear = () => {
     dispatch(CLEAR_PACKAGE);
@@ -23,11 +25,17 @@ function Package() {
     setTimeout(() => setCleared(false), 700);
   };
 
-  const editHandler = ({ i, ...rest }) => {
+  const editHandler = ({ i: index, ...rest }) => {
     let newContent = [ ...content ];
-    newContent[i] = rest;
-    dispatch(SET_PACKAGE(newContent));    
-    setEditingSong(false);
+    newContent[index] = rest;
+    let { i, ...song } = editingSong,   
+    eq = equalObjects(rest, song);
+    if (!eq) {      
+      dispatch(SET_PACKAGE(newContent));
+      setEdited(true);
+      setTimeout(() => setEdited(false), 700);
+    };
+    setEditingSong(null);
   };
 
   const downloadHandler = song => {
@@ -71,6 +79,11 @@ function Package() {
             You haven't load your package
           </p> }
       </div>
+      <Message
+        display={edited}
+        text="Succesfully edition!"
+        unicon="uil uil-check-circle"
+      />
       <Message
         display={cleared}
         text="Package was cleared"
