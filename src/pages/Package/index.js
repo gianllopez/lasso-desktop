@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import cls from 'classnames';
 import { CLEAR_PACKAGE, SET_PACKAGE } from '../../redux/actions';
-import { Editor } from './Editor';
-import { Song } from '../../shared/components/Song';
-import { Button } from '../../shared/components/Button';
-import { Message } from '../../shared/components/Message';
 import { useStoreState } from '../../shared/hooks/useStoreState';
-import './index.scss';
+import { Button, Message, Song } from '../../shared/components';
 import { equalObjects } from '../../shared/utils';
+import { Editor } from './Editor';
+import './index.scss';
 
 function Package() {
 
-  const store = useStoreState(),
-  { loaded, content } = store;
+  const store = useStoreState(), { loaded, content } = store;
   const dispatch = useDispatch();
 
+  const [data, setData] = useState(content);
   const [editingSong, setEditingSong] = useState(null);
   const [cleared, setCleared] = useState(false);
   const [edited, setEdited] = useState(false);
+  const [modified, setModified] = useState(false);
+
+  useEffect(() => {
+    let mod = !equalObjects(content, data);
+    setModified(mod);
+  }, [content, data]);
 
   const onClear = () => {
     dispatch(CLEAR_PACKAGE);
@@ -26,12 +31,12 @@ function Package() {
   };
 
   const editHandler = ({ i: index, ...rest }) => {
-    let newContent = [ ...content ];
-    newContent[index] = rest;
+    let newData = [ ...data ];
+    newData[index] = rest;
     let { i, ...song } = editingSong,   
     eq = equalObjects(rest, song);
-    if (!eq) {      
-      dispatch(SET_PACKAGE(newContent));
+    if (!eq) {
+      setData(newData);
       setEdited(true);
       setTimeout(() => setEdited(false), 700);
     };
@@ -53,11 +58,11 @@ function Package() {
         <p>The current loaded package contains the following songs</p>
       </div>
       <div className="btns st-w">
-        <Button
-          className="dl-all"
+        <Button          
+          disabled={!loaded}
           label="Download all"
           unicon="uil uil-arrow-to-bottom"
-          disabled={!loaded}
+          className={cls('dl-all', { 'modified': modified })}
         />
         <Button
           onClick={onClear}
@@ -69,7 +74,7 @@ function Package() {
       </div>
       <div className="songs-container st-w">
         { loaded ? 
-          content?.map((song, i) => (
+          data?.map((song, i) => (
             <Song data={song} key={i}
               onDownload={() => downloadHandler(song)}
               onDelete={() => deleteHandler(i)}
