@@ -4,22 +4,34 @@ import { Song } from '../../shared/components/Song';
 import { Button } from '../../shared/components/Button';
 import { Message } from '../../shared/components/Message';
 import './index.scss';
-import { CLEAR_PACKAGE } from '../../redux/actions';
+import { CLEAR_PACKAGE, SET_PACKAGE } from '../../redux/actions';
 import { Editor } from './Editor';
 
 export function Package() {
 
-  let store = useStore(), cnt = store.getState(),
+  const store = useStore(), cnt = store.getState(),
   { loaded, content } = cnt[0] || {};
 
   const dispatch = useDispatch();
   const [cleared, setCleared] = useState(false);
-  const [editing, setEditing] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const onClear = () => {
     dispatch(CLEAR_PACKAGE);
     setCleared(true);
     setTimeout(() => setCleared(false), 700);
+  };
+
+  const editHandler = song => {
+    console.log(song)
+  };
+
+  const downloadHandler = song => {
+    console.log('Downloading: ', song);
+  };
+
+  const deleteHandler = index => {
+    console.log(index)
   };
 
   return (
@@ -46,10 +58,10 @@ export function Package() {
       <div className="songs-container st-w">
         { loaded ? 
           content.map((song, i) => (
-            <Song
-              data={song}
-              key={i}
-              onEdit={() => setEditing(song)}
+            <Song data={song} key={i}
+              onDownload={() => downloadHandler(song)}
+              onDelete={() => deleteHandler(i)}
+              onEdit={() => setEdit(song)}
             /> )) :
           <p className="missing c-gray">
             You haven't load your package
@@ -60,9 +72,9 @@ export function Package() {
         text="Package was cleared"
         unicon="uil uil-check-circle"
       />
-      <Editor data={editing}
-        toClose={() => setEditing(false)}
-        onSave={data => console.log(data)}
+      <Editor data={edit}
+        toClose={() => setEdit(false)}
+        onSave={editHandler}
       />
     </div>
   );
