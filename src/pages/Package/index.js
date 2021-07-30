@@ -10,24 +10,31 @@ import './index.scss';
 
 function Package() {
 
-  const store = useStoreState(), { loaded, content } = store;
+  const store = useStoreState();
   const dispatch = useDispatch();
 
-  const [data, setData] = useState(content);
+  const [data, setData] = useState(store.content);
   const [editingSong, setEditingSong] = useState(null);
+  
+  const [loaded, setLoaded] = useState(store.loaded);
   const [cleared, setCleared] = useState(false);
   const [edited, setEdited] = useState(false);
   const [modified, setModified] = useState(false);
 
   useEffect(() => {
-    let mod = !equalObjects(content, data);
+    if (data.length === 0) { setLoaded(false) };
+    let mod = !equalObjects(store.content, data);
     setModified(mod);
-  }, [content, data]);
+  }, [store.content, data]);
 
   const onClear = () => {
     dispatch(CLEAR_PACKAGE);
     setCleared(true);
     setTimeout(() => setCleared(false), 700);
+  };
+
+  const downloadHandler = song => {
+    console.log('Downloading: ', song);
   };
 
   const editHandler = ({ i: index, ...rest }) => {
@@ -41,14 +48,12 @@ function Package() {
       setTimeout(() => setEdited(false), 700);
     };
     setEditingSong(null);
-  };
-
-  const downloadHandler = song => {
-    console.log('Downloading: ', song);
-  };
+  };  
 
   const deleteHandler = index => {
-    console.log(index)
+    let updatedData = [ ...data ];
+    updatedData.splice(index, 1);
+    setData(updatedData);
   };
 
   return (
@@ -59,7 +64,7 @@ function Package() {
       </div>
       <div className="btns st-w">
         <Button          
-          disabled={!loaded}
+          disabled={modified ? false : !loaded}
           label={modified ? 'Save package' : 'Download all'}
           className={cls('dl-all', { 'save-all': modified })}
           unicon={ modified ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
@@ -74,15 +79,15 @@ function Package() {
       </div>
       <div className="songs-container st-w">
         { loaded ? 
-          data?.map((song, i) => (
-            <Song data={song} key={i}
-              onDownload={() => downloadHandler(song)}
-              onDelete={() => deleteHandler(i)}
-              onEdit={() => setEditingSong({ ...song, i })}
-            /> )) :
-          <p className="missing c-gray">
-            You haven't load your package
-          </p> }
+            data?.map((song, i) => (
+              <Song data={song} key={i}
+                onDownload={() => downloadHandler(song)}
+                onDelete={() => deleteHandler(i)}
+                onEdit={() => setEditingSong({ ...song, i })}
+              /> )) :
+            <p className="missing c-gray">
+              You haven't load your package
+            </p> }
       </div>
       <Message
         display={edited}
