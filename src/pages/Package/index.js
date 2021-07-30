@@ -8,6 +8,8 @@ import { equalObjects } from '../../shared/utils';
 import { Editor } from './Editor';
 import './index.scss';
 
+const fs = window.require('fs');
+
 function Package() {
 
   const store = useStoreState();
@@ -20,6 +22,7 @@ function Package() {
   const [cleared, setCleared] = useState(false);
   const [edited, setEdited] = useState(false);
   const [modified, setModified] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     if (data.length === 0) { setLoaded(false) };
@@ -56,9 +59,12 @@ function Package() {
     setData(updatedData);
   };
 
-  const savePackage = () => {
+  const savePackage = async () => {
     dispatch(SET_PACKAGE(data || []));
-    setModified(false);
+    let parsedData = JSON.stringify(data);
+    fs.writeFile(store.path, parsedData);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 700);
   };
 
   return (
@@ -105,9 +111,14 @@ function Package() {
         text="Package was cleared"
         unicon="uil uil-check-circle"
       />
+      <Message
+        display={saved}
+        text="Package was saved"
+        unicon="uil uil-check-circle"
+      />
       <Editor data={editingSong}
-        toClose={() => setEditingSong(null)}
         onSave={editHandler}
+        toClose={() => setEditingSong(null)}
       />
     </div>
   );

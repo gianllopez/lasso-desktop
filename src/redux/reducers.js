@@ -7,7 +7,8 @@ const INITIAL_STATE = {
 function packageReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case '@package/set':
-      return action.payload;
+      let { path, ...rest } = action.payload;
+      return { ...rest, path: path || state.path };
     case '@package/clear':
       return INITIAL_STATE;
     default:

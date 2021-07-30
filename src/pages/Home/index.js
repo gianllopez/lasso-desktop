@@ -25,7 +25,7 @@ function Home() {
           detail: "You're trying to load an empty package."
         });
       } else {
-        dispatch(SET_PACKAGE(parsedPackage));
+        dispatch(SET_PACKAGE(parsedPackage, path));
       };
     });
   };
