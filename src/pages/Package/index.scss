@@ -16,7 +16,20 @@
   .btns {
     margin: 10px auto !important;
     text-align: right;
-    button { color: white }
+    button {
+      color: white;
+      &, &::before { transition-duration: .25s }
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 10px; height: 10px;
+        background-color: $lightBlue;
+        border-radius: 50%;
+        margin: -3px;
+        opacity: 0;
+      }
+    }
     .dl-all {
       width: 165px;
       margin-right: 10px;
@@ -28,15 +41,7 @@
     .save-all {
       position: relative;
       background-color: $babyGreen;
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 10px; height: 10px;
-        background-color: $lightBlue;
-        border-radius: 50%;
-        margin: -3px;
-      }
+      &::before { opacity: 1 }
       &:hover {
         background-color: lighten($babyGreen, 5%);
         &::before { background-color: lighten($lightBlue, 5%) }

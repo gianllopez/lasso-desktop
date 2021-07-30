@@ -41,8 +41,8 @@ function Package() {
     let newData = [ ...data ];
     newData[index] = rest;
     let { i, ...song } = editingSong,   
-    eq = equalObjects(rest, song);
-    if (!eq) {
+    hasChanges = !equalObjects(rest, song);
+    if (hasChanges) {
       setData(newData);
       setEdited(true);
       setTimeout(() => setEdited(false), 700);
@@ -56,6 +56,11 @@ function Package() {
     setData(updatedData);
   };
 
+  const savePackage = () => {
+    dispatch(SET_PACKAGE(data || []));
+    setModified(false);
+  };
+
   return (
     <div className="package-page">
       <div className="presentation">
@@ -63,7 +68,8 @@ function Package() {
         <p>The current loaded package contains the following songs</p>
       </div>
       <div className="btns st-w">
-        <Button          
+        <Button
+          onClick={modified ? savePackage : () => {}}
           disabled={modified ? false : !loaded}
           label={modified ? 'Save package' : 'Download all'}
           className={cls('dl-all', { 'save-all': modified })}
