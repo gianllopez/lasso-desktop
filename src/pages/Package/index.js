@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useStore } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { CLEAR_PACKAGE, SET_PACKAGE } from '../../redux/actions';
+import { Editor } from './Editor';
 import { Song } from '../../shared/components/Song';
 import { Button } from '../../shared/components/Button';
 import { Message } from '../../shared/components/Message';
+import { useStoreState } from '../../shared/hooks/useStoreState';
 import './index.scss';
-import { CLEAR_PACKAGE, SET_PACKAGE } from '../../redux/actions';
-import { Editor } from './Editor';
 
-export function Package() {
+function Package() {
 
-  const store = useStore();
+  const store = useStoreState(),
+  { loaded, content } = store;
   const dispatch = useDispatch();
 
-  const [data, setData] = useState(null);
   const [editingSong, setEditingSong] = useState(false);
-
-  const [loaded, setLoaded] = useState(false);
   const [cleared, setCleared] = useState(false);
-
-  useEffect(() => {
-    let storeState = store.getState(),
-    { loaded, content } = storeState[0] || {};
-    setData(content); setLoaded(loaded);
-  }, [store]);
 
   const onClear = () => {
     dispatch(CLEAR_PACKAGE);
@@ -30,8 +23,11 @@ export function Package() {
     setTimeout(() => setCleared(false), 700);
   };
 
-  const editHandler = song => {
-    console.log(song)
+  const editHandler = ({ i, ...rest }) => {
+    let newContent = [ ...content ];
+    newContent[i] = rest;
+    dispatch(SET_PACKAGE(newContent));    
+    setEditingSong(false);
   };
 
   const downloadHandler = song => {
@@ -65,11 +61,11 @@ export function Package() {
       </div>
       <div className="songs-container st-w">
         { loaded ? 
-          data?.map((song, i) => (
+          content?.map((song, i) => (
             <Song data={song} key={i}
               onDownload={() => downloadHandler(song)}
               onDelete={() => deleteHandler(i)}
-              onEdit={() => setEditingSong(song)}
+              onEdit={() => setEditingSong({ ...song, i })}
             /> )) :
           <p className="missing c-gray">
             You haven't load your package
@@ -87,3 +83,7 @@ export function Package() {
     </div>
   );
 };
+
+const mapStateToProps = ({ loaded, content }) => ({ loaded, content });
+
+export default connect(mapStateToProps)(Package);

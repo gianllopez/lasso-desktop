@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { NavBar } from './shared/components/NavBar';
 import Home from './pages/Home';
-import { Package } from './pages/Package';
+import Package from './pages/Package';
 import { Queue } from './pages/Queue';
 import { store } from './redux/store';
 import './index.scss';
