@@ -7,7 +7,6 @@ import { Button, Message, Song } from '../../shared/components';
 import { equalObjects } from '../../shared/utils';
 import { Editor } from './Editor';
 import './index.scss';
-import { DownloadService } from '../../services/download';
 
 const fs = window.require('fs');
 
@@ -40,12 +39,6 @@ function Package() {
   const onClear = () => {
     setData([]);
     setMessage({ text: 'Package was cleared', show: true });
-  };
-
-  const downloadHandler = song => {
-    let fetcher = new DownloadService();
-    fetcher.download(song.title);
-    console.log('Downloading: ', song);
   };
 
   const editHandler = ({ i: index, ...rest }) => {
@@ -83,8 +76,8 @@ function Package() {
         <Button
           onClick={modified ? savePackage : () => {}}
           disabled={modified ? false : !loaded}
-          label={modified ? 'Save package' : 'Download all'}
-          className={cls('dl-all', { 'save-all': modified })}
+          label={modified ? 'Save package' : 'Send to queue'}
+          className={cls('queue-all', { 'save-all': modified })}
           unicon={ modified ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
         />
         <Button
@@ -99,7 +92,6 @@ function Package() {
         { loaded ? 
             data?.map((song, i) => (
               <Song data={song} key={i}
-                onDownload={() => downloadHandler(song)}
                 onDelete={() => deleteHandler(i)}
                 onEdit={() => setEditingSong({ ...song, i })}
               /> )) :
