@@ -13,4 +13,6 @@ const SET_QUEUE = pkg => ({
   payload: { downloading: true, queue: pkg }
 });
 
-export { SET_PACKAGE, CLEAR_PACKAGE, SET_QUEUE };
+const PAUSE_QUEUE = { type: '@queue/pause-start' };
+
+export { SET_PACKAGE, CLEAR_PACKAGE, SET_QUEUE, PAUSE_QUEUE };

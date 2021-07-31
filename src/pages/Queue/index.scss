@@ -8,7 +8,12 @@
       margin-right: 10px;
       color: white;
       background-color: $babyRed;
+      &:hover { background-color: darken($babyRed, 5%) }
     }
-    button.pause-all { background-color: $lightGray }
+    button.dlpause-all {
+      width: 165px;
+      background-color: $lightGray;
+      &:hover { background-color: darken($lightGray, 5%) }
+    }
   }
 }

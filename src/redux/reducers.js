@@ -26,6 +26,9 @@ function queueReducer(state = INITIAL_QUEUE, action) {
   switch (action.type) {
     case '@queue/set':
       return action.payload;
+    case '@queue/pause-start':
+      let { downloading, ...rest } = state;
+      return { ...rest, downloading: !downloading };
     default:
       return state;
   };
