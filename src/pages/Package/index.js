@@ -7,6 +7,7 @@ import { Button, Message, Song } from '../../shared/components';
 import { equalObjects } from '../../shared/utils';
 import { Editor } from './Editor';
 import './index.scss';
+import { FetcherService } from '../../services/fetcher';
 
 const fs = window.require('fs');
 
@@ -18,11 +19,9 @@ function Package() {
   const [data, setData] = useState(store.content);
   const [editingSong, setEditingSong] = useState(null);
   
+  const [message, setMessage] = useState({ show: false, text: '' });
   const [loaded, setLoaded] = useState(store.loaded);
-  const [cleared, setCleared] = useState(false);
-  const [edited, setEdited] = useState(false);
   const [modified, setModified] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     if (data.length === 0) { setLoaded(false) };
@@ -30,13 +29,22 @@ function Package() {
     setModified(mod);
   }, [store.content, data]);
 
+  useEffect(() => {
+    let { text, show } = message;
+    if (show) {
+      let msg = { text, show: false };
+      setTimeout(() => setMessage(msg), 700);
+    };
+  }, [message]);
+
   const onClear = () => {
-    dispatch(CLEAR_PACKAGE);
-    setCleared(true);
-    setTimeout(() => setCleared(false), 700);
+    setData([]);
+    setMessage({ text: 'Package was cleared', show: true });
   };
 
   const downloadHandler = song => {
+    // let fetcher = FetcherService();
+    // fetcher.download(song.title);
     console.log('Downloading: ', song);
   };
 
@@ -47,8 +55,7 @@ function Package() {
     hasChanges = !equalObjects(rest, song);
     if (hasChanges) {
       setData(newData);
-      setEdited(true);
-      setTimeout(() => setEdited(false), 700);
+      setMessage({ text: 'Succesfully edition!', show: true });
     };
     setEditingSong(null);
   };  
@@ -59,12 +66,11 @@ function Package() {
     setData(updatedData);
   };
 
-  const savePackage = async () => {
+  const savePackage = () => {
     dispatch(SET_PACKAGE(data || []));
     let parsedData = JSON.stringify(data);
-    fs.writeFile(store.path, parsedData);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 700);
+    fs.writeFile(store.path, parsedData, () => {});
+    setMessage({ text: 'Package was saved', show: true });
   };
 
   return (
@@ -102,18 +108,8 @@ function Package() {
             </p> }
       </div>
       <Message
-        display={edited}
-        text="Succesfully edition!"
-        unicon="uil uil-check-circle"
-      />
-      <Message
-        display={cleared}
-        text="Package was cleared"
-        unicon="uil uil-check-circle"
-      />
-      <Message
-        display={saved}
-        text="Package was saved"
+        display={message.show}
+        text={message.text}
         unicon="uil uil-check-circle"
       />
       <Editor data={editingSong}
