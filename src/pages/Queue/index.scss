@@ -16,4 +16,10 @@
       &:hover { background-color: darken($lightGray, 5%) }
     }
   }
+  .songs-container {
+    background-color: $lightGray;
+    border-radius: 5px;
+    padding: 10px;
+    .song:not(:last-of-type) { margin-bottom: 10px }
+  }
 }

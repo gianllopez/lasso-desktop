@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import defaultCover from '../../../assets/default-cover.jpg'
 import './index.scss';
 
 export function Song(props) {
 
-  let { data, onDelete, onEdit, ...rest } = props,
+  let { data, queued, onDelete, onEdit, ...rest } = props,
   { title, artist, album, cover } = data;
 
   return (
@@ -18,8 +18,13 @@ export function Song(props) {
         <p className="album">{ album }</p>
       </div>
       <div className="actions">
-        <i className="uil uil-trash-alt delete" onClick={onDelete}/>
-        <i className="uil uil-edit-alt edit" onClick={onEdit}/>
+        { queued ? (
+          <Fragment></Fragment>
+        ) :
+        <Fragment>
+          <i className="uil uil-trash-alt delete" onClick={onDelete}/>
+          <i className="uil uil-edit-alt edit" onClick={onEdit}/>
+        </Fragment> }
       </div>
     </div>
   );

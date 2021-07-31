@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { SET_PACKAGE, CLEAR_PACKAGE } from '../../redux/actions';
+import { SET_PACKAGE, CLEAR_PACKAGE, CLEAR_QUEUE } from '../../redux/actions';
 import cls from 'classnames';
 import { useStoreState } from '../../shared/hooks/useStoreState';
 import { fileLoader, messageBox } from '../../shared/utils';
@@ -26,6 +26,7 @@ function Home() {
         });
       } else {
         dispatch(SET_PACKAGE(parsedPackage, path));
+        dispatch(CLEAR_QUEUE);
       };
     });
   };

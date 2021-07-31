@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { useStoreState } from '../../shared/hooks/useStoreState';
-import { Button } from '../../shared/components/Button';
+import { Button, Song } from '../../shared/components';
 import './index.scss';
 import { PAUSE_QUEUE } from '../../redux/actions';
 
@@ -33,9 +33,11 @@ function Queue() {
           />
         </div>
         <div className="songs-container">
-          <p className="missing c-gray" style={{ maxWidth: 'initial' }}>
-            You are not downloading any song
-          </p>
+          { queue?.length > 0 ? 
+              queue.map((song, i) => <Song data={song} key={i} queued/>) :
+              <p className="missing c-gray" style={{ maxWidth: 'initial' }}>
+                You are not downloading any song
+              </p> }
         </div>
       </div>
     </Fragment>

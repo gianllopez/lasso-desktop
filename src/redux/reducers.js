@@ -29,6 +29,8 @@ function queueReducer(state = INITIAL_QUEUE, action) {
     case '@queue/pause-start':
       let { downloading, ...rest } = state;
       return { ...rest, downloading: !downloading };
+    case '@queue/clear':
+      return INITIAL_QUEUE;
     default:
       return state;
   };
