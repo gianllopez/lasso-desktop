@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import cls from 'classnames';
-import { CLEAR_PACKAGE, SET_PACKAGE } from '../../redux/actions';
+import { SET_PACKAGE } from '../../redux/actions';
 import { useStoreState } from '../../shared/hooks/useStoreState';
 import { Button, Message, Song } from '../../shared/components';
 import { equalObjects } from '../../shared/utils';
 import { Editor } from './Editor';
 import './index.scss';
-import { FetcherService } from '../../services/fetcher';
+import { DownloadService } from '../../services/download';
 
 const fs = window.require('fs');
 
@@ -43,8 +43,8 @@ function Package() {
   };
 
   const downloadHandler = song => {
-    // let fetcher = FetcherService();
-    // fetcher.download(song.title);
+    let fetcher = new DownloadService();
+    fetcher.download(song.title);
     console.log('Downloading: ', song);
   };
 
