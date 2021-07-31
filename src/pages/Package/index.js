@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import cls from 'classnames';
-import { SET_PACKAGE } from '../../redux/actions';
+import { CLEAR_PACKAGE, SET_PACKAGE, SET_QUEUE } from '../../redux/actions';
 import { useStoreState } from '../../shared/hooks/useStoreState';
 import { Button, Message, Song } from '../../shared/components';
 import { equalObjects } from '../../shared/utils';
@@ -12,7 +12,7 @@ const fs = window.require('fs');
 
 function Package() {
 
-  const store = useStoreState();
+  const store = useStoreState('package');
   const dispatch = useDispatch();
 
   const [data, setData] = useState(store.content);
@@ -66,6 +66,12 @@ function Package() {
     setMessage({ text: 'Package was saved', show: true });
   };
 
+  const queuePackage = () => {
+    setData([]);
+    dispatch(SET_QUEUE(data));
+    dispatch(CLEAR_PACKAGE);
+  };
+
   return (
     <div className="package-page">
       <div className="presentation">
@@ -74,7 +80,7 @@ function Package() {
       </div>
       <div className="btns st-w">
         <Button
-          onClick={modified ? savePackage : () => {}}
+          onClick={modified ? savePackage : queuePackage}
           disabled={modified ? false : !loaded}
           label={modified ? 'Save package' : 'Send to queue'}
           className={cls('queue-all', { 'save-all': modified })}

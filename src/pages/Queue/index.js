@@ -9,7 +9,7 @@ export function Queue() {
         <h2>Current downloads</h2>
         <p>That’s your listed queue</p>
       </div>
-      <div className="current-queue list">
+      <div className="current-queue st-w">
         <div className="buttons-group">
           <Button
             label="Cancel all"

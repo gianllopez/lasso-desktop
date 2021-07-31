@@ -8,4 +8,9 @@ const CLEAR_PACKAGE = {
   payload: { loaded: false, content: [] }
 };
 
-export { SET_PACKAGE, CLEAR_PACKAGE };
+const SET_QUEUE = pkg => ({
+  type: '@queue/set',
+  payload: { downloading: true, queue: pkg }
+});
+
+export { SET_PACKAGE, CLEAR_PACKAGE, SET_QUEUE };

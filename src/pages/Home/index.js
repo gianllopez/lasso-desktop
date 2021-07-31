@@ -12,7 +12,7 @@ const fs = window.require('fs');
 function Home() {
 
   const dispatch = useDispatch();
-  const store = useStoreState();
+  const store = useStoreState('package');
 
   const load = () => {
     let path = fileLoader();
@@ -55,6 +55,6 @@ function Home() {
 
 };
 
-const mapStateToProps = ({ loaded }) => ({ loaded });
+const mapStateToProps = ({ package: { loaded } }) => ({ loaded });
 
 export default connect(mapStateToProps)(Home);

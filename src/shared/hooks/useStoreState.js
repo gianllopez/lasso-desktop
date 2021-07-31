@@ -1,6 +1,7 @@
 import { useStore } from 'react-redux';
 
-export function useStoreState() {
-  const store = useStore();
-  return store.getState() || [];
+export function useStoreState(section) {
+  const store = useStore(),
+  state = store.getState();
+  return state[section] || [];
 };
