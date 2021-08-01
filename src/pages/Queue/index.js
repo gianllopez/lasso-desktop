@@ -44,7 +44,12 @@ function Queue() {
         </div>
         <div className="songs-container">
           { queue?.length > 0 ?
-              queue.map((song, i) => <Song data={song} index={i} key={i}/> ) :
+              queue.map((song, i) =>
+                <Song
+                  data={song}
+                  queued="true"
+                  index={i} key={i}
+                /> ) :
               <p className="missing c-gray" style={{ maxWidth: 'initial' }}>
                 You are not downloading any song
               </p> }

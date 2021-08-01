@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import defaultCover from '../../../assets/default-cover.jpg'
 import './index.scss';
+import { QueuedActions } from './QueuedActions';
 
 export function Song(props) {
 
-  let { data, onDelete, onEdit } = props,
+  let { data, onDelete, onEdit, queued, index } = props,
   { title, artist, album, cover } = data;
+
+  const [paused, setPaused] = useState(index !== 0); // change
+  const [downloading, setDownloading] = useState(index === 0); // change
 
   return (
     <div className="song">
@@ -18,8 +22,14 @@ export function Song(props) {
         <p className="album">{ album }</p>
       </div>
       <div className="actions">
-        <i className="uil uil-edit-alt edit" onClick={onEdit}/>
-        <i onClick={onDelete} className="uil uil-trash-alt delete"/>
+        { queued ?
+          <QueuedActions
+            paused={paused}
+            downloading={downloading}
+            onPause={() => setPaused(!paused)}
+          /> : 
+          <i className="uil uil-edit-alt edit" onClick={onEdit}/> }
+          <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
       </div>
     </div>
   );

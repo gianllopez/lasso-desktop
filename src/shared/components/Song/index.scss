@@ -30,11 +30,10 @@
     text-align: right;
     padding-right: 15px;
     i { cursor: pointer }
-    .download, .delete { margin-left: 5px }
     .download:hover { color: $lightBlue }
     .edit:hover { color: $darkGray }
-    .delete:hover { color: $babyRed }
+    .delete { margin-left: 5px; &:hover { color: $babyRed } }
     .wait { cursor: initial }
-    
+    .p-action:hover { color: $lightBlue }    
   }
 }
