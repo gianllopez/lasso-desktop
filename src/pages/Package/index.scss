@@ -1,9 +1,6 @@
 @import '../../shared/sass/variables';
 
 .package-page {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
   .songs-container {
     padding: 10px;
     border-radius: 5px;
@@ -19,6 +16,30 @@
     button {
       color: white;
       &, &::before { transition-duration: .25s }
+      &.queue-all, &.save-all { position: relative }
+      &.queue-all {
+        width: 170px;
+        margin-right: 10px;
+        background-color: $lightBlue;
+        &:hover, &:disabled {
+          background-color: lighten($lightBlue, 5%)
+        }
+      }
+      &.save-all {
+        position: relative;
+        background-color: $babyGreen;
+        &::before { opacity: 1 }
+        &:hover {
+          background-color: lighten($babyGreen, 5%);
+          &::before { background-color: lighten($lightBlue, 5%) }
+        }
+      }
+      &.clear-all {
+        background-color: $babyRed;
+        &:hover, &:disabled {
+          background-color: lighten($babyRed, 5%);
+        }
+      }      
       &::before {
         content: '';
         position: absolute;
@@ -28,29 +49,6 @@
         border-radius: 50%;
         margin: -3px;
         opacity: 0;
-      }
-    }
-    .queue-all {
-      width: 170px;
-      margin-right: 10px;
-      background-color: $lightBlue;
-      &:hover, &:disabled {
-        background-color: lighten($lightBlue, 5%)
-      }
-    }
-    .save-all {
-      position: relative;
-      background-color: $babyGreen;
-      &::before { opacity: 1 }
-      &:hover {
-        background-color: lighten($babyGreen, 5%);
-        &::before { background-color: lighten($lightBlue, 5%) }
-      }
-    }
-    .clear-all {
-      background-color: $babyRed;
-      &:hover, &:disabled {
-        background-color: lighten($babyRed, 5%);
       }
     }
   }
