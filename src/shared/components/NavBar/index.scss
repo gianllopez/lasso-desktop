@@ -19,6 +19,6 @@
       font-size: 1.15em;
       line-height: 1;
     }
-    &:hover { color: $lightBlue }
+    &.active, &:hover { color: $lightBlue }
   }
 }

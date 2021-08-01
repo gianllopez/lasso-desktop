@@ -4,8 +4,13 @@ import './index.scss';
 
 export function Song(props) {
 
-  let { data, queued, onDelete, onEdit, ...rest } = props,
+  let { data, onDelete, onEdit, ...rest } = props,
   { title, artist, album, cover } = data;
+
+  let { queued, index, pausedq } = rest;
+
+  const [paused, setPaused] = useState(true);
+  const [downloading, setDownloading] = useState(index === 0);
 
   return (
     <div className="song" {...rest}>
@@ -18,13 +23,14 @@ export function Song(props) {
         <p className="album">{ album }</p>
       </div>
       <div className="actions">
-        { queued ? (
-          <Fragment></Fragment>
-        ) :
-        <Fragment>
-          <i className="uil uil-trash-alt delete" onClick={onDelete}/>
-          <i className="uil uil-edit-alt edit" onClick={onEdit}/>
-        </Fragment> }
+        { queued ?
+            ( downloading ?
+              <i onClick={() => setPaused(!paused)}
+                className={ paused ? 'uil uil-play' : 'uil uil-pause' }/> :
+                !pausedq && <i className="uil uil-clock-eight wait"/> ) :
+            <i className="uil uil-edit-alt edit" onClick={onEdit}/> }
+          <i onClick={queued ? () => {} : onDelete }
+            className="uil uil-trash-alt delete"/>
       </div>
     </div>
   );

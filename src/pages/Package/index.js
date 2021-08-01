@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import cls from 'classnames';
 import { CLEAR_PACKAGE, SET_PACKAGE, SET_QUEUE } from '../../redux/actions';
@@ -14,6 +15,7 @@ function Package() {
 
   const store = useStoreState('package');
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [data, setData] = useState(store.content);
   const [editingSong, setEditingSong] = useState(null);
@@ -70,6 +72,7 @@ function Package() {
     setData([]);
     dispatch(SET_QUEUE(data));
     dispatch(CLEAR_PACKAGE);
+    history.push('/queue');    
   };
 
   return (

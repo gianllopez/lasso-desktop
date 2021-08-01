@@ -21,8 +21,8 @@ function Queue() {
       <div className="current-queue st-w">
         <div className="buttons-group">
           <Button
-            label="Cancel all"
-            className="cancel-all"
+            label="Remove all"
+            className="remove-all"
             unicon="uil uil-times-circle"
           />
           <Button
@@ -34,7 +34,7 @@ function Queue() {
         </div>
         <div className="songs-container">
           { queue?.length > 0 ? 
-              queue.map((song, i) => <Song data={song} key={i} queued/>) :
+              queue.map((song, i) => <Song data={song} pausedq={!downloading} index={i} key={i} queued="true"/>) :
               <p className="missing c-gray" style={{ maxWidth: 'initial' }}>
                 You are not downloading any song
               </p> }

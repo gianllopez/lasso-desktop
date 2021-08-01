@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { messageBox } from '../../utils';
 import './index.scss';
 const { remote: Electron } = window.require('electron');
@@ -25,17 +25,20 @@ export function NavBar() {
 
   return (
     <nav className="aside-nav">
-      <Link
-        to="/"
+      <NavLink
+        exact to="/"
         title="Home"
+        activeClassName="active"
         className="uil uil-estate"/>
-      <Link
+      <NavLink
         to="/package"
-        title="Loaded package"
+        title="Loaded package"  
+        activeClassName="active"      
         className="uil uil-box"/>
-      <Link
+      <NavLink
         to="/queue"
-        title="Downloads queue"
+        title="Downloads queue"   
+        activeClassName="active"     
         className="uil uil-layer-group"/>
       <a
         title="Go to package creator"

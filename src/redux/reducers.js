@@ -1,5 +1,3 @@
-
-
 const INITIAL_PACKAGE = {
   loaded: false,
   content: []
