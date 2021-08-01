@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { PAUSE_QUEUE } from '../../redux/actions';
+import { DownloadService } from '../../services/download';
 import { useStoreState } from '../../shared/hooks/useStoreState';
 import { Button, Song } from '../../shared/components';
 import './index.scss';
-import { PAUSE_QUEUE } from '../../redux/actions';
 
 function Queue() {
 
@@ -11,6 +12,15 @@ function Queue() {
   { downloading, queue } = store;
 
   const dispatch = useDispatch();
+  const [fetchingIndex, setFetchingIndex] = useState(null);
+
+  const downloadAll = async () => {
+    let service = new DownloadService();
+    for (let song of queue) {
+      setFetchingIndex(queue.indexOf(song));
+      let url = await service.get_url(song.title);
+    };
+  };
 
   return (
     <Fragment>
@@ -27,14 +37,14 @@ function Queue() {
           />
           <Button
             className="dlpause-all"
-            onClick={() => dispatch(PAUSE_QUEUE)}
             label={downloading ? 'Pause all' : 'Download all'}
+            onClick={ downloading ? () => dispatch(PAUSE_QUEUE) : downloadAll}
             unicon={downloading ? 'uil uil-pause-circle' : 'uil uil-play-circle'}
           />
         </div>
         <div className="songs-container">
-          { queue?.length > 0 ? 
-              queue.map((song, i) => <Song data={song} pausedq={!downloading} index={i} key={i} queued="true"/>) :
+          { queue?.length > 0 ?
+              queue.map((song, i) => <Song data={song} index={i} key={i}/> ) :
               <p className="missing c-gray" style={{ maxWidth: 'initial' }}>
                 You are not downloading any song
               </p> }

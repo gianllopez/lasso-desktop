@@ -5,7 +5,7 @@ class DownloadService {
       method: 'POST',
       body: JSON.stringify({ title })
     };
-    let req = await fetch('http://localhost:8000/get-yturl', cnf);
+    let req = await fetch('http://localhost:8000/get-url', cnf);
     return req.json();
   };
 
