@@ -5,8 +5,10 @@ import { QueuedActions } from './QueuedActions';
 
 export function Song(props) {
 
-  let { data, onDelete, onEdit, queued, index } = props,
+  let { data, onDelete, onEdit } = props,
   { title, artist, album, cover } = data;
+
+  let { queued, globalDownloading, index } = props;
 
   const [paused, setPaused] = useState(index !== 0); // change
   const [downloading, setDownloading] = useState(index === 0); // change
@@ -22,7 +24,7 @@ export function Song(props) {
         <p className="album">{ album }</p>
       </div>
       <div className="actions">
-        { queued ?
+        { queued ? globalDownloading &&
           <QueuedActions
             paused={paused}
             downloading={downloading}

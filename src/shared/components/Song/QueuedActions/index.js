@@ -7,7 +7,7 @@ export function QueuedActions(props) {
 
   return (
     <Fragment>
-      { downloading ? 
+      { downloading ?
         <i className={`uil uil-${paused ? 'play' : 'pause'} p-action`} onClick={onPause}/> :
         <i className="uil uil-clock-eight wait"/> }
     </Fragment>
