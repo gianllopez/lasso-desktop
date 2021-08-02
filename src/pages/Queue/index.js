@@ -2,11 +2,24 @@ import React, { Fragment } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { PAUSE_QUEUE } from '../../redux/actions';
 import { Button, Song } from '../../shared/components';
+import { DownloadService } from '../../services/download';
 import './index.scss';
 
 function Queue({ downloading, queue }) {
 
   const dispatch = useDispatch();
+
+  const downloadAll = async () => {
+    dispatch(PAUSE_QUEUE);
+    if (!downloading) {
+      let titles = queue?.map(song => song.title),
+      service = new DownloadService();
+      for (let title of titles) {
+        let url = await service.get_url(title);
+        console.log(url);
+      };
+    };
+  };
 
   return (
     <Fragment>
@@ -24,7 +37,7 @@ function Queue({ downloading, queue }) {
           <Button
             className="dlpause-all"
             label={downloading ? 'Pause all' : 'Download all'}
-            onClick={() => dispatch(PAUSE_QUEUE)}
+            onClick={downloadAll}
             unicon={downloading ? 'uil uil-pause-circle' : 'uil uil-play-circle'}
           />
         </div>
