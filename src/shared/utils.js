@@ -1,8 +1,5 @@
-import { store } from '../redux/store';
-
 const { remote: electron } = window.require('electron'),
 { dialog } = electron;
-const fs = window.require('fs').promises;
 
 function fileLoader(filter, defPath = 'downloads') {
 
