@@ -9,7 +9,8 @@ function packageReducer(state = INITIAL_PACKAGE, action) {
       let { path, ...rest } = action.payload;
       return { ...rest, path: path || state.path };
     case '@package/clear':
-      return INITIAL_PACKAGE;
+      let { folder } = state; 
+      return { ...INITIAL_PACKAGE, folder };
     default:
       return state;
   };

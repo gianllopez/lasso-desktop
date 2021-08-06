@@ -3,7 +3,7 @@ import { connect, useDispatch } from 'react-redux';
 import { SET_PACKAGE, CLEAR_PACKAGE, CLEAR_QUEUE } from '../../redux/actions';
 import cls from 'classnames';
 import { useStoreState } from '../../shared/hooks/useStoreState';
-import { fileLoader, messageBox } from '../../shared/utils';
+import { createFolder, fileLoader, messageBox } from '../../shared/utils';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 
@@ -15,20 +15,20 @@ function Home() {
   const store = useStoreState('package');
 
   const load = () => {
-    let path = fileLoader();
-    fs.readFile(path, 'utf-8', (err, data) => {
-      let parsedPackage = JSON.parse(data || []);
-      if (parsedPackage.length === 0) {
-        messageBox({
-          type: 'error',
-          title: 'Empty package',
-          detail: "You're trying to load an empty package."
-        });
-      } else {
-        dispatch(SET_PACKAGE(parsedPackage, path));
-        dispatch(CLEAR_QUEUE);
-      };
-    });
+    let { path, folder } = fileLoader();
+    if (!path) return;
+    let data = fs.readFileSync(path),
+    parsedPackage = JSON.parse(data || []);
+    if (parsedPackage.length === 0) {
+      messageBox({
+        type: 'error', title: 'Empty package',
+        detail: "You're trying to load an empty package."
+      });
+    } else {
+      dispatch(SET_PACKAGE(parsedPackage, path, folder));
+      dispatch(CLEAR_QUEUE);
+      createFolder(folder);
+    };
   };
 
   const unload = () => { dispatch(CLEAR_PACKAGE) };

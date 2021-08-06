@@ -1,5 +1,9 @@
 const { remote: electron } = window.require('electron'),
-{ dialog } = electron;
+{ app, dialog } = electron;
+
+const path = window.require('path');
+
+const fs = window.require('fs');
 
 function fileLoader(filter, defPath = 'downloads') {
 
@@ -8,15 +12,25 @@ function fileLoader(filter, defPath = 'downloads') {
     extensions: ['json']
   },
 
-  path = dialog.showOpenDialogSync({
+  pkgpath = dialog.showOpenDialogSync({
     title: 'Package loader',
     properties: ['openFile'],
     filters: [ filter || defaultFilter ],
-    defaultPath: electron.app.getPath(defPath)
-  });
+    defaultPath: app.getPath(defPath)
+  }),
 
-  return path ? path[0] : '';
+  folder = app.getPath('documents');
+  
+  return {
+    path: pkgpath ? pkgpath[0] : '',
+    folder: path.join(folder, 'Lasso Downloads')
+  };
 
+};
+
+function createFolder(folder) {
+  let exists = fs.existsSync(folder);
+  if (!exists) fs.mkdirSync(folder);
 };
 
 function messageBox(config) {
@@ -30,4 +44,4 @@ const equalObjects = (obj1, obj2) => (
   JSON.stringify(obj1) === JSON.stringify(obj2)
 );
 
-export { fileLoader, messageBox, equalObjects };
+export { fileLoader, createFolder, messageBox, equalObjects };
