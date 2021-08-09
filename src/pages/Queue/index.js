@@ -16,7 +16,7 @@ function Queue({ downloading, queue }) {
       for (let song of queue) {
         let { title, artist, url } = song,
         mp3Title = `${title} - ${artist}`;
-        let mp3 = await service.get_mp3(url, mp3Title);
+        await service.get_mp3(url, mp3Title);        
       };
     };
   };
