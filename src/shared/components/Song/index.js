@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import defaultCover from '../../../assets/default-cover.jpg'
+import { Download } from '../../../services/download';
 import './index.scss';
 
 export function Song(props) {
 
   let { data, onDelete, onEdit } = props,
-  { title, artist, album, cover } = data;
+  { title, artist, album, cover, url } = data;
+
+  // queued needed props:
+  let { } = props;
+
+  const handler = state => {
+    console.log(state);
+  };
+
+  const fetchSong = async () => {
+    let service = new Download(handler),
+    mp3Title = `${title} - ${artist}`;
+    await service.get_mp3(url, mp3Title);
+  };
 
   return (
     <div className="song">
