@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import NodeID3 from 'node-id3';
 import { Download } from '../../../services/download';
 import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
+import { Tag } from '../../../services/tag';
 
 export function Song(props) {
 
@@ -25,7 +25,9 @@ export function Song(props) {
       async function fetchSong() {
         let dlservice = new Download(handler),
         mp3title = `${title} - ${artist}`,
-        mp3path = await dlservice.get_mp3(url, mp3title);        
+        mp3path = await dlservice.get_mp3(url, mp3title),
+        toset = { title, artist, album };
+        Tag.execute(mp3path, toset);
         onComplete();
       };
       fetchSong();
