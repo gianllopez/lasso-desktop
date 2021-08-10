@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { PAUSE_QUEUE } from '../../redux/actions';
 import { Button, Song } from '../../shared/components';
@@ -13,6 +13,13 @@ function Queue({ downloading, queue }) {
     if (downloading) setIndex(0);
     dispatch(PAUSE_QUEUE);
   };
+
+  useEffect(() => {
+    if (index === queue.length) {
+      dispatch(PAUSE_QUEUE);
+      setIndex(0);
+    };
+  }, [index]);
 
   return (
     <Fragment>

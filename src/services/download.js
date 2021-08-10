@@ -27,6 +27,7 @@ class Download {
     songPath = path.join(folder, `${title}.mp3`),
     valid = ytdl.validateURL(url);
     valid && await this.streamHandler(url, songPath);
+    return songPath;
   };
 
 };

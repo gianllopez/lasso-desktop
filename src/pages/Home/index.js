@@ -44,7 +44,8 @@ function Home() {
           <img src={homeHero} alt=""/>
         </figure>
       </div>
-      <button className={cls({ 'loaded': store.loaded })} onClick={ store.loaded ? unload : load }>
+      <button className={cls({ 'loaded': store.loaded })}
+        onClick={ store.loaded ? unload : load }>
         Load package
         <div className="unloader">
           <p>Unload package</p>

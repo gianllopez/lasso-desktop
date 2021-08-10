@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import defaultCover from '../../../assets/default-cover.jpg'
+import NodeID3 from 'node-id3';
 import { Download } from '../../../services/download';
+import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
 
@@ -11,7 +12,7 @@ export function Song(props) {
   { title, artist, album, cover, url } = data;
 
   // queued needed props:
-  let { queued, turn, onComplete } = props;
+  let { queued, downloading, turn, onComplete } = props;
 
   const [state, setState] = useState({});
 
@@ -23,13 +24,13 @@ export function Song(props) {
     if (turn) {
       async function fetchSong() {
         let dlservice = new Download(handler),
-        mp3Title = `${title} - ${artist}`;
-        await dlservice.get_mp3(url, mp3Title);
-        onComplete();      
+        mp3title = `${title} - ${artist}`,
+        mp3path = await dlservice.get_mp3(url, mp3title);        
+        onComplete();
       };
       fetchSong();
     };
-  }, [turn]);
+  }, [downloading, turn]);
 
   return (
     <div className="song">
