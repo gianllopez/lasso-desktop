@@ -31,6 +31,7 @@ export function Editor(props) {
     setEdition({ ...edition, [name]: value });
   };
 
+  // Here i got an error
   const onUploadCover = () => {
     let cover = fileLoader({
       name: 'Cover/Image',
@@ -90,6 +91,13 @@ export function Editor(props) {
             onChange={changeHandler}
             placeholder="Album"
             name="album"
+          />
+          <TagInput
+            valid={edition.url?.length > 0}
+            value={edition.url || ''}
+            onChange={changeHandler}
+            placeholder="Youtube URL"
+            name="url"
           />
         </div>
         <div className="grouped-btns">

@@ -9,10 +9,7 @@ class Download {
     this.stateManager = stateManager;
   };
 
-  getProgress(dld, total) {
-    let value = parseInt(100 / total * dld);
-    return `${value}%`;
-  };
+  getProgress = (dld, total) => parseInt(100 / total * dld);
 
   streamHandler(url, songpath) {
     return new Promise((res, rej) => {

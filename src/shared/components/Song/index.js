@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import defaultCover from '../../../assets/default-cover.jpg'
 import { Download } from '../../../services/download';
+import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
 
 export function Song(props) {
@@ -9,7 +11,7 @@ export function Song(props) {
   { title, artist, album, cover, url } = data;
 
   // queued needed props:
-  let { turn, onComplete } = props;
+  let { queued, turn, onComplete } = props;
 
   const [state, setState] = useState({});
 
@@ -20,15 +22,14 @@ export function Song(props) {
   useEffect(() => {
     if (turn) {
       async function fetchSong() {
-        let service = new Download(handler),
+        let dlservice = new Download(handler),
         mp3Title = `${title} - ${artist}`;
-        await service.get_mp3(url, mp3Title);
-        onComplete();
+        await dlservice.get_mp3(url, mp3Title);
+        onComplete();      
       };
       fetchSong();
     };
   }, [turn]);
-
 
   return (
     <div className="song">
@@ -41,7 +42,15 @@ export function Song(props) {
         <p className="album">{ album }</p>
       </div>
       <div className="actions">
-        <i className="uil uil-edit-alt edit" onClick={onEdit}/>
+        { queued ?
+          turn ?
+            <div className="pgb">
+              <CircularProgressbar
+                value={state.progress || 0}
+                strokeWidth="15"
+              />
+            </div> : <i className="uil uil-clock-eight"/> :
+          <i className="uil uil-edit-alt edit" onClick={onEdit}/> }
         <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
       </div>
     </div>
