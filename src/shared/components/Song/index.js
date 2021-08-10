@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import defaultCover from '../../../assets/default-cover.jpg'
 import { Download } from '../../../services/download';
 import './index.scss';
@@ -11,8 +11,10 @@ export function Song(props) {
   // queued needed props:
   let { turn, onComplete } = props;
 
-  const handler = state => {
-    console.log(state);
+  const [state, setState] = useState({});
+
+  const handler = ({ progress }) => {
+    setState({ ...state, progress });
   };
   
   useEffect(() => {
