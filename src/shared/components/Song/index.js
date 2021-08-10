@@ -9,17 +9,24 @@ export function Song(props) {
   { title, artist, album, cover, url } = data;
 
   // queued needed props:
-  let { } = props;
+  let { turn, onComplete } = props;
 
   const handler = state => {
     console.log(state);
   };
+  
+  useEffect(() => {
+    if (turn) {
+      async function fetchSong() {
+        let service = new Download(handler),
+        mp3Title = `${title} - ${artist}`;
+        await service.get_mp3(url, mp3Title);
+        onComplete();
+      };
+      fetchSong();
+    };
+  }, [turn]);
 
-  const fetchSong = async () => {
-    let service = new Download(handler),
-    mp3Title = `${title} - ${artist}`;
-    await service.get_mp3(url, mp3Title);
-  };
 
   return (
     <div className="song">

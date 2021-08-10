@@ -14,10 +14,6 @@ function Queue({ downloading, queue }) {
     dispatch(PAUSE_QUEUE);
   };
 
-  const onNextSong = () => {
-    setIndex(index < queue.length ? index + 1 : 0);
-  };
-
   return (
     <Fragment>
       <div className="presentation">
@@ -44,8 +40,9 @@ function Queue({ downloading, queue }) {
                 <Song
                   queued="true"
                   data={song} key={i}
-                  onComplete={onNextSong}
                   downloading={downloading}
+                  turn={downloading && index === i}
+                  onComplete={() => setIndex(index + 1)}
                 /> ) :
               <p className="missing c-gray" style={{ maxWidth: 'initial' }}>
                 You are not downloading any song

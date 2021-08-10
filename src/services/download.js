@@ -20,7 +20,8 @@ class Download {
         .on('progress', (_, num1, num2) => {
           let progress = this.getProgress(num1, num2);
           this.stateManager({ progress });
-        }).pipe(fs.createWriteStream(songpath));
+        }).on('finish', res)
+        .pipe(fs.createWriteStream(songpath));
     });
   };
 
