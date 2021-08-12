@@ -5,6 +5,8 @@ import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
 
+const NodeID3 = window.require('node-id3');
+
 export function Song(props) {
 
   let { data, onDelete, onEdit } = props,
@@ -15,17 +17,16 @@ export function Song(props) {
 
   const [state, setState] = useState({});
 
-  const handler = ({ progress }) => {
-    setState({ ...state, progress });
-  };
+  const handler = newState => setState({ ...state, ...newState });
   
   useEffect(() => {
     if (turn) {
       async function fetchSong() {
         let dlservice = new Download(handler),
         mp3title = `${title} - ${artist}`,
-        mp3path = await dlservice.get_mp3(url, mp3title);
-        console.log(mp3path)
+        mp3path = await dlservice.get_mp3(url, mp3title),
+        tags = { title, artist, album, APIC: cover };
+        await NodeID3.Promise.write(tags, mp3path);
         onComplete();
       };
       fetchSong();

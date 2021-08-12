@@ -38,7 +38,7 @@ class Download {
               fs.unlink(song, (err) => {
                 if (err) throw err;
                 res();
-              });              
+              });
             })
             .on('error', err => console.error(err))
             .run();
