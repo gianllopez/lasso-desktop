@@ -26,7 +26,7 @@ export function Song(props) {
         mp3title = `${title} - ${artist}`,
         mp3path = await dlservice.get_mp3(url, mp3title),
         tags = { title, artist, album, APIC: cover };
-        await NodeID3.Promise.write(tags, mp3path);
+        NodeID3.write(tags, mp3path);
         onComplete();
       };
       fetchSong();

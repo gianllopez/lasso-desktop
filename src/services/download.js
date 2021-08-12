@@ -7,50 +7,44 @@ const path = window.require('path');
 
 class Download {
 
-  constructor(stateManager) {
-    this.stateManager = stateManager;
+  constructor(manager) {
+    ffmpeg.setFfmpegPath(ffmpegPath);
+    this.manager = manager;
   };
 
-  getProgress = (dld, total) => parseInt(100 / total * dld);
+  getPercentage = (dld, total) => parseInt(100 / total * dld);
 
-  formatTitle(title) {
-    let newTitle = '',
-    invalid = ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
-    for (let char of title) {
-      newTitle = invalid.includes(char) ? '' : char;
-    };
-    return newTitle;
-  };
-
-  streamHandler(url, outfolder, title) {
+  converter(folder, song, title) {
     return new Promise((res, rej) => {
-      let safeTitle = title.replace(/\\|\/|:|\*|\?|"|<|>|\|:/g, ''),
-      song = path.join(outfolder, `${safeTitle} - Untaggeable.mp3`);
+      let tagged = path.join(folder, `${title}.mp3`);      
+      ffmpeg(song).output(tagged)
+        .on('error', err => rej(err))
+        .on('end', () => fs.unlink(song, err => err ? rej(err) : res()))
+        .run();
+    });
+  };
+
+  downloader(url, outfolder, title) {
+    return new Promise((res, rej) => {
+      let song = path.join(outfolder, `${title} - Untaggeable.mp3`);
       ytdl(url, { quality: 'highestaudio', filters: 'audioonly' })
         .on('progress', (_, num1, num2) => {
-          let progress = this.getProgress(num1, num2);
-          this.stateManager({ progress });
-        }).on('finish', () => {
-          let tagged = path.join(outfolder, `${safeTitle}.mp3`);
-          ffmpeg.setFfmpegPath(ffmpegPath);
-          ffmpeg(song).output(tagged)
-            .on('end', () => {
-              fs.unlink(song, (err) => {
-                if (err) throw err;
-                res();
-              });
-            })
-            .on('error', err => console.error(err))
-            .run();
+          let progress = this.getPercentage(num1, num2);
+          this.manager({ progress });
+        })
+        .on('finish', async () => {
+          await this.converter(outfolder, song, title);
+          res();
         }).pipe(fs.createWriteStream(song));
     });
   };
 
   async get_mp3(url = '', title) {
-    let { folder = '' } = store.getState()?.package,    
-    valid = ytdl.validateURL(url);
+    let { folder = '' } = store.getState()?.package,
+    _title = title.replace(/\\|\/|:|\*|\?|"|<|>|\|:/g, ''),
+    valid = ytdl.validateURL(url)
     if (valid) {
-      await this.streamHandler(url, folder, title);
+      await this.downloader(url, folder, _title);
       return path.join(folder, `${title}.mp3`);
     };
   };
