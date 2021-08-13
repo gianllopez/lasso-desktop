@@ -4,6 +4,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
+import { Fragment } from 'react';
 
 export function Song(props) {
 
@@ -50,8 +51,10 @@ export function Song(props) {
             </div> : downloaded ?
               <i className="uil uil-check-circle dlded"/> :
               <i className="uil uil-clock-eight"/> :
-          <i className="uil uil-edit-alt edit" onClick={onEdit}/> }
-        <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
+          <Fragment>
+            <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
+            <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
+          </Fragment> }
       </div>
     </div>
   );
