@@ -32,9 +32,16 @@
     font-size: 1.5em;
     text-align: right;
     padding-right: 15px;
-    .pgb {
-      width: 20px;
-      .CircularProgressbar-path { stroke: $lightBlue }
+    .turn-section {
+      display: flex;
+      align-items: center;
+      width: 50px;
+      .play-btn { margin-right: 5px }
+      .progress-bar {
+        display: inherit;
+        width: 20px;
+        .CircularProgressbar-path { stroke: $lightBlue }
+      }
     }
     i { cursor: pointer }
     .download:hover { color: $lightBlue }
@@ -42,6 +49,17 @@
     .dlded { color: $babyGreen }
     .delete { margin-left: 5px; &:hover { color: $babyRed } }
     .wait { cursor: initial }
-    .p-action:hover { color: $lightBlue }    
+    .p-action:hover { color: $lightBlue }   
+    .loader {
+      width: 13px; height: 13px;
+      border: 3.2px solid $lightBlue;
+      border-radius: 50%;
+      border-top-color: transparent;
+      @keyframes spin {
+        from { transform: rotate(0deg) }
+        to { transform: rotate(360deg) }
+      }
+      animation: 1s spin infinite;
+    } 
   }
 }

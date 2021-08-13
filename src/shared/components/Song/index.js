@@ -5,6 +5,7 @@ import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
 import { Fragment } from 'react';
+import { PlayButton } from './PlayButton';
 
 export function Song(props) {
 
@@ -14,13 +15,20 @@ export function Song(props) {
   // queued needed props:
   let { queued, downloading, turn, onComplete } = props;
 
-  const [progress, setProgress] = useState({});
+  const [progress, setProgress] = useState(0);
   const [downloaded, setDownloaded] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handler = newState => {
+    let { progress, tosetup } = newState;
+    if (progress) setProgress(progress);
+    if (tosetup) setLoading(true);
+  };
 
   useEffect(() => {
     if (turn) {
       async function fetchSong() {
-        let dlservice = new Download(pg => setProgress(pg)),
+        let dlservice = new Download(handler),
         mp3title = `${title} - ${artist}`;
         await dlservice.get_song(data, mp3title);
         onComplete();
@@ -42,19 +50,21 @@ export function Song(props) {
       </div>
       <div className="actions">
         { queued ?
-          turn ?
-            <div className="pgb">
-              <CircularProgressbar
-                value={progress || 0}
-                strokeWidth="15"
-              />
-            </div> : downloaded ?
-              <i className="uil uil-check-circle dlded"/> :
-              <i className="uil uil-clock-eight"/> :
-          <Fragment>
-            <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
-            <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
-          </Fragment> }
+            turn ?
+              <div className="turn-section">
+                <PlayButton/>
+                { loading ? <div className="loader"/> :
+                  <div className="progress-bar">
+                    <CircularProgressbar strokeWidth="15" value={progress}/>
+                  </div> }
+              </div> :
+              downloaded ?
+                <i className="uil uil-check-circle dlded"/> :
+                <i className="uil uil-clock-eight"/> :
+            <Fragment>
+              <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
+              <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
+            </Fragment> }
       </div>
     </div>
   );

@@ -33,7 +33,7 @@ function Queue({ downloading, queue }) {
             label="Remove all"
             className="remove-all"
             unicon="uil uil-times-circle"
-            disabled={queue.length === 0}
+            disabled={queue.length === 0 || downloading}
             />
           <Button
             className="dlpause-all"
