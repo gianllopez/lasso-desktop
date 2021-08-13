@@ -8,6 +8,7 @@ import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 
 const fs = window.require('fs');
+const { join } = window.require('path');
 
 function Home() {
 
@@ -28,6 +29,7 @@ function Home() {
       dispatch(SET_PACKAGE(parsedPackage, path, folder));
       dispatch(CLEAR_QUEUE);
       createFolder(folder);
+      createFolder(join(folder, 'Covers'));
     };
   };
 

@@ -5,12 +5,10 @@ import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
 
-const NodeID3 = window.require('node-id3');
-
 export function Song(props) {
 
   let { data, onDelete, onEdit } = props,
-  { title, artist, album, cover, url } = data;
+  { title, artist, album, cover } = data;
 
   // queued needed props:
   let { queued, downloading, turn, onComplete } = props;
@@ -23,10 +21,8 @@ export function Song(props) {
     if (turn) {
       async function fetchSong() {
         let dlservice = new Download(handler),
-        mp3title = `${title} - ${artist}`,
-        mp3path = await dlservice.get_mp3(url, mp3title),
-        tags = { title, artist, album, APIC: cover };
-        NodeID3.write(tags, mp3path);
+        mp3title = `${title} - ${artist}`;
+        await dlservice.get_song(data, mp3title);
         onComplete();
       };
       fetchSong();
