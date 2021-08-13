@@ -45,7 +45,7 @@ class Download {
       ytdl(url, { quality: 'highestaudio', filters: 'audioonly' })
         .on('progress', (_, num1, num2) => {
           let progress = this.getPercentage(num1, num2);
-          this.manager({ progress });
+          this.manager(progress);
         })
         .on('finish', async () => {
           await this.converter(outfolder, song, title);

@@ -13,17 +13,17 @@ export function Song(props) {
   // queued needed props:
   let { queued, downloading, turn, onComplete } = props;
 
-  const [state, setState] = useState({});
+  const [progress, setProgress] = useState({});
+  const [downloaded, setDownloaded] = useState(false);
 
-  const handler = newState => setState({ ...state, ...newState });
-  
   useEffect(() => {
     if (turn) {
       async function fetchSong() {
-        let dlservice = new Download(handler),
+        let dlservice = new Download(pg => setProgress(pg)),
         mp3title = `${title} - ${artist}`;
         await dlservice.get_song(data, mp3title);
         onComplete();
+        setDownloaded(true);
       };
       fetchSong();
     };
@@ -44,10 +44,12 @@ export function Song(props) {
           turn ?
             <div className="pgb">
               <CircularProgressbar
-                value={state.progress || 0}
+                value={progress || 0}
                 strokeWidth="15"
               />
-            </div> : <i className="uil uil-clock-eight"/> :
+            </div> : downloaded ?
+              <i className="uil uil-check-circle dlded"/> :
+              <i className="uil uil-clock-eight"/> :
           <i className="uil uil-edit-alt edit" onClick={onEdit}/> }
         <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
       </div>

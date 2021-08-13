@@ -33,11 +33,13 @@ function Queue({ downloading, queue }) {
             label="Remove all"
             className="remove-all"
             unicon="uil uil-times-circle"
-          />
+            disabled={queue.length === 0}
+            />
           <Button
             className="dlpause-all"
-            label={downloading ? 'Pause all' : 'Download all'}
             onClick={toggleDownload}
+            disabled={queue.length === 0}
+            label={downloading ? 'Pause all' : 'Download all'}
             unicon={downloading ? 'uil uil-pause-circle' : 'uil uil-play-circle'}
           />
         </div>

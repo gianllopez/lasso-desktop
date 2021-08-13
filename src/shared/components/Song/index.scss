@@ -39,6 +39,7 @@
     i { cursor: pointer }
     .download:hover { color: $lightBlue }
     .edit:hover { color: $darkGray }
+    .dlded { color: $babyGreen }
     .delete { margin-left: 5px; &:hover { color: $babyRed } }
     .wait { cursor: initial }
     .p-action:hover { color: $lightBlue }    

@@ -61,4 +61,4 @@ function Home() {
 
 const mapStateToProps = ({ package: { loaded } }) => ({ loaded });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(React.memo(Home));
