@@ -1,22 +1,42 @@
 import { store } from '../redux/store';
+
 const ytdl = window.require('ytdl-core');
 const ffmpeg = window.require('fluent-ffmpeg');
 const ffmpegPath = window.require('ffmpeg-static');
+const imgdl = window.require('image-downloader');
+const NodeID3 = window.require('node-id3');
 const fs = window.require('fs');
 const path = window.require('path');
 
 class Download {
 
-  constructor(manager) { this.manager = manager };
+  constructor(manager) {
+    ffmpeg.setFfmpegPath(ffmpegPath);
+    this.manager = manager;
+  };
 
   getPercentage = (dld, total) => parseInt(100 / total * dld);
 
-  converter(folder, toconvert, title) {
-    let tagged = path.join(folder, `${title}.mp3`);
-    ffmpeg.setFfmpegPath(ffmpegPath);
-    ffmpeg(toconvert).output(tagged)
-      .on('error', err => console.error(err)).run()
-      .on('end', () => fs.unlink(toconvert, _ => {}));
+  validFilename = name => name.replace(/\\|\/|:|\*|\?|"|<|>|\|:/g, '');
+
+  async cover(url, dest) {
+    let { filename } = await imgdl.image({ url, dest });
+    return filename;
+  };
+
+  converter(folder, song, title) {
+    return new Promise((res, rej) => {
+      let tagged = path.join(folder, `${title}.mp3`);      
+      ffmpeg(song).output(tagged)
+        .on('error', err => rej(err))
+        .on('end', () => {
+          fs.unlink(song, async err => {
+            if (err) throw err;
+            await NodeID3.Promise.write(this.tags, tagged);
+            res();
+          });
+        }).run();
+    });
   };
 
   downloader(url, outfolder, title) {
@@ -27,21 +47,26 @@ class Download {
           let progress = this.getPercentage(num1, num2);
           this.manager({ progress });
         })
-        .on('finish', () => {
-          this.converter(outfolder, song, title);
+        .on('finish', async () => {
+          this.manager({ tosetup: true });
+          await this.converter(outfolder, song, title);
           res();
-        })
-        .pipe(fs.createWriteStream(song));
+        }).pipe(fs.createWriteStream(song));
     });
   };
 
-  async get_mp3(url = '', title) {
+  async get_song(data, title) {
     let { folder = '' } = store.getState()?.package,
-    _title = title.replace(/\\|\/|:|\*|\?|"|<|>|\|:/g, ''),
-    valid = ytdl.validateURL(url)
+    _title = this.validFilename(title),
+    { url, album, cover } = data,
+    valid = ytdl.validateURL(url);
     if (valid) {
+      let tags = { ...data },
+      albumName = this.validFilename(album),
+      coverpath = path.join(folder, 'Covers', `${albumName}.jpg`);
+      tags.APIC = await this.cover(cover, coverpath);
+      this.tags = tags;
       await this.downloader(url, folder, _title);
-      return path.join(folder, `${title}.mp3`);
     };
   };
 

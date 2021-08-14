@@ -1,6 +1,7 @@
 @import '../../shared/sass/variables';
 
 .current-queue {
+  margin: 0 auto 5em auto !important;
   .buttons-group {
     margin-bottom: 7px;
     text-align: right;
@@ -9,11 +10,13 @@
       color: white;
       background-color: $babyRed;
       &:hover { background-color: darken($babyRed, 5%) }
+      &:disabled:hover { background-color: $babyRed }
     }
     button.dlpause-all {
       width: 165px;
       background-color: $lightGray;
       &:hover { background-color: darken($lightGray, 5%) }
+      &:disabled:hover { background-color: $lightGray }
     }
   }
   .songs-container {

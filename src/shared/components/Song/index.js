@@ -4,30 +4,35 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
-
-const NodeID3 = window.require('node-id3');
+import { Fragment } from 'react';
+import { PlayButton } from './PlayButton';
 
 export function Song(props) {
 
   let { data, onDelete, onEdit } = props,
-  { title, artist, album, cover, url } = data;
+  { title, artist, album, cover } = data;
 
   // queued needed props:
   let { queued, downloading, turn, onComplete } = props;
 
-  const [state, setState] = useState({});
+  const [progress, setProgress] = useState(0);
+  const [downloaded, setDownloaded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handler = newState => setState({ ...state, ...newState });
-  
+  const handler = newState => {
+    let { progress, tosetup } = newState;
+    if (progress) setProgress(progress);
+    if (tosetup) setLoading(true);
+  };
+
   useEffect(() => {
     if (turn) {
       async function fetchSong() {
         let dlservice = new Download(handler),
-        mp3title = `${title} - ${artist}`,
-        mp3path = await dlservice.get_mp3(url, mp3title),
-        tags = { title, artist, album, APIC: cover };
-        await NodeID3.Promise.write(tags, mp3path);
+        mp3title = `${title} - ${artist}`;
+        await dlservice.get_song(data, mp3title);
         onComplete();
+        setDownloaded(true);
       };
       fetchSong();
     };
@@ -45,15 +50,21 @@ export function Song(props) {
       </div>
       <div className="actions">
         { queued ?
-          turn ?
-            <div className="pgb">
-              <CircularProgressbar
-                value={state.progress || 0}
-                strokeWidth="15"
-              />
-            </div> : <i className="uil uil-clock-eight"/> :
-          <i className="uil uil-edit-alt edit" onClick={onEdit}/> }
-        <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
+            turn ?
+              <div className="turn-section">
+                <PlayButton/>
+                { loading ? <div className="loader"/> :
+                  <div className="progress-bar">
+                    <CircularProgressbar strokeWidth="15" value={progress}/>
+                  </div> }
+              </div> :
+              downloaded ?
+                <i className="uil uil-check-circle dlded"/> :
+                <i className="uil uil-clock-eight"/> :
+            <Fragment>
+              <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
+              <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
+            </Fragment> }
       </div>
     </div>
   );
