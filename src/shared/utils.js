@@ -28,8 +28,10 @@ function fileLoader(filter, defPath = 'downloads') {
 
 };
 
+const folderExists = folder => fs.existsSync(folder);
+
 function createFolder(folder) {
-  let exists = fs.existsSync(folder);
+  let exists = folderExists(folder);
   if (!exists) fs.mkdirSync(folder);
 };
 
@@ -44,4 +46,4 @@ const equalObjects = (obj1, obj2) => (
   JSON.stringify(obj1) === JSON.stringify(obj2)
 );
 
-export { fileLoader, createFolder, messageBox, equalObjects };
+export { fileLoader, folderExists, createFolder, messageBox, equalObjects };

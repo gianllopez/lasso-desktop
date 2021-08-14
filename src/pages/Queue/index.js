@@ -1,8 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { PAUSE_QUEUE } from '../../redux/actions';
+import { CLEAR_QUEUE, PAUSE_QUEUE } from '../../redux/actions';
 import { Button, Song } from '../../shared/components';
+import { createFolder, folderExists } from '../../shared/utils';
 import './index.scss';
+
+const { remote: electron } = window.require('electron');
+const path = window.require('path');
 
 function Queue({ downloading, queue }) {
 
@@ -12,6 +16,23 @@ function Queue({ downloading, queue }) {
   const toggleDownload = () => {
     if (downloading) setIndex(0);
     dispatch(PAUSE_QUEUE);
+  };
+
+  const removeAll = () => {
+    dispatch(CLEAR_QUEUE);
+    setIndex(0);
+  };
+
+  const openFolder = () => {
+    let { app, shell } = electron,
+    docs = app.getPath('documents'),
+    folder = path.join(docs, 'Lasso Downloads'),
+    exists = folderExists(folder);
+    if (exists) shell.openPath(folder)
+    else {
+      createFolder(folder);
+      openFolder();
+    };
   };
 
   useEffect(() => {
@@ -31,6 +52,7 @@ function Queue({ downloading, queue }) {
         <div className="buttons-group">
           <Button
             label="Remove all"
+            onClick={removeAll}
             className="remove-all"
             unicon="uil uil-times-circle"
             disabled={queue.length === 0 || downloading}
@@ -58,6 +80,10 @@ function Queue({ downloading, queue }) {
               </p> }
         </div>
       </div>
+      <i className="uil uil-folder-open goto-folder"
+        title="Open downloads folder"
+        onClick={openFolder}
+      />
     </Fragment>
   );
 };

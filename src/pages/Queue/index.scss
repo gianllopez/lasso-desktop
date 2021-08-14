@@ -26,3 +26,22 @@
     .song:not(:last-of-type) { margin-bottom: 10px }
   }
 }
+.goto-folder {
+  position: fixed;
+  bottom: 15px; right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px; height: 50px;
+  font-size: 1.7em;
+  cursor: pointer;
+  background-color: $lightGray;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  color: $darkGray;
+  transition: .25s;
+  &:hover {
+    color: $lightBlue;
+    border-color: $lightBlue;
+  }
+}
