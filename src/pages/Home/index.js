@@ -3,12 +3,11 @@ import { connect, useDispatch } from 'react-redux';
 import { SET_PACKAGE, CLEAR_PACKAGE, CLEAR_QUEUE } from '../../redux/actions';
 import cls from 'classnames';
 import { useStoreState } from '../../shared/hooks/useStoreState';
-import { createFolder, fileLoader, messageBox } from '../../shared/utils';
+import { manageFolder, fileLoader, messageBox } from '../../shared/utils';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 
 const fs = window.require('fs');
-const { join } = window.require('path');
 
 function Home() {
 
@@ -28,12 +27,12 @@ function Home() {
     } else {
       dispatch(SET_PACKAGE(parsedPackage, path, folder));
       dispatch(CLEAR_QUEUE);
-      createFolder(folder);
-      createFolder(join(folder, 'Covers'));
+      manageFolder('Lasso Downloads');
+      manageFolder('Lasso Downloads/Covers');
     };
   };
 
-  const unload = () => { dispatch(CLEAR_PACKAGE) };
+  const unload = () => dispatch(CLEAR_PACKAGE);
 
   return (
     <div className="home-page">

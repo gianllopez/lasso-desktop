@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { CLEAR_QUEUE, PAUSE_QUEUE } from '../../redux/actions';
 import { Button, Song } from '../../shared/components';
-import { createFolder, folderExists } from '../../shared/utils';
+import { createFolder, folderExists, manageFolder } from '../../shared/utils';
 import './index.scss';
 
 const { remote: electron } = window.require('electron');
@@ -24,15 +24,9 @@ function Queue({ downloading, queue }) {
   };
 
   const openFolder = () => {
-    let { app, shell } = electron,
-    docs = app.getPath('documents'),
-    folder = path.join(docs, 'Lasso Downloads'),
-    exists = folderExists(folder);
-    if (exists) shell.openPath(folder)
-    else {
-      createFolder(folder);
-      openFolder();
-    };
+    let folder = manageFolder();
+    console.log(folder)
+    // electron.shell.openPath(folder);
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 const { remote: electron } = window.require('electron'),
 { app, dialog } = electron;
 
-const path = window.require('path');
+const { join } = window.require('path');
 
 const fs = window.require('fs');
 
@@ -23,27 +23,31 @@ function fileLoader(filter, defPath = 'downloads') {
   
   return {
     path: pkgpath ? pkgpath[0] : '',
-    folder: path.join(folder, 'Lasso Downloads')
+    folder: join(folder, 'Lasso Downloads')
   };
 
 };
 
-const folderExists = folder => fs.existsSync(folder);
-
-function createFolder(folder) {
-  let exists = folderExists(folder);
-  if (!exists) fs.mkdirSync(folder);
+function manageFolder(folder) {
+  let docs = app.getPath('documents'),
+  folderpath = join(docs, folder),
+  exist = fs.existsSync(folderpath);
+  if (exist) return folderpath;
+  else {
+    fs.mkdirSync(folderpath);
+    manageFolder();
+  };
 };
 
 function messageBox(config) {
   dialog.showMessageBox({
     message: 'Lasso - Downloader',
     ...config
-  })
+  });
 };
 
 const equalObjects = (obj1, obj2) => (
   JSON.stringify(obj1) === JSON.stringify(obj2)
 );
 
-export { fileLoader, folderExists, createFolder, messageBox, equalObjects };
+export { fileLoader, manageFolder, messageBox, equalObjects };
