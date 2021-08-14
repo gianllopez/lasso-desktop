@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { Download } from '../../../services/download';
 import { CircularProgressbar } from 'react-circular-progressbar';
+import cls from 'classnames';
 import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
-import { Fragment } from 'react';
-import { PlayButton } from './PlayButton';
 
 export function Song(props) {
 
@@ -22,7 +21,10 @@ export function Song(props) {
   const handler = newState => {
     let { progress, tosetup } = newState;
     if (progress) setProgress(progress);
-    if (tosetup) setLoading(true);
+    if (tosetup) {
+      setLoading(true);
+      setProgress(50);
+    };
   };
 
   useEffect(() => {
@@ -51,12 +53,11 @@ export function Song(props) {
       <div className="actions">
         { queued ?
             turn ?
-              <div className="turn-section">
-                <PlayButton/>
-                { loading ? <div className="loader"/> :
-                  <div className="progress-bar">
-                    <CircularProgressbar strokeWidth="15" value={progress}/>
-                  </div> }
+              <div className={cls('progress-bar', { 'loading': loading })}>
+                <CircularProgressbar
+                  strokeWidth="15"
+                  value={progress}
+                />
               </div> :
               downloaded ?
                 <i className="uil uil-check-circle dlded"/> :
