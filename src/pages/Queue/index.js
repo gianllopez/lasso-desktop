@@ -7,7 +7,7 @@ import './index.scss';
 
 const { remote: electron } = window.require('electron');
 
-function Queue({ downloading, queue }) {
+function Queue({ queue: { downloading, queue }, folder }) {
 
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
@@ -81,6 +81,6 @@ function Queue({ downloading, queue }) {
   );
 };
 
-const mapStateToProps = ({ queue }) => queue;
+const mapStateToProps = ({ queue, package: { folder } }) => ({ queue, folder });
 
 export default connect(mapStateToProps)(Queue);
