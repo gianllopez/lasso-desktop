@@ -2,19 +2,19 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { CLEAR_QUEUE, PAUSE_QUEUE } from '../../redux/actions';
 import { Button, Song } from '../../shared/components';
-import { createFolder, folderExists, manageFolder } from '../../shared/utils';
+import { manageFolder } from '../../shared/utils';
 import './index.scss';
 
 const { remote: electron } = window.require('electron');
-const path = window.require('path');
 
-function Queue({ downloading, queue }) {
+function Queue({ queue: { downloading, queue }, folder }) {
 
   const dispatch = useDispatch();
   const [index, setIndex] = useState(0);
 
   const toggleDownload = () => {
     if (downloading) setIndex(0);
+    else manageFolder();
     dispatch(PAUSE_QUEUE);
   };
 
@@ -24,9 +24,8 @@ function Queue({ downloading, queue }) {
   };
 
   const openFolder = () => {
-    let folder = manageFolder();
-    console.log(folder)
-    // electron.shell.openPath(folder);
+    let dlfolder = manageFolder();
+    electron.shell.openPath(dlfolder);
   };
 
   useEffect(() => {
@@ -82,6 +81,6 @@ function Queue({ downloading, queue }) {
   );
 };
 
-const mapStateToProps = ({ queue }) => queue;
+const mapStateToProps = ({ queue, package: { folder } }) => ({ queue, folder });
 
 export default connect(mapStateToProps)(Queue);

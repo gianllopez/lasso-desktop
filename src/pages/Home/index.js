@@ -27,8 +27,7 @@ function Home() {
     } else {
       dispatch(SET_PACKAGE(parsedPackage, path, folder));
       dispatch(CLEAR_QUEUE);
-      manageFolder('Lasso Downloads');
-      manageFolder('Lasso Downloads/Covers');
+      manageFolder();
     };
   };
 
