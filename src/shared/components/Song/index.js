@@ -50,23 +50,24 @@ export function Song(props) {
         <p className="artist">{ artist }</p>
         <p className="album">{ album }</p>
       </div>
-      <div className="actions">
-        { queued ?
-            turn ?
-              <div className={cls('progress-bar', { 'loading': loading })}>
-                <CircularProgressbar
-                  strokeWidth="15"
-                  value={progress}
-                />
-              </div> :
-              downloaded ?
-                <i className="uil uil-check-circle dlded"/> :
-                <i className="uil uil-clock-eight"/> :
-            <Fragment>
-              <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
-              <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
-            </Fragment> }
-      </div>
+      { downloading && 
+        <div className="actions">
+          { queued ?
+              turn ?
+                <div className={cls('progress-bar', { 'loading': loading })}>
+                  <CircularProgressbar
+                    strokeWidth="15"
+                    value={progress}
+                  />
+                </div> :
+                downloaded ?
+                  <i className="uil uil-check-circle dlded"/> :
+                  <i className="uil uil-clock-eight"/> :
+              <Fragment>
+                <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
+                <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
+              </Fragment> }
+        </div> }
     </div>
   );
 

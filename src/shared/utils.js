@@ -28,15 +28,11 @@ function fileLoader(filter, defPath = 'downloads') {
 
 };
 
-function manageFolder(folder) {
+function manageFolder() {
   let docs = app.getPath('documents'),
-  folderpath = join(docs, folder),
-  exist = fs.existsSync(folderpath);
-  if (exist) return folderpath;
-  else {
-    fs.mkdirSync(folderpath);
-    manageFolder();
-  };
+  dlpath = join(docs, 'Lasso Downloads/Covers');
+  fs.mkdirSync(dlpath, { recursive: true }, _ => {});
+  return join(dlpath, '../');
 };
 
 function messageBox(config) {
