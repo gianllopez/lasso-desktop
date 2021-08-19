@@ -5,6 +5,7 @@ import cls from 'classnames';
 import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
+import { worker } from '../../';
 
 export function Song(props) {
 
@@ -28,15 +29,15 @@ export function Song(props) {
   };
 
   useEffect(() => {
-    if (turn) {
-      async function fetchSong() {
-        let dlservice = new Download(handler),
-        mp3title = `${title} - ${artist}`;
-        await dlservice.get_song(data, mp3title);
-        onComplete();
-        setDownloaded(true);
-      };
-      fetchSong();
+    if (turn) {      
+      worker.postMessage({ data });
+      worker.onmessage = e => {
+        let { completed } = e.data;
+        if (completed) {
+          worker.terminate();
+          onComplete();
+        };
+      };      
     };
   }, [downloading, turn]);
 

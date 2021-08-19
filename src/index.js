@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { NavBar } from './shared/components/NavBar';
-import Home from './pages/Home';
-import Package from './pages/Package';
-import Queue from './pages/Queue';
-import { store } from './redux/store';
-import './index.scss';
 import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import { Home, Package, Queue } from './pages';
+import { NavBar } from './shared/components/NavBar';
+import './index.scss';
 
 function App() {
   return (
@@ -24,5 +22,7 @@ function App() {
     </BrowserRouter>
   );
 };
+
+export const worker = new Worker('fetcher.js');
 
 ReactDOM.render(<App/>, document.getElementById('root'));
