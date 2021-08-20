@@ -2,17 +2,15 @@ import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { SET_PACKAGE, CLEAR_PACKAGE, CLEAR_QUEUE } from '../../redux/actions';
 import cls from 'classnames';
-import { useStoreState } from '../../shared/hooks/useStoreState';
 import { manageFolder, fileLoader, messageBox } from '../../shared/utils';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 
 const fs = window.require('fs');
 
-function Home() {
+function Home({ loaded }) {
 
   const dispatch = useDispatch();
-  const store = useStoreState('package');
 
   const load = () => {
     let { path, folder } = fileLoader();
@@ -44,8 +42,8 @@ function Home() {
           <img src={homeHero} alt=""/>
         </figure>
       </div>
-      <button className={cls({ 'loaded': store.loaded })}
-        onClick={ store.loaded ? unload : load }>
+      <button className={cls({ 'loaded': loaded })}
+        onClick={loaded ? unload : load}>
         Load package
         <div className="unloader">
           <p>Unload package</p>

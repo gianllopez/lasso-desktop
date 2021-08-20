@@ -5,7 +5,7 @@ import cls from 'classnames';
 import defaultCover from '../../../assets/default-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
-import { worker } from '../../';
+import { worker } from '../../../';
 
 export function Song(props) {
 

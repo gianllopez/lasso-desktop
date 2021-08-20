@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import cls from 'classnames';
 import { CLEAR_PACKAGE, SET_PACKAGE, SET_QUEUE } from '../../redux/actions';
-import { useStoreState } from '../../shared/hooks/useStoreState';
 import { Button, Message, Song } from '../../shared/components';
 import { equalObjects } from '../../shared/utils';
 import { Editor } from './Editor';
@@ -11,24 +10,24 @@ import './index.scss';
 
 const fs = window.require('fs');
 
-function Package() {
+function Package({ loaded, path, content }) {
 
-  const store = useStoreState('package');
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const [data, setData] = useState(store.content);
+  const [data, setData] = useState(content);
   const [editingSong, setEditingSong] = useState(null);
   
   const [message, setMessage] = useState({ show: false, text: '' });
-  const [loaded, setLoaded] = useState(store.loaded);
   const [modified, setModified] = useState(false);
 
   useEffect(() => {
-    if (data.length === 0) { setLoaded(false) };
-    let mod = !equalObjects(store.content, data);
+    if (data.length === 0) {
+      dispatch(SET_PACKAGE({ path, content, loaded: false }));
+    };
+    let mod = !equalObjects(content, data);
     setModified(mod);
-  }, [store.content, data]);
+  }, [content, data]);
 
   useEffect(() => {
     let { text, show } = message;
@@ -64,7 +63,7 @@ function Package() {
   const savePackage = () => {
     dispatch(SET_PACKAGE(data || []));
     let parsedData = JSON.stringify(data);
-    fs.writeFile(store.path, parsedData, () => {});
+    fs.writeFile(path, parsedData, () => {});
     setMessage({ text: 'Package was saved', show: true });
   };
 
