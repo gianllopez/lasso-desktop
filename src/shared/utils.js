@@ -42,8 +42,8 @@ function messageBox(config) {
   });
 };
 
-const equalObjects = (obj1, obj2) => (
+const compareObjects = (obj1, obj2) => (
   JSON.stringify(obj1) === JSON.stringify(obj2)
 );
 
-export { fileLoader, manageFolder, messageBox, equalObjects };
+export { fileLoader, manageFolder, messageBox, compareObjects };
