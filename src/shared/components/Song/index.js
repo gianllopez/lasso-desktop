@@ -30,14 +30,14 @@ export function Song(props) {
 
   useEffect(() => {
     if (turn) {      
-      worker.postMessage({ data });
-      worker.onmessage = e => {
-        let { completed } = e.data;
-        if (completed) {
-          // worker.terminate();
-          onComplete();
-        };
-      };      
+      // worker.postMessage({ data });
+      // worker.onmessage = e => {
+      //   let { completed } = e.data;
+      //   if (completed) {
+      //     // worker.terminate();
+      //     onComplete();
+      //   };
+      // };      
     };
   }, [downloading, turn]);
 
