@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import cls from 'classnames';
 import { CLEAR_PACKAGE, SET_PACKAGE, SET_QUEUE } from '../../redux/actions';
 import { Button, Message, Song } from '../../shared/components';
-import { equalObjects } from '../../shared/utils';
+import { compareObjects } from '../../shared/utils';
 import { Editor } from './Editor';
 import './index.scss';
 
@@ -17,15 +17,12 @@ function Package({ loaded, path, content }) {
 
   const [data, setData] = useState(content);
   const [editingSong, setEditingSong] = useState(null);
-  
+  const [cleared, setCleared] = useState(false);
   const [message, setMessage] = useState({ show: false, text: '' });
   const [modified, setModified] = useState(false);
 
   useEffect(() => {
-    if (data.length === 0) {
-      dispatch(SET_PACKAGE({ path, content, loaded: false }));
-    };
-    let mod = !equalObjects(content, data);
+    let mod = !compareObjects(content, data);
     setModified(mod);
   }, [content, data]);
 
@@ -39,14 +36,21 @@ function Package({ loaded, path, content }) {
 
   const onClear = () => {
     setData([]);
+    setCleared(true);
     setMessage({ text: 'Package was cleared', show: true });
+  };
+  
+  const onRedo = () => {
+    setData(content);
+    setCleared(false);
+    setMessage({ text: 'Package was restored', show: true });
   };
 
   const editHandler = ({ i: index, ...rest }) => {
     let newData = [ ...data ];
     newData[index] = rest;
     let { i, ...song } = editingSong,   
-    hasChanges = !equalObjects(rest, song);
+    hasChanges = !compareObjects(rest, song);
     if (hasChanges) {
       setData(newData);
       setMessage({ text: 'Succesfully edition!', show: true });
@@ -82,29 +86,31 @@ function Package({ loaded, path, content }) {
       </div>
       <div className="btns st-w">
         <Button
+          disabled={modified ? false : !data.length}
           onClick={modified ? savePackage : queuePackage}
-          disabled={modified ? false : !loaded}
           label={modified ? 'Save package' : 'Send to queue'}
           className={cls('queue-all', { 'save-all': modified })}
           unicon={ modified ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
         />
         <Button
-          onClick={onClear}
-          className="clear-all"
-          label="Clear package"
-          unicon="uil uil-trash-alt"
-          disabled={!loaded}
+          onClick={cleared ? onRedo : onClear}
+          disabled={cleared ? false : !data.length}
+          className={cleared ? 'redo-pkg' : 'clear-all'}
+          label={cleared ? 'Redo package' : 'Clear package'}
+          unicon={cleared ? 'uil uil-redo' : 'uil uil-trash-alt'}
         />
       </div>
       <div className="songs-container st-w">
-        { loaded ? 
-            data?.map((song, i) => (
+        { loaded && data.length > 0 ? 
+            data.map((song, i) => (
               <Song data={song} key={i}
                 onDelete={() => deleteHandler(i)}
                 onEdit={() => setEditingSong({ ...song, i })}
               /> )) :
             <p className="missing c-gray">
-              You haven't load your package
+              { cleared ?
+                  'The loaded package is empty' :
+                  'You haven\'t loaded any package' }
             </p> }
       </div>
       <Message
@@ -120,6 +126,6 @@ function Package({ loaded, path, content }) {
   );
 };
 
-const mapStateToProps = ({ loaded, content }) => ({ loaded, content });
+const mapStateToProps = ({ package: pkg }) => pkg;
 
 export default connect(mapStateToProps)(Package);

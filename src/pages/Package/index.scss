@@ -39,7 +39,11 @@
         &:hover, &:disabled {
           background-color: lighten($babyRed, 5%);
         }
-      }      
+      }
+      &.redo-pkg {
+        background-color: $lightGray;
+        color: black;
+      }
       &::before {
         content: '';
         position: absolute;

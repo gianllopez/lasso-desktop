@@ -34,7 +34,7 @@ export function Song(props) {
       worker.onmessage = e => {
         let { completed } = e.data;
         if (completed) {
-          worker.terminate();
+          // worker.terminate();
           onComplete();
         };
       };      
