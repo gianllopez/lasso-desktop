@@ -17,13 +17,13 @@ function Package({ loaded, path, content }) {
 
   const [data, setData] = useState(content);
   const [editingSong, setEditingSong] = useState(null);
-  const [cleared, setCleared] = useState(false);
-  const [message, setMessage] = useState({ show: false, text: '' });
   const [modified, setModified] = useState(false);
+  const [message, setMessage] = useState({ show: false, text: '' });
+  const [change, setChange] = useState(false);
 
   useEffect(() => {
     let mod = !compareObjects(content, data);
-    setModified(mod);
+    setChange(mod);
   }, [content, data]);
 
   useEffect(() => {
@@ -36,13 +36,13 @@ function Package({ loaded, path, content }) {
 
   const onClear = () => {
     setData([]);
-    setCleared(true);
-    setMessage({ text: 'Package was cleared', show: true });
+    setModified(true);
+    setMessage({ text: 'Package was modified', show: true });
   };
   
   const onRedo = () => {
     setData(content);
-    setCleared(false);
+    setModified(false);
     setMessage({ text: 'Package was restored', show: true });
   };
 
@@ -62,6 +62,7 @@ function Package({ loaded, path, content }) {
     let updatedData = [ ...data ];
     updatedData.splice(index, 1);
     setData(updatedData);
+    setModified(true);
   };
 
   const savePackage = () => {
@@ -86,18 +87,18 @@ function Package({ loaded, path, content }) {
       </div>
       <div className="btns st-w">
         <Button
-          disabled={modified ? false : !data.length}
-          onClick={modified ? savePackage : queuePackage}
-          label={modified ? 'Save package' : 'Send to queue'}
-          className={cls('queue-all', { 'save-all': modified })}
-          unicon={ modified ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
+          disabled={change ? false : !data.length}
+          onClick={change ? savePackage : queuePackage}
+          label={change ? 'Save package' : 'Send to queue'}
+          className={cls('queue-all', { 'save-all': change })}
+          unicon={change ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
         />
         <Button
-          onClick={cleared ? onRedo : onClear}
-          disabled={cleared ? false : !data.length}
-          className={cleared ? 'redo-pkg' : 'clear-all'}
-          label={cleared ? 'Redo package' : 'Clear package'}
-          unicon={cleared ? 'uil uil-redo' : 'uil uil-trash-alt'}
+          onClick={modified ? onRedo : onClear}
+          disabled={modified ? false : !data.length}
+          className={modified ? 'redo-pkg' : 'clear-all'}
+          label={modified ? 'Redo package' : 'Clear package'}
+          unicon={modified ? 'uil uil-redo' : 'uil uil-trash-alt'}
         />
       </div>
       <div className="songs-container st-w">
@@ -108,7 +109,7 @@ function Package({ loaded, path, content }) {
                 onEdit={() => setEditingSong({ ...song, i })}
               /> )) :
             <p className="missing c-gray">
-              { cleared ?
+              { modified ?
                   'The loaded package is empty' :
                   'You haven\'t loaded any package' }
             </p> }

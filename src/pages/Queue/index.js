@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { worker } from '../..';
 import { CLEAR_QUEUE, PAUSE_QUEUE } from '../../redux/actions';
 import { Button, Song } from '../../shared/components';
 import { manageFolder } from '../../shared/utils';
@@ -15,10 +14,7 @@ function Queue({ downloading, queue }) {
 
   const toggleDownload = () => {
     if (downloading) setIndex(0);
-    else {
-      manageFolder();
-      worker.postMessage({ queue });
-    };
+    else manageFolder();
     dispatch(PAUSE_QUEUE);
   };
 
