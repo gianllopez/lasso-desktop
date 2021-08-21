@@ -46,12 +46,10 @@
       }
     }
     i { cursor: pointer }
-    .download:hover { color: $lightBlue }
     .edit:hover { color: $darkGray }
-    .dlded { color: $babyGreen }
     .delete { margin-left: 5px; &:hover { color: $babyRed } }
-    .wait { cursor: initial }
-    .p-action:hover { color: $lightBlue }   
+    .dlded { color: $babyGreen }
+    .wait, .dlded { cursor: initial }
     .loader {
       width: 13px; height: 13px;
       border: 3.2px solid $lightBlue;

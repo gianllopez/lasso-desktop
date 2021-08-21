@@ -23,6 +23,4 @@ function App() {
   );
 };
 
-export const worker = new Worker('fetcher.js');
-
 ReactDOM.render(<App/>, document.getElementById('root'));
