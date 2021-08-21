@@ -72,11 +72,8 @@ function Package({ loaded, path, content }) {
     setMessage({ text: 'Package was saved', show: true });
   };
 
-  const queuePackage = () => {
-    setData([]);
-    dispatch(SET_QUEUE(data));
-    dispatch(CLEAR_PACKAGE);
-    history.push('/queue');    
+  const download = () => {
+    console.log('downloading;');
   };
 
   return (
@@ -88,8 +85,8 @@ function Package({ loaded, path, content }) {
       <div className="btns st-w">
         <Button
           disabled={change ? false : !data.length}
-          onClick={change ? savePackage : queuePackage}
-          label={change ? 'Save package' : 'Send to queue'}
+          onClick={change ? savePackage : download}
+          label={change ? 'Save package' : 'Download'}
           className={cls('queue-all', { 'save-all': change })}
           unicon={change ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
         />

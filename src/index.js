@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import { Home, Package, Queue } from './pages';
+import { Home, Package } from './pages';
 import { NavBar } from './shared/components/NavBar';
 import './index.scss';
 
@@ -15,7 +15,6 @@ function App() {
         <Switch>
           <Route path="/" component={Home} exact/>
           <Route path="/package" component={Package} exact/>
-          <Route path="/queue" component={Queue} exact/>
         </Switch>
       </Provider>
       <p id="my-creds">by @gianlop3z</p>

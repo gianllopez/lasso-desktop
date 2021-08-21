@@ -35,11 +35,6 @@ export function NavBar() {
         title="Loaded package"  
         activeClassName="active"      
         className="uil uil-box"/>
-      <NavLink
-        to="/queue"
-        title="Downloads queue"   
-        activeClassName="active"     
-        className="uil uil-layer-group"/>
       <a
         title="Go to package creator"
         className="uil uil-globe"
