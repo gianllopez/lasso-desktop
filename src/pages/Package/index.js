@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { connect, useDispatch } from 'react-redux';
 import cls from 'classnames';
-import { CLEAR_PACKAGE, SET_PACKAGE, SET_QUEUE } from '../../redux/actions';
+import { SET_PACKAGE } from '../../redux/actions';
 import { Button, Message, Song } from '../../shared/components';
-import { compareObjects } from '../../shared/utils';
+import { compare } from '../../shared/utils';
 import { Editor } from './Editor';
 import './index.scss';
 
@@ -13,17 +12,16 @@ const fs = window.require('fs');
 function Package({ loaded, path, content }) {
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [data, setData] = useState(content);
   const [editingSong, setEditingSong] = useState(null);
-  const [modified, setModified] = useState(false);
-  const [message, setMessage] = useState({ show: false, text: '' });
   const [change, setChange] = useState(false);
+  const [redo, setRedo] = useState(false);
+  const [message, setMessage] = useState({ show: false, text: '' });
 
   useEffect(() => {
-    let mod = !compareObjects(content, data);
-    setChange(mod);
+    let diff = !compare(content, data);
+    setChange(diff);
   }, [content, data]);
 
   useEffect(() => {
@@ -36,33 +34,34 @@ function Package({ loaded, path, content }) {
 
   const onClear = () => {
     setData([]);
-    setModified(true);
     setMessage({ text: 'Package was modified', show: true });
+    setRedo(true);
   };
   
   const onRedo = () => {
     setData(content);
-    setModified(false);
     setMessage({ text: 'Package was restored', show: true });
+    setRedo(false);
   };
 
   const editHandler = ({ i: index, ...rest }) => {
     let newData = [ ...data ];
     newData[index] = rest;
     let { i, ...song } = editingSong,   
-    hasChanges = !compareObjects(rest, song);
+    hasChanges = !compare(rest, song);
     if (hasChanges) {
       setData(newData);
       setMessage({ text: 'Succesfully edition!', show: true });
     };
     setEditingSong(null);
+    setRedo(true);
   };  
 
   const deleteHandler = index => {
     let updatedData = [ ...data ];
     updatedData.splice(index, 1);
     setData(updatedData);
-    setModified(true);
+    setRedo(true);
   };
 
   const savePackage = () => {
@@ -70,6 +69,7 @@ function Package({ loaded, path, content }) {
     let parsedData = JSON.stringify(data);
     fs.writeFile(path, parsedData, () => {});
     setMessage({ text: 'Package was saved', show: true });
+    setRedo(false);
   };
 
   const download = () => {
@@ -86,16 +86,16 @@ function Package({ loaded, path, content }) {
         <Button
           disabled={change ? false : !data.length}
           onClick={change ? savePackage : download}
-          label={change ? 'Save package' : 'Download'}
-          className={cls('queue-all', { 'save-all': change })}
+          label={change ? 'Save package' : 'Download package'}
+          className={cls('dl-all', { 'save-all': change })}
           unicon={change ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
         />
         <Button
-          onClick={modified ? onRedo : onClear}
-          disabled={modified ? false : !data.length}
-          className={modified ? 'redo-pkg' : 'clear-all'}
-          label={modified ? 'Redo package' : 'Clear package'}
-          unicon={modified ? 'uil uil-redo' : 'uil uil-trash-alt'}
+          onClick={redo ? onRedo : onClear}
+          disabled={redo ? false : !data.length}
+          className={redo ? 'redo-pkg' : 'clear-all'}
+          label={redo ? 'Redo package' : 'Clear package'}
+          unicon={redo ? 'uil uil-redo' : 'uil uil-trash-alt'}
         />
       </div>
       <div className="songs-container st-w">
@@ -106,9 +106,9 @@ function Package({ loaded, path, content }) {
                 onEdit={() => setEditingSong({ ...song, i })}
               /> )) :
             <p className="missing c-gray">
-              { modified ?
-                  'The loaded package is empty' :
-                  'You haven\'t loaded any package' }
+              { loaded ?
+                  !data.length && 'The uploaded package is empty' :
+                  'You haven\'t uploaded any package' }
             </p> }
       </div>
       <Message
@@ -124,6 +124,6 @@ function Package({ loaded, path, content }) {
   );
 };
 
-const mapStateToProps = ({ package: pkg }) => pkg;
+const mapStateToProps = store => store;
 
 export default connect(mapStateToProps)(Package);

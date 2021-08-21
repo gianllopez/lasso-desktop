@@ -39,7 +39,9 @@
 }
 
 body {
+  overflow-y: overlay;
   &::-webkit-scrollbar {
+    position: fixed;
     width: 10px;
     background-color: $lightGray;
   }

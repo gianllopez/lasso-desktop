@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { SET_PACKAGE, CLEAR_PACKAGE, CLEAR_QUEUE } from '../../redux/actions';
+import { SET_PACKAGE, CLEAR_PACKAGE } from '../../redux/actions';
 import cls from 'classnames';
-import { manageFolder, fileLoader, messageBox } from '../../shared/utils';
+import { manageFolder, fileLoader } from '../../shared/utils';
 import homeHero from '../../assets/home-ilustration.svg';
 import './index.scss';
 
@@ -16,17 +16,9 @@ function Home({ loaded }) {
     let { path, folder } = fileLoader();
     if (!path) return;
     let data = fs.readFileSync(path),
-    parsedPackage = JSON.parse(data || []);
-    if (parsedPackage.length === 0) {
-      messageBox({
-        type: 'error', title: 'Empty package',
-        detail: "You're trying to load an empty package."
-      });
-    } else {
-      dispatch(SET_PACKAGE(parsedPackage, path, folder));
-      dispatch(CLEAR_QUEUE);
-      manageFolder();
-    };
+    parsedPackage = JSON.parse(data);
+    manageFolder();
+    dispatch(SET_PACKAGE(parsedPackage, path, folder));
   };
 
   const unload = () => dispatch(CLEAR_PACKAGE);
@@ -55,6 +47,6 @@ function Home({ loaded }) {
 
 };
 
-const mapStateToProps = ({ package: { loaded } }) => ({ loaded });
+const mapStateToProps = store => store;
 
 export default connect(mapStateToProps)(React.memo(Home));

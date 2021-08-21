@@ -16,9 +16,8 @@
     button {
       color: white;
       &, &::before { transition-duration: .25s }
-      &.queue-all, &.save-all { position: relative }
-      &.queue-all {
-        width: 170px;
+      &.dl-all, &.save-all { position: relative }
+      &.dl-all {
         margin-right: 10px;
         background-color: $lightBlue;
         &:hover, &:disabled {
