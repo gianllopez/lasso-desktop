@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import cls from 'classnames';
-import { SET_PACKAGE } from '../../redux/actions';
+import { DOWNLOAD, SET_PACKAGE } from '../../redux/actions';
 import { Button, Message, Song } from '../../shared/components';
-import { compare } from '../../shared/utils';
+import { compare, manageFolder } from '../../shared/utils';
 import { Editor } from './Editor';
 import './index.scss';
 
 const fs = window.require('fs');
+const { remote: electron } = window.require('electron');
 
-function Package({ loaded, path, content }) {
+function Package(props) {
+
+  let { loaded, path, content, downloading } = props;
 
   const dispatch = useDispatch();
 
   const [data, setData] = useState(content);
+  const [index, setIndex] = useState(0);
   const [editingSong, setEditingSong] = useState(null);
   const [change, setChange] = useState(false);
   const [redo, setRedo] = useState(false);
@@ -31,6 +35,17 @@ function Package({ loaded, path, content }) {
       setTimeout(() => setMessage(msg), 700);
     };
   }, [message]);
+
+  useEffect(() => {
+    if (index === data.length && downloading) {
+      dispatch(DOWNLOAD);
+    };
+  }, [index]);
+
+  const openFolder = () => {
+    let dlfolder = manageFolder();
+    electron.shell.openPath(dlfolder);
+  };
 
   const onClear = () => {
     setData([]);
@@ -72,8 +87,13 @@ function Package({ loaded, path, content }) {
     setRedo(false);
   };
 
-  const download = () => {
-    console.log('downloading;');
+  const toggleDownload = () => {
+    manageFolder();
+    dispatch(DOWNLOAD);
+  };
+
+  const onNextSong = () => {
+    setIndex(index < content.length ? index + 1 : 0);
   };
 
   return (
@@ -85,8 +105,8 @@ function Package({ loaded, path, content }) {
       <div className="btns st-w">
         <Button
           disabled={change ? false : !data.length}
-          onClick={change ? savePackage : download}
-          label={change ? 'Save package' : 'Download package'}
+          onClick={change ? savePackage : toggleDownload}
+          label={change ? 'Save package' : downloading ? 'Pause download' : 'Download package'}
           className={cls('dl-all', { 'save-all': change })}
           unicon={change ? 'uil uil-save' : 'uil uil-arrow-to-bottom'}
         />
@@ -101,7 +121,11 @@ function Package({ loaded, path, content }) {
       <div className="songs-container st-w">
         { loaded && data.length > 0 ? 
             data.map((song, i) => (
-              <Song data={song} key={i}
+              <Song
+                turn={index === i}
+                data={song} key={i}
+                onComplete={onNextSong}
+                downloading={downloading}
                 onDelete={() => deleteHandler(i)}
                 onEdit={() => setEditingSong({ ...song, i })}
               /> )) :
@@ -111,6 +135,10 @@ function Package({ loaded, path, content }) {
                   'You haven\'t uploaded any package' }
             </p> }
       </div>
+      <i className="uil uil-folder-open goto-folder"
+        title="Open downloads folder"
+        onClick={openFolder}
+      />
       <Message
         display={message.show}
         text={message.text}

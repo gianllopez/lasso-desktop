@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import cls from 'classnames';
 import { messageBox } from '../../utils';
 import './index.scss';
 const { remote: Electron } = window.require('electron');
 
-export function NavBar() {
+function NavBar({ downloading }) {
 
   const showInformation = () => {
     let { node, electron, chrome } = window.process.versions;
@@ -24,7 +26,7 @@ export function NavBar() {
   };
 
   return (
-    <nav className="aside-nav">
+    <nav className={cls('aside-nav', { 'hide': downloading })}>
       <NavLink
         exact to="/"
         title="Home"
@@ -47,3 +49,7 @@ export function NavBar() {
   );
 
 };
+
+const mapStateToProps = ({ downloading }) => ({ downloading });
+
+export default connect(mapStateToProps)(NavBar);

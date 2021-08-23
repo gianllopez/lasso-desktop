@@ -11,4 +11,8 @@ const CLEAR_PACKAGE = {
   type: '@package/clear'
 };
 
-export { SET_PACKAGE, CLEAR_PACKAGE };
+const DOWNLOAD = {
+  type: '@package/download'
+};
+
+export { SET_PACKAGE, CLEAR_PACKAGE, DOWNLOAD };

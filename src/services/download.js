@@ -13,6 +13,7 @@ class Download {
   constructor(manager) {
     ffmpeg.setFfmpegPath(ffmpegPath);
     this.manager = manager;
+    this.folder = store.getState()?.folder;
   };
 
   getPercentage = (dld, total) => parseInt(100 / total * dld);
@@ -55,18 +56,17 @@ class Download {
     });
   };
 
-  async get_song(data, title) {
-    let { folder = '' } = store.getState()?.package,
-    _title = this.validFilename(title),
+  async get_song(data, _title) {
+    let title = this.validFilename(_title),
     { url, album, cover } = data,
     valid = ytdl.validateURL(url);
     if (valid) {
       let tags = { ...data },
       albumName = this.validFilename(album),
-      coverpath = path.join(folder, 'Covers', `${albumName}.jpg`);
+      coverpath = path.join(this.folder, 'Covers', `${albumName}.jpg`);
       tags.APIC = await this.cover(cover, coverpath);
       this.tags = tags;
-      await this.downloader(url, folder, _title);
+      await this.downloader(url, this.folder, title);
     };
   };
 

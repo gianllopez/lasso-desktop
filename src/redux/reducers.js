@@ -1,7 +1,8 @@
 const INITIAL_PACKAGE = {
   loaded: false,
   path: '',
-  content: []
+  content: [],
+  downloading: false
 };
 
 function packageReducer(state = INITIAL_PACKAGE, action) {
@@ -12,6 +13,8 @@ function packageReducer(state = INITIAL_PACKAGE, action) {
     case '@package/clear':
       let { folder } = state; 
       return { ...INITIAL_PACKAGE, folder, path: state.path };
+    case '@package/download':
+      return { ...state, downloading: !state.downloading };
     default:
       return state;
   };
