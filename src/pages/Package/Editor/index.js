@@ -24,7 +24,7 @@ export function Editor(props) {
     if (valid !== validation) {
       setValid(validation);
     };
-  }, [edition, valid])
+  }, [edition, valid]);
 
   const changeHandler = e => {
     let { name, value } = e.target;
@@ -54,14 +54,13 @@ export function Editor(props) {
   return (
     <div className={cls('modal', { 'open': data })}>
       <div className="content">
-        <div className="header-text">
+        <div className="header-info">
           <h2>Package song editor</h2>
           <p className="c-gray">{data?.title} - {data?.artist}</p>
         </div>
         <div className="entries">
           <div className="cover-input">
-            <TagInput
-              valid={edition.cover?.length > 0}
+            <TagInput              
               value={loadedCover || edition.cover || ''}
               onChange={changeHandler}
               placeholder="Cover"
@@ -71,29 +70,25 @@ export function Editor(props) {
               <img src={edition.cover} onError={cover404} alt=""/>
             </figure>
           </div>
-          <TagInput
-            valid={edition.title?.length > 0}
+          <TagInput            
             value={edition.title || ''}
             onChange={changeHandler}
             placeholder="Title"
             name="title"
           />
-          <TagInput
-            valid={edition.artist?.length > 0}
+          <TagInput            
             value={edition.artist || ''}
             onChange={changeHandler}
             placeholder="Artist" 
             name="artist"
           />
-          <TagInput
-            valid={edition.album?.length > 0}
+          <TagInput            
             value={edition.album || ''}
             onChange={changeHandler}
             placeholder="Album"
             name="album"
           />
-          <TagInput
-            valid={edition.url?.length > 0}
+          <TagInput            
             value={edition.url || ''}
             onChange={changeHandler}
             placeholder="Youtube URL"
