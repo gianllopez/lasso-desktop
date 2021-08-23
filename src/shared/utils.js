@@ -1,8 +1,5 @@
-const { remote: electron } = window.require('electron'),
-{ app, dialog } = electron;
-
+const electron = window.require('electron').remote;
 const { join } = window.require('path');
-
 const fs = window.require('fs');
 
 function fileLoader(filter, defPath = 'downloads') {
@@ -12,14 +9,14 @@ function fileLoader(filter, defPath = 'downloads') {
     extensions: ['json']
   },
 
-  pkgpath = dialog.showOpenDialogSync({
+  pkgpath = electron.dialog.showOpenDialogSync({
     title: 'Package loader',
     properties: ['openFile'],
     filters: [ filter || defaultFilter ],
-    defaultPath: app.getPath(defPath)
+    defaultPath: electron.app.getPath(defPath)
   }),
 
-  folder = app.getPath('documents');
+  folder = electron.app.getPath('documents');
   
   return {
     path: pkgpath ? pkgpath[0] : '',
@@ -29,14 +26,14 @@ function fileLoader(filter, defPath = 'downloads') {
 };
 
 function manageFolder() {
-  let docs = app.getPath('documents'),
+  let docs = electron.app.getPath('documents'),
   dlpath = join(docs, 'Lasso Downloads/Covers');
   fs.mkdirSync(dlpath, { recursive: true }, _ => {});
   return join(dlpath, '../');
 };
 
 function messageBox(config) {
-  dialog.showMessageBox({
+  electron.dialog.showMessageBox({
     message: 'Lasso - Downloader',
     ...config
   });

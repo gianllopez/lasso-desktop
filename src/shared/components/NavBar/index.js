@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import cls from 'classnames';
 import { messageBox } from '../../utils';
 import './index.scss';
-const { remote: Electron } = window.require('electron');
+
+const electron = window.require('electron').remote;
 
 function NavBar({ downloading }) {
 
@@ -22,7 +23,7 @@ function NavBar({ downloading }) {
 
   const pageRedirect = () => {
     // Replace with the hosted page.
-    Electron.shell.openExternal('https://www.google.com/');
+    electron.shell.openExternal('https://www.google.com/');
   };
 
   return (

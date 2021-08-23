@@ -1,7 +1,7 @@
 const { default: devtools, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
-const { app, BrowserWindow } = require('electron'),
-isDev = require('electron-is-dev'),
-path = require('path');
+const { app, BrowserWindow } = require('electron');
+const isDev = require('electron-is-dev');
+const path = require('path');
 
 function createWindow() {
   let win = new BrowserWindow({
@@ -25,4 +25,3 @@ app.whenReady().then(() => {
     .then(name => console.log(`DevTools was added: ${name}!`))
     .catch(e => console.error(e));
 });
-

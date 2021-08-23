@@ -1,17 +1,16 @@
 @import '../../shared/sass/variables';
 
 .package-page {
-  .songs-container {
-    padding: 10px;
-    border-radius: 5px;
-    background-color: $lightGray;
-    width: calc(70% - 20px);
-    margin-bottom: 2.5em !important;
-    max-width: 730px !important;
-    .song:not(:last-of-type) { margin-bottom: 10px }
+  .header-text {
+    padding: 1.25em 0 .4em 0;
+    font-size: 1.25em;
+    text-align: center;
+    p { color: $darkGray }
   }
   .btns {
-    margin: 10px auto !important;
+    width: 70%;
+    max-width: 750px;
+    margin: 10px auto;
     text-align: right;
     button {
       color: white;
@@ -20,12 +19,9 @@
       &.dl-all {
         margin-right: 10px;
         background-color: $lightBlue;
-        &:hover, &:disabled {
-          background-color: lighten($lightBlue, 5%)
-        }
+        &:hover, &:disabled { background-color: lighten($lightBlue, 5%) }
       }
       &.save-all {
-        position: relative;
         background-color: $babyGreen;
         &::before { opacity: 1 }
         &:hover {
@@ -35,13 +31,12 @@
       }
       &.clear-all {
         background-color: $babyRed;
-        &:hover, &:disabled {
-          background-color: lighten($babyRed, 5%);
-        }
+        &:hover, &:disabled { background-color: lighten($babyRed, 5%) }
       }
-      &.redo-pkg {
+      &.redo {
         background-color: $lightGray;
         color: black;
+        &:hover, &:disabled { background-color: darken($lightGray, 5%) }
       }
       &::before {
         content: '';
@@ -55,23 +50,14 @@
       }
     }
   }
-  .goto-folder {
-    position: fixed;
-    bottom: 15px; right: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px; height: 50px;
-    font-size: 1.7em;
-    cursor: pointer;
+  .songs-container {
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
     background-color: $lightGray;
-    border: 2px solid transparent;
-    border-radius: 50%;
-    color: $darkGray;
-    transition: .25s;
-    &:hover {
-      color: $lightBlue;
-      border-color: $lightBlue;
-    }
+    width: calc(70% - 20px);
+    margin-bottom: 2.5em;
+    max-width: 730px;
+    .song:not(:last-of-type) { margin-bottom: 10px }
   }
 }

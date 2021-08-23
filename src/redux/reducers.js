@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   loaded: false,
+  path: '',
   folder: '',
   content: [],
   downloading: false

@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { TagInput } from './TagInput';
 import { Button } from '../../../shared/components/Button'
 import { fileLoader } from '../../../shared/utils';
-import defCover from '../../../assets/default-cover.jpg'
+import noCover from '../../../assets/no-cover.jpg'
 import './index.scss';
 
 const fs = window.require('fs');
@@ -47,8 +47,8 @@ export function Editor(props) {
   };
 
   const cover404 = ({ target }) => {
-    target.src = defCover;
-    setEdition({ ...edition, cover: defCover });
+    target.src = noCover;
+    setEdition({ ...edition, cover: noCover });
   };
 
   return (

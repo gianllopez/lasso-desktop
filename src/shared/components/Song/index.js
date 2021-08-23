@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import cls from 'classnames';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { Download } from '../../../services/download';
-import defaultCover from '../../../assets/default-cover.jpg'
+import noCover from '../../../assets/no-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
 import { Fragment } from 'react';
@@ -43,7 +43,7 @@ export function Song(props) {
   return (
     <div className="song">
       <figure>
-        <img src={cover !== 'default' ? cover : defaultCover} alt=""/>
+        <img src={cover !== 'default' ? cover : noCover} alt=""/>
       </figure>
       <div className="tags">
         <p className="title">{ title }</p>

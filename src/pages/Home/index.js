@@ -18,7 +18,7 @@ function Home({ loaded }) {
       let data = fs.readFileSync(path),
       content = JSON.parse(data);
       manageFolder();
-      dispatch(SET_PACKAGE({ content, folder }));
+      dispatch(SET_PACKAGE({ path, folder, content }));
     };
   };
 

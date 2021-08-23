@@ -6,20 +6,7 @@
   margin: 0; padding: 0;
 }
 
-.presentation {
-  padding: 1.25em 0 .4em 0;
-  font-size: 1.25em;
-  text-align: center;
-  p { color: $darkGray }
-}
-
 .c-gray { color: $darkGray }
-
-.st-w {
-  width: 70%;
-  max-width: 750px;
-  margin: 0 auto;
-}
 
 .missing {
   display: flex;
