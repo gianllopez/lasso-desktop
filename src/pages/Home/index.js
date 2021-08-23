@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { SET_PACKAGE, CLEAR_PACKAGE } from '../../redux/actions';
 import cls from 'classnames';
+import { SET_PACKAGE, CLEAR_PACKAGE } from '../../redux/actions';
 import { manageFolder, fileLoader } from '../../shared/utils';
-import homeHero from '../../assets/home-ilustration.svg';
+import homeHero from '../../assets/home-hero.svg';
 import './index.scss';
 
 const fs = window.require('fs');
@@ -14,11 +14,12 @@ function Home({ loaded }) {
 
   const load = () => {
     let { path, folder } = fileLoader();
-    if (!path) return;
-    let data = fs.readFileSync(path),
-    parsedPackage = JSON.parse(data);
-    manageFolder();
-    dispatch(SET_PACKAGE(parsedPackage, path, folder));
+    if (path) {
+      let data = fs.readFileSync(path),
+      content = JSON.parse(data);
+      manageFolder();
+      dispatch(SET_PACKAGE({ content, folder }));
+    };
   };
 
   const unload = () => dispatch(CLEAR_PACKAGE);
@@ -47,6 +48,6 @@ function Home({ loaded }) {
 
 };
 
-const mapStateToProps = store => store;
+const mapStateToProps = ({ loaded }) => ({ loaded });  
 
 export default connect(mapStateToProps)(React.memo(Home));

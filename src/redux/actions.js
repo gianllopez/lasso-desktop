@@ -1,10 +1,6 @@
-const SET_PACKAGE = (pkg, path = '', folder) => ({
+const SET_PACKAGE = payload => ({
   type: '@package/set',
-  payload: {
-    loaded: true,
-    content: pkg,
-    path, folder
-  }
+  payload: { loaded: true, ...payload }
 });
 
 const CLEAR_PACKAGE = {

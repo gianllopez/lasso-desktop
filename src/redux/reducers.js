@@ -1,18 +1,16 @@
-const INITIAL_PACKAGE = {
+const INITIAL_STATE = {
   loaded: false,
-  path: '',
+  folder: '',
   content: [],
   downloading: false
 };
 
-function packageReducer(state = INITIAL_PACKAGE, action) {
+function packageReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case '@package/set':
-      let { path, ...rest } = action.payload;
-      return { ...rest, path: path || state.path };
-    case '@package/clear':
-      let { folder } = state; 
-      return { ...INITIAL_PACKAGE, folder, path: state.path };
+      return { ...action.payload, loaded: true };
+    case '@package/clear': 
+      return INITIAL_STATE;
     case '@package/download':
       return { ...state, downloading: !state.downloading };
     default:
