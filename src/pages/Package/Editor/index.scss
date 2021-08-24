@@ -8,17 +8,16 @@
 
 .modal {
   @include standard-flex;
-  position: fixed; z-index: -1;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0; z-index: -1;
+  width: 100vw; height: 100vh;
   background-color: #00000059;
-  opacity: 0;
   transition-duration: .25s;
+  opacity: 0;
   .content {
     @include standard-flex;
-    position: relative;
     flex-direction: column;
+    position: relative;
     width: 55%;
     height: 70%;
     padding: 30px 0;
@@ -27,46 +26,40 @@
     border-radius: 7px;
     .header-info {
       width: calc(80% - (5px + 14px));
-      margin: 0 0 15px 10px;
+      margin-bottom: 15px;
       border-left: 5px solid $lightBlue;
       padding: 7px;
     }
-    .entries {
-      width: 80%;
-      .cover-input {
-        display: flex;
-        .tag-input { flex: 1; margin-right: 10px }
-        figure {
-          position: relative;
-          cursor: pointer;
-          width: 60px;
-          &::before, img {
-            display: flex;
-            width: 100%; height: 55px;
-            object-fit: cover;
-            border-radius: 5px;
-          }
-          &::before {
-            content: '+';
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background-color: #0000008a;
-            color: white;
-            font-size: 2.5em;
-            transition-duration: .15s;
-            opacity: 0;
-          }
-          &:hover::before { opacity: 1 }
+    .entries, .grouped-btns { width: 80% }
+    .entries .cover-input {
+      display: flex;
+      .tag-input { flex: 1; margin-right: 10px }
+      figure {
+        position: relative;
+        cursor: pointer;
+        width: 60px;
+        &::before, img {
+          display: flex;
+          width: 100%; height: 55px;
+          object-fit: cover;
+          border-radius: 5px;
         }
+        &::before {
+          content: '+';
+          position: absolute;
+          align-items: center;
+          justify-content: center;
+          background-color: #0000008a;
+          color: white;
+          font-size: 2.5em;
+          transition-duration: .15s;
+          opacity: 0;
+        }
+        &:hover::before { opacity: 1 }
       }
     }
     .grouped-btns {
-      width: 80%;
-      .cancel-edit,
-      .save-edit {
+      .cancel-edit, .save-edit {
         height: 42.5px;
         color: white;
       }
@@ -79,9 +72,7 @@
         width: calc(70% - 10px);
         margin-left: 10px;
         background-color: $lightBlue;
-        &:hover, &:disabled {
-          background-color: lighten($lightBlue, 5%)
-        }
+        &:hover, &:disabled { background-color: lighten($lightBlue, 5%) }
       }      
     }
     i {

@@ -13,7 +13,6 @@ export function Editor(props) {
   let { data, toClose, onSave } = props;
 
   const [edition, setEdition] = useState(data || {});
-  const [loadedCover, setLoadedCover] = useState('');
   const [valid, setValid] = useState(false);
 
   useEffect(() => { data && setEdition(data) }, [data]);
@@ -31,43 +30,25 @@ export function Editor(props) {
     setEdition({ ...edition, [name]: value });
   };
 
-  // Here i got an error
-  const onUploadCover = () => {
-    let cover = fileLoader({
-      name: 'Cover/Image',
-      extensions: [ 'jpg', 'png' ]
-    }, 'pictures');
-    if (cover) {
-      let buffer = fs.readFileSync(cover),
-      file = new File([buffer], cover),
-      url = URL.createObjectURL(file);
-      setEdition({ ...edition, cover: url });
-      setLoadedCover(cover);
-    };
-  };
-
-  const cover404 = ({ target }) => {
-    target.src = noCover;
-    setEdition({ ...edition, cover: noCover });
-  };
-
   return (
     <div className={cls('modal', { 'open': data })}>
       <div className="content">
         <div className="header-info">
           <h2>Package song editor</h2>
-          <p className="c-gray">{data?.title} - {data?.artist}</p>
+          <p className="c-gray">
+            {data?.title} - {data?.artist}
+          </p>
         </div>
         <div className="entries">
           <div className="cover-input">
-            <TagInput              
-              value={loadedCover || edition.cover || ''}
+            <TagInput
+              value={edition.cover || ''}
               onChange={changeHandler}
               placeholder="Cover"
               name="cover"
             />
-            <figure onClick={onUploadCover}>
-              <img src={edition.cover} onError={cover404} alt=""/>
+            <figure onClick={() => {}}>
+              <img src={edition.cover} onError={() => {}} alt=""/>
             </figure>
           </div>
           <TagInput            
