@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 function packageReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case '@package/set':
-      return { ...action.payload, loaded: true };
+      return { ...state, ...action.payload, loaded: true };
     case '@package/clear': 
       return INITIAL_STATE;
     case '@package/download':

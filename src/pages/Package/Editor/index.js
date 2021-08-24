@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import cls from 'classnames';
 import { TagInput } from './TagInput';
 import { Button } from '../../../shared/components/Button'
-import { fileLoader } from '../../../shared/utils';
-import noCover from '../../../assets/no-cover.jpg'
+import { fileLoader, notFoundCover } from '../../../shared/utils';
 import './index.scss';
 
 const fs = window.require('fs');
@@ -13,21 +12,23 @@ export function Editor(props) {
   let { data, toClose, onSave } = props;
 
   const [edition, setEdition] = useState(data || {});
-  const [valid, setValid] = useState(false);
 
   useEffect(() => { data && setEdition(data) }, [data]);
-
-  useEffect(() => {
-    let values = Object.values(edition),
-    validation = values.every(field => field !== '');
-    if (valid !== validation) {
-      setValid(validation);
-    };
-  }, [edition, valid]);
 
   const changeHandler = e => {
     let { name, value } = e.target;
     setEdition({ ...edition, [name]: value });
+  };
+
+  const onUploadCover = () => {
+    let cnf = { name: 'Cover', extensions: ['jpg', 'png'] },
+    { path } = fileLoader(cnf, 'pictures');
+    if (path) {
+      let buffer = fs.readFileSync(path),
+      file = new File([buffer], path),
+      url = URL.createObjectURL(file);
+      setEdition({ ...edition, cover: url });
+    };
   };
 
   return (
@@ -47,8 +48,8 @@ export function Editor(props) {
               placeholder="Cover"
               name="cover"
             />
-            <figure onClick={() => {}}>
-              <img src={edition.cover} onError={() => {}} alt=""/>
+            <figure onClick={onUploadCover}>
+              <img src={edition.cover} onError={notFoundCover} alt=""/>
             </figure>
           </div>
           <TagInput            
@@ -86,7 +87,6 @@ export function Editor(props) {
             className="save-edit"
             label="Save edition"
             onClick={() => onSave(edition)}
-            disabled={!valid}
           />
         </div>
         <i className="uil uil-times-circle" onClick={toClose}/>        

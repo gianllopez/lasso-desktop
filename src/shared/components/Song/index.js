@@ -6,6 +6,7 @@ import noCover from '../../../assets/no-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
 import { Fragment } from 'react';
+import { notFoundCover } from '../../utils';
 
 export function Song(props) {
 
@@ -43,12 +44,12 @@ export function Song(props) {
   return (
     <div className="song">
       <figure>
-        <img src={cover !== 'default' ? cover : noCover} alt=""/>
+        <img src={cover || noCover} onError={notFoundCover} alt=""/>
       </figure>
       <div className="tags">
-        <p className="title">{ title }</p>
-        <p className="artist">{ artist }</p>
-        <p className="album">{ album }</p>
+        <p className="title">{ title || 'Unknow' }</p>
+        <p className="artist">{ artist || 'Unknow' }</p>
+        <p className="album">{ album || 'Unknow' }</p>
       </div>
       <div className="actions">
       { downloading ?

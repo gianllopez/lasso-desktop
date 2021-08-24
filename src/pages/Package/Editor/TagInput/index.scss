@@ -11,17 +11,13 @@
     width: calc(100% - 20px);
     border: none;
     outline: none;
-    box-shadow: 0px 0px 5px 1px #ff00004d;
-    color: $babyRed;
-    &.valid {
+    &.filled {
       height: 17.5px;
       padding-top: 25px;
-      box-shadow: none;
-      color: initial;       
+      box-shadow: none;     
       & + label { color: $darkGray; top: 15px }
     }
-    &:focus-within { @extend .valid }
-    & + label { color: $babyRed }
+    &:focus-within { @extend .filled }
   }
   label {
     position: absolute;

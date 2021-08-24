@@ -75,7 +75,7 @@ function Package(props) {
   };
 
   const savePackage = () => {
-    dispatch(SET_PACKAGE(data));
+    dispatch(SET_PACKAGE({ content: data }));
     let parsedData = JSON.stringify(data);
     fs.writeFile(path, parsedData, () => {});
     setMessage({ text: 'Package was saved', show: true });

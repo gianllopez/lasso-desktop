@@ -47,7 +47,7 @@ class Download {
         .on('progress', (_, num1, num2) => {
           let progress = this.getPercentage(num1, num2);
           this.manager({ progress });
-        })
+        }).on('error', rej)
         .on('finish', async () => {
           this.manager({ tosetup: true });
           await this.converter(outfolder, song, title);
