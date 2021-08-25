@@ -17,6 +17,7 @@ function Package(props) {
   const dispatch = useDispatch();
 
   const [data, setData] = useState(content);
+  const [ready, setReady] = useState(false);
   const [index, setIndex] = useState(0);
   const [editing, setEditing] = useState(null);
   const [change, setChange] = useState(false);
@@ -37,7 +38,9 @@ function Package(props) {
   }, [message]);
 
   useEffect(() => {
-    if (index === data.length && downloading) {
+    if (downloading && index === data.length) {
+      setMessage({ text: 'Your package has been downloaded!', show: true });
+      setReady(true);
       dispatch(DOWNLOAD);
     };
   }, [index]);
@@ -61,10 +64,10 @@ function Package(props) {
     hasChanges = !compare(rest, song);
     if (hasChanges) {
       setData(newData);
+      setRedo(true);
       setMessage({ text: 'Succesfully edition!', show: true });
     };
     setEditing(null);
-    setRedo(true);
   };  
 
   const deleteHandler = index => {
@@ -83,6 +86,7 @@ function Package(props) {
   };
 
   const toggleDownload = () => {
+    setReady(false);
     manageFolder();
     dispatch(DOWNLOAD);
   };
@@ -118,6 +122,7 @@ function Package(props) {
         { loaded && data.length ? 
             data.map((song, i) => (
               <Song
+                allReady={ready}
                 turn={index === i}
                 data={song} key={i}
                 onComplete={nextSong}

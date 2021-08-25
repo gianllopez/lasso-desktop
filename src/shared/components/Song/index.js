@@ -14,7 +14,7 @@ export function Song(props) {
   { title, artist, album, cover } = data;
 
   // on downloading props:
-  let { downloading, turn, onComplete } = props;
+  let { downloading, allReady, turn, onComplete } = props;
 
   const [downloaded, setDownloaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ export function Song(props) {
         <p className="album">{ album || 'Unknow' }</p>
       </div>
       <div className="actions">
-      { downloading ?
+      { downloading || allReady ?
             turn ?
               <div className={cls('progress-bar', { 'spin': loading })}>
                 <CircularProgressbar
