@@ -8,14 +8,11 @@
   background-color: white;
   border-radius: 5px;
   figure {
-    display: flex;
-    align-items: center;
     height: 100%;
     margin-right: 7px;
     img { height: 100%; border-radius: 7px }
   }
-  .tags {
-    font-size: .85em;
+  .tags { font-size: .85em;
     .artist, .album { color: $darkGray }
     p {
       max-width: 440px;
@@ -25,19 +22,15 @@
     }
   }
   .actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
     flex: 1;
     font-size: 1.5em;
     text-align: right;
     padding-right: 7px;
     .progress-bar {
-      display: inherit;
+      display: flex;
       width: 20px;
-      margin-right: 3px;
-      .CircularProgressbar-path { stroke: $lightBlue }
-      &.loading {
+      margin: 0 3px 0 auto;
+      &.spin {
         @keyframes spin {
           from { transform: rotate(0deg) }
           to { transform: rotate(360deg) }
@@ -45,21 +38,12 @@
         animation: 1s spin infinite;
       }
     }
-    i { cursor: pointer }
+    i:not(.wait, .dlded) { cursor: pointer }
     .edit:hover { color: $darkGray }
-    .delete { margin-left: 5px; &:hover { color: $babyRed } }
+    .delete {
+      margin-left: 5px;
+      &:hover { color: $babyRed }
+    }
     .dlded { color: $babyGreen }
-    .wait, .dlded { cursor: initial }
-    .loader {
-      width: 13px; height: 13px;
-      border: 3.2px solid $lightBlue;
-      border-radius: 50%;
-      border-top-color: transparent;
-      @keyframes spin {
-        from { transform: rotate(0deg) }
-        to { transform: rotate(360deg) }
-      }
-      animation: 1s spin infinite;
-    } 
   }
 }

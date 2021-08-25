@@ -20,21 +20,21 @@ function fileLoader(filter, defPath = 'downloads') {
     path: pkgpath ? pkgpath[0] : '',
     folder: join(folder, 'Lasso Downloads'),
   };
-}
+};
 
 function manageFolder() {
   let docs = electron.app.getPath('documents'),
   dlpath = join(docs, 'Lasso Downloads/Covers');
-  fs.mkdirSync(dlpath, { recursive: true }, (_) => {});
+  fs.mkdirSync(dlpath, { recursive: true }, _ => {});
   return join(dlpath, '../');
-}
+};
 
 function messageBox(config) {
   electron.dialog.showMessageBox({
     message: 'Lasso - Downloader',
     ...config,
   });
-}
+};
 
 const compare = (obj1, obj2) => JSON.stringify(obj1) === JSON.stringify(obj2);
 

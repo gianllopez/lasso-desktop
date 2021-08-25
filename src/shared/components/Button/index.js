@@ -9,7 +9,7 @@ export function Button(props) {
   return (
     <button className={cls('btn', className)} {...rest}>
       { label }
-      { unicon && <i className={unicon}/> }
+      <i className={unicon}/>
     </button>
   );
 

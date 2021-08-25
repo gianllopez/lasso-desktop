@@ -13,6 +13,7 @@ export function Song(props) {
   let { data, onDelete, onEdit } = props,
   { title, artist, album, cover } = data;
 
+  // on downloading props:
   let { downloading, turn, onComplete } = props;
 
   const [downloaded, setDownloaded] = useState(false);
@@ -54,7 +55,7 @@ export function Song(props) {
       <div className="actions">
       { downloading ?
             turn ?
-              <div className={cls('progress-bar', { 'loading': loading })}>
+              <div className={cls('progress-bar', { 'spin': loading })}>
                 <CircularProgressbar
                   strokeWidth="15"
                   value={progress}

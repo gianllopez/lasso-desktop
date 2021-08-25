@@ -20,8 +20,9 @@ class Download {
 
   validFilename = name => name.replace(/\\|\/|:|\*|\?|"|<|>|\|:/g, '');
 
-  async cover(url, dest) {
-    let { filename } = await imgdl.image({ url, dest });
+  async cover(url, name) {
+    let dest = path.join(this.folder, 'Covers', `${name}.jpg`),
+    { filename } = await imgdl.image({ url, dest });
     return filename;
   };
 
@@ -40,17 +41,18 @@ class Download {
     });
   };
 
-  downloader(url, outfolder, title) {
+  downloader(url, title) {
     return new Promise((res, rej) => {
-      let song = path.join(outfolder, `${title} - Untaggeable.mp3`);
+      let song = path.join(this.folder, `${title} (untagged).mp3`);
       ytdl(url, { quality: 'highestaudio', filters: 'audioonly' })
         .on('progress', (_, num1, num2) => {
           let progress = this.getPercentage(num1, num2);
           this.manager({ progress });
-        }).on('error', rej)
+        })
+        .on('error', rej)
         .on('finish', async () => {
           this.manager({ tosetup: true });
-          await this.converter(outfolder, song, title);
+          await this.converter(this.folder, song, title);
           res();
         }).pipe(fs.createWriteStream(song));
     });
@@ -62,11 +64,10 @@ class Download {
     valid = ytdl.validateURL(url);
     if (valid) {
       let tags = { ...data },
-      albumName = this.validFilename(album),
-      coverpath = path.join(this.folder, 'Covers', `${albumName}.jpg`);
-      tags.APIC = await this.cover(cover, coverpath);
+      albumName = this.validFilename(album);
+      tags.APIC = await this.cover(cover, albumName);
       this.tags = tags;
-      await this.downloader(url, this.folder, title);
+      await this.downloader(url, title);
     };
   };
 

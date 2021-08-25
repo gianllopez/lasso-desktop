@@ -1,8 +1,9 @@
 @import '../../shared/sass/variables';
-@import '../../shared/sass/utils';
 
 .home-page {
-  @include absolute-center;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
   .hero {
     font-weight: bold;
