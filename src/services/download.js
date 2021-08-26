@@ -29,7 +29,7 @@ class Download {
   converter(folder, song, title) {
     return new Promise((res, rej) => {
       let tagged = path.join(folder, `${title}.mp3`);      
-      ffmpeg(song).output(tagged)
+      ffmpeg(song, { timeout: 30 }).output(tagged)
         .on('error', err => rej(err))
         .on('end', () => {
           fs.unlink(song, async err => {
