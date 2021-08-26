@@ -1,7 +1,7 @@
 @import '../../sass/variables';
 
 .message {
-  position: absolute;
+  position: fixed;
   top: 2.5em; left: -275px;
   display: flex;
   align-items: center;

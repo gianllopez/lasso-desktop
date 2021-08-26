@@ -22,7 +22,7 @@ function Package(props) {
   const [editing, setEditing] = useState(null);
   const [change, setChange] = useState(false);
   const [redo, setRedo] = useState(false);
-  const [message, setMessage] = useState({ show: false, text: '' });
+  const [message, setMessage] = useState({ text: '', show: false });
 
   useEffect(() => {
     let diff = !compare(content, data);
@@ -39,7 +39,7 @@ function Package(props) {
 
   useEffect(() => {
     if (downloading && index === data.length) {
-      setMessage({ text: 'Your package has been downloaded!', show: true });
+      setMessage({ text: 'Package was downloaded!', show: true });
       setReady(true);
       dispatch(DOWNLOAD);
     };
