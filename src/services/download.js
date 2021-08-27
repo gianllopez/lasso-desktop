@@ -1,5 +1,6 @@
 import { store } from '../redux/store';
 
+const { dialog } = window.require('electron').remote;
 const ytdl = window.require('ytdl-core');
 const ffmpeg = window.require('fluent-ffmpeg');
 const ffmpegPath = window.require('ffmpeg-static');
@@ -68,7 +69,11 @@ class Download {
       tags.APIC = await this.cover(cover, albumName);
       this.tags = tags;
       await this.downloader(url, title);
+    } else {
+      dialog.showErrorBox('Invalid Youtube URL',
+        `The URL for ${data.title} from ${data.artist} is invalid.`);
     };
+    return valid;
   };
 
 };

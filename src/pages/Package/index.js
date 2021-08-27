@@ -41,6 +41,7 @@ function Package(props) {
     if (downloading && index === data.length) {
       setMessage({ text: 'Package was downloaded!', show: true });
       setReady(true);
+      setIndex(0);
       dispatch(DOWNLOAD);
     };
   }, [index]);

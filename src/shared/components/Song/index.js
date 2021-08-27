@@ -33,10 +33,10 @@ export function Song(props) {
     if (downloading && turn) {      
       async function fetchSong() {
         let dlservice = new Download(handler),
-        mp3title = `${title} - ${artist}`;
-        await dlservice.get_song(data, mp3title);
+        mp3title = `${title} - ${artist}`,
+        done = await dlservice.get_song(data, mp3title);
+        if (done) setDownloaded(true);
         onComplete();
-        setDownloaded(true);
       };
       fetchSong();
     };

@@ -7,5 +7,7 @@ const onDisconnected = () => {
   getCurrentWindow().close();
 };
 
-window.addEventListener('load', onDisconnected);
+window.addEventListener('load', () => {
+  if (!navigator.onLine) onDisconnected();
+});
 window.addEventListener('offline', onDisconnected);
