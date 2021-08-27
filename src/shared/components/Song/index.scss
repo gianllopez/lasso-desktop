@@ -38,12 +38,13 @@
         animation: 1s spin infinite;
       }
     }
-    i:not(.wait, .dlded) { cursor: pointer }
+    .edit, .delete { cursor: pointer }
     .edit:hover { color: $darkGray }
     .delete {
       margin-left: 5px;
       &:hover { color: $babyRed }
     }
+    .error { color: $babyRed }
     .dlded { color: $babyGreen }
   }
 }

@@ -19,6 +19,7 @@ export function Song(props) {
   const [downloaded, setDownloaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(false);
 
   const handler = newState => {
     let { progress, tosetup } = newState;
@@ -30,12 +31,13 @@ export function Song(props) {
   };
 
   useEffect(() => {
-    if (downloading && turn) {      
+    if (downloading && turn) {
       async function fetchSong() {
         let dlservice = new Download(handler),
         mp3title = `${title} - ${artist}`,
         done = await dlservice.get_song(data, mp3title);
         if (done) setDownloaded(true);
+        else setError(true);
         onComplete();
       };
       fetchSong();
@@ -54,20 +56,23 @@ export function Song(props) {
       </div>
       <div className="actions">
       { downloading || allReady ?
-            turn ?
-              <div className={cls('progress-bar', { 'spin': loading })}>
-                <CircularProgressbar
-                  strokeWidth="15"
-                  value={progress}
-                />
-              </div> :
-              downloaded ?
-                <i className="uil uil-check-circle dlded"/> :
+          turn ? error ?
+            <i className="uil uil-exclamation-triangle error"/> :
+            <div className={cls('progress-bar', { 'spin': loading })}>
+              <CircularProgressbar
+                strokeWidth="15"
+                value={progress}
+              />
+            </div> :
+            downloaded ?
+              <i className="uil uil-check-circle dlded"/> :
+              error ?
+                <i className="uil uil-exclamation-triangle error"/> :
                 <i className="uil uil-clock-eight"/> :
-            <Fragment>
-              <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
-              <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
-            </Fragment> }
+          <Fragment>
+            <i className="uil uil-edit-alt edit" onClick={onEdit}/> 
+            <i onClick={onDelete} className="uil uil-trash-alt delete"/> 
+          </Fragment> }
       </div> 
     </div>
   );

@@ -61,14 +61,16 @@ function Package(props) {
   const editHandler = ({ i: index, ...rest }) => {
     let newData = [ ...data ];
     newData[index] = rest;
-    let { i, ...song } = editing,   
-    hasChanges = !compare(rest, song);
-    if (hasChanges) {
-      setData(newData);
-      setRedo(true);
-      setMessage({ text: 'Succesfully edition!', show: true });
+    if (editing) {
+      let { i, ...song } = editing,   
+      hasChanges = !compare(rest, song);
+      if (hasChanges) {
+        setData(newData);
+        setRedo(true);
+        setMessage({ text: 'Succesfully edition!', show: true });
+      };
+      setEditing(null);
     };
-    setEditing(null);
   };  
 
   const deleteHandler = index => {
@@ -92,7 +94,7 @@ function Package(props) {
     dispatch(DOWNLOAD);
   };
 
-  const nextSong = () => {
+  const nextSong = error => {
     let newIndex = index < content.length ? index + 1 : 0;
     setIndex(newIndex);
   };
