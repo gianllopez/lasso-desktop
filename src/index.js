@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { Home, Package } from './pages';
@@ -9,7 +9,7 @@ import './index.scss';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Provider store={store}>
         <NavBar/>
         <Switch>
@@ -18,7 +18,7 @@ function App() {
         </Switch>
       </Provider>
       <p id="my-creds">by @gianlop3z</p>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
