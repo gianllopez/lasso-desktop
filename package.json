@@ -60,10 +60,11 @@
     "appId": "lasso.downloader",
     "productName": "Lasso - Downloader",
     "extends": null,
+    "directories": {
+      "output": "build"
+    },
     "win": {
-      "target": [
-        "portable"
-      ]
+      "target": "portable"
     }
   }
 }
