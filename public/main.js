@@ -19,7 +19,13 @@ function createWindow() {
       `file://${path.join(__dirname, '../build/index.html')}`);
 };
 
-app.whenReady().then(() => {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  };
+});
+
+app.on('ready', () => {
   createWindow();
   devtools([REACT_DEVELOPER_TOOLS,  REDUX_DEVTOOLS])
     .then(name => console.log(`DevTools was added: ${name}!`))

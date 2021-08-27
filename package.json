@@ -1,10 +1,16 @@
 {
   "name": "lasso-desktop",
-  "version": "0.1.0",
-  "private": true,
+  "description": "Lasso downloader is the main app for the music download of the Lasso platform",
+  "author": {
+    "name": "Gian López",
+    "email": "lopezarizagianlucas@gmail.com",
+    "url": "https://gianlop3z-dev.web.app"
+  },
+  "version": "1.0.0",
+  "private": false,
   "main": "./public/main.js",
   "dependencies": {
-    "classnames": "^2.3.1",
+    "classnames": "^2.3.1",    
     "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "image-downloader": "^4.0.3",
@@ -44,7 +50,7 @@
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
-    "electron": "^13.1.7",
+    "electron": "^13.2.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-is-dev": "^2.0.0",
     "wait-on": "^6.0.0"
