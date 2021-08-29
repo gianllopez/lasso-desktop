@@ -14,7 +14,7 @@ export function Song(props) {
   { title, artist, album, cover } = data;
 
   // on downloading props:
-  let { downloading, allReady, turn, onComplete } = props;
+  let { downloading, _downloaded, allReady, turn, onComplete } = props;
 
   const [downloaded, setDownloaded] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -39,10 +39,11 @@ export function Song(props) {
         if (done) setDownloaded(true);
         else setError(true);
         onComplete();
-      };
+      };      
       fetchSong();
     };
-  }, [turn]);
+    if (_downloaded) setDownloaded(true);
+  }, [downloading, turn]);
 
   return (
     <div className="song">

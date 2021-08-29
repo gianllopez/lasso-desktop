@@ -12,13 +12,12 @@ const fs = window.require('fs');
 
 function Package(props) {
 
-  let { loaded, path, content, downloading } = props;
+  let { loaded, path, content, downloading, index } = props;
 
   const dispatch = useDispatch();
 
   const [data, setData] = useState(content);
   const [ready, setReady] = useState(false);
-  const [index, setIndex] = useState(0);
   const [editing, setEditing] = useState(null);
   const [change, setChange] = useState(false);
   const [redo, setRedo] = useState(false);
@@ -42,7 +41,7 @@ function Package(props) {
       setMessage({ text: 'Package was downloaded!', show: true });
       setReady(true);
       dispatch(DOWNLOAD);
-      setIndex(0);
+      dispatch(SET_PACKAGE({ index: 0 }));
     };
   }, [index]);
 
@@ -96,7 +95,7 @@ function Package(props) {
 
   const nextSong = error => {
     let newIndex = index < content.length ? index + 1 : 0;
-    setIndex(newIndex);
+    dispatch(SET_PACKAGE({ index: newIndex }));
   };
 
   return (
@@ -128,6 +127,7 @@ function Package(props) {
                 allReady={ready}
                 data={song} key={i}
                 onComplete={nextSong}
+                _downloaded={index > i}
                 downloading={downloading}
                 turn={downloading && index === i}
                 onDelete={() => deleteHandler(i)}
