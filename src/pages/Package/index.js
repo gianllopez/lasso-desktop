@@ -41,8 +41,8 @@ function Package(props) {
     if (downloading && index === data.length) {
       setMessage({ text: 'Package was downloaded!', show: true });
       setReady(true);
-      setIndex(0);
       dispatch(DOWNLOAD);
+      setIndex(0);
     };
   }, [index]);
 
@@ -126,10 +126,10 @@ function Package(props) {
             data.map((song, i) => (
               <Song
                 allReady={ready}
-                turn={index === i}
                 data={song} key={i}
                 onComplete={nextSong}
                 downloading={downloading}
+                turn={downloading && index === i}
                 onDelete={() => deleteHandler(i)}
                 onEdit={() => setEditing({ ...song, i })}
               /> )) :

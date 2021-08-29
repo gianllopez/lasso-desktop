@@ -2,7 +2,7 @@ import React from 'react';
 import { manageFolder } from '../../../shared/utils';
 import './index.scss';
 
-const electron = window.require('electron').remote;
+const electron = window.require('@electron/remote');
 
 export function ToFolder() {
   

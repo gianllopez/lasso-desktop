@@ -31,7 +31,7 @@ export function Song(props) {
   };
 
   useEffect(() => {
-    if (downloading && turn) {
+    if (turn) {
       async function fetchSong() {
         let dlservice = new Download(handler),
         mp3title = `${title} - ${artist}`,
@@ -42,7 +42,7 @@ export function Song(props) {
       };
       fetchSong();
     };
-  }, [downloading, turn]);
+  }, [turn]);
 
   return (
     <div className="song">

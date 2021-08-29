@@ -5,7 +5,7 @@ import cls from 'classnames';
 import { messageBox } from '../../utils';
 import './index.scss';
 
-const electron = window.require('electron').remote;
+const electron = window.require('@electron/remote');
 
 function NavBar({ downloading }) {
 

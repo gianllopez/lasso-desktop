@@ -1,6 +1,6 @@
 import { store } from '../redux/store';
 
-const { dialog } = window.require('electron').remote;
+const { dialog } = window.require('@electron/remote');
 const ytdl = window.require('ytdl-core');
 const ffmpeg = window.require('fluent-ffmpeg');
 const ffmpegPath = window.require('ffmpeg-static');

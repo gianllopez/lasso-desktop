@@ -13,10 +13,9 @@ function createWindow() {
       enableRemoteModule: true
     }
   });
-  win.loadURL(
-    isDev ?
-      'http://localhost:3000' :
-      `file://${path.join(__dirname, '../build/index.html')}`);
+  let indexPath = `file://${path.join(__dirname, '../build/index.html')}`;
+  win.loadURL(isDev ? 'http://localhost:3000' : indexPath);
+  require('@electron/remote/main').initialize();
 };
 
 app.on('window-all-closed', () => {
@@ -25,9 +24,11 @@ app.on('window-all-closed', () => {
   };
 });
 
-app.on('ready', () => {
+app.on('ready', () => {  
   createWindow();
-  devtools([REACT_DEVELOPER_TOOLS,  REDUX_DEVTOOLS])
-    .then(name => console.log(`DevTools was added: ${name}!`))
-    .catch(e => console.error(e));
+  if (isDev) {
+    devtools([REACT_DEVELOPER_TOOLS,  REDUX_DEVTOOLS])
+      .then(name => console.log(`DevTools was added: ${name}!`))
+      .catch(e => console.error(e));
+  };
 });
