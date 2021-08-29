@@ -12,6 +12,7 @@ export function Editor(props) {
   let { data, toClose, onSave } = props;
 
   const [edition, setEdition] = useState(data || {});
+  const [dwarfPrev, setDwarfPrev] = useState(edition.cover ? false : true);
 
   useEffect(() => { data && setEdition(data) }, [data]);
 
@@ -31,6 +32,12 @@ export function Editor(props) {
     };
   };
 
+  const dwarfPrevHandler = val => {
+    if (!edition.cover) {
+      setDwarfPrev(val);
+    };
+  };
+
   return (
     <div className={cls('modal', { 'open': data })}>
       <div className="content">
@@ -43,12 +50,14 @@ export function Editor(props) {
         <div className="entries">
           <div className="cover-input">
             <TagInput
-              value={edition.cover || ''}
-              onChange={changeHandler}
-              placeholder="Cover"
               name="cover"
+              placeholder="Cover"
+              onChange={changeHandler}
+              value={edition.cover || ''}
+              onFocus={() => dwarfPrevHandler(false)}
+              onBlur={() => dwarfPrevHandler(true)}
             />
-            <figure onClick={onUploadCover}>
+            <figure onClick={onUploadCover} style={{ height: dwarfPrev ? 41 : 55 }}>
               <img src={edition.cover} onError={notFoundCover} alt=""/>
             </figure>
           </div>
