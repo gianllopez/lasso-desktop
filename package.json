@@ -7,10 +7,13 @@
     "url": "https://gianlop3z-dev.web.app"
   },
   "version": "1.0.0",
+  "homepage": "./",
   "private": false,
-  "main": "./public/main.js",
+  "main": "./public/electron.js",
   "dependencies": {
     "classnames": "^2.3.1",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
     "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "image-downloader": "^4.0.3",
@@ -23,15 +26,15 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "redux": "^4.1.0",
-    "ytdl-core": "^4.9.1",
-    "electron-devtools-installer": "^3.2.0",
-    "electron-is-dev": "^2.0.0"
+    "ytdl-core": "^4.9.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "electron-builder",
+    "build": "react-scripts build",
+    "dist": "yarn build && electron-builder",
     "electron": "wait-on tcp:3000 && electron .",
-    "start-all": "concurrently -k \"npm start\" \"npm:electron\""
+    "predist": "yarn build && electron-builder --dir",
+    "start-all": "concurrently -k \"yarn start\" \"yarn:electron\""
   },
   "eslintConfig": {
     "extends": [
@@ -53,17 +56,11 @@
   "devDependencies": {
     "concurrently": "^6.2.0",
     "electron": "^13.2.3",
-    "electron-devtools-installer": "^3.2.0",
-    "electron-is-dev": "^2.0.0",
     "wait-on": "^6.0.0"
   },
   "build": {
     "appId": "lasso.downloader",
     "productName": "Lasso - Downloader",
-    "extends": null,
-    "directories": {
-      "output": "build"
-    },
     "win": {
       "target": "portable"
     }
