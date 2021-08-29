@@ -7,10 +7,14 @@
     "url": "https://gianlop3z-dev.web.app"
   },
   "version": "1.0.0",
+  "homepage": "./",
   "private": false,
-  "main": "./public/main.js",
+  "main": "./public/electron.js",
   "dependencies": {
+    "@electron/remote": "^1.2.1",
     "classnames": "^2.3.1",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
     "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
     "image-downloader": "^4.0.3",
@@ -28,8 +32,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "dist": "yarn build && electron-builder",
     "electron": "wait-on tcp:3000 && electron .",
-    "start-all": "concurrently -k \"npm start\" \"npm:electron\""
+    "predist": "yarn build && electron-builder --dir",
+    "start-all": "concurrently -k \"yarn start\" \"yarn:electron\""
   },
   "eslintConfig": {
     "extends": [
@@ -51,8 +57,13 @@
   "devDependencies": {
     "concurrently": "^6.2.0",
     "electron": "^13.2.3",
-    "electron-devtools-installer": "^3.2.0",
-    "electron-is-dev": "^2.0.0",
     "wait-on": "^6.0.0"
+  },
+  "build": {
+    "appId": "lasso.downloader",
+    "productName": "Lasso - Downloader",
+    "win": {
+      "target": "portable"
+    }
   }
 }

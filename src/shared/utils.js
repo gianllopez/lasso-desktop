@@ -1,6 +1,6 @@
 import noCover from '../assets/no-cover.jpg';
 
-const electron = window.require('electron').remote;
+const electron = window.require('@electron/remote');
 const { join } = window.require('path');
 const fs = window.require('fs');
 

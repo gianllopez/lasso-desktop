@@ -1,4 +1,4 @@
-const { dialog, getCurrentWindow } = window.require('electron').remote;
+const { dialog, getCurrentWindow } = window.require('@electron/remote');
 
 const onDisconnected = () => {
   dialog.showErrorBox(

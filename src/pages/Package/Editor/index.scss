@@ -34,29 +34,29 @@
     .entries .cover-input {
       display: flex;
       .tag-input { flex: 1; margin-right: 10px }
-      figure {
-        position: relative;
-        cursor: pointer;
-        width: 60px;
-        &::before, img {
-          display: flex;
-          width: 100%; height: 55px;
-          object-fit: cover;
-          border-radius: 5px;
-        }
-        &::before {
-          content: '+';
-          position: absolute;
-          align-items: center;
-          justify-content: center;
-          background-color: #0000008a;
-          color: white;
-          font-size: 2.5em;
-          transition-duration: .15s;
-          opacity: 0;
-        }
-        &:hover::before { opacity: 1 }
+    }
+    .cover-input figure {
+      position: relative;
+      cursor: pointer;
+      width: 60px;
+      &::before, img {
+        display: flex;
+        width: 100%; height: 55px;
+        object-fit: cover;
+        border-radius: 5px;
       }
+      &::before {
+        content: '+';
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        background-color: #0000008a;
+        color: white;
+        font-size: 2.5em;
+        transition-duration: .15s;
+        opacity: 0;
+      }
+      &:hover::before { opacity: 1 }
     }
     .grouped-btns {
       .cancel-edit, .save-edit {

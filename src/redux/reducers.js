@@ -3,7 +3,8 @@ const INITIAL_STATE = {
   path: '',
   folder: '',
   content: [],
-  downloading: false
+  downloading: false,
+  index: 0
 };
 
 function packageReducer(state = INITIAL_STATE, action) {
