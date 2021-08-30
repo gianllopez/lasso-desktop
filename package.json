@@ -32,9 +32,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "dist": "yarn build && electron-builder",
+    "dist": "electron-builder",
     "electron": "wait-on tcp:3000 && electron .",
-    "predist": "yarn build && electron-builder --dir",
+    "predist": "electron-builder --dir",
     "start-all": "concurrently -k \"yarn start\" \"yarn:electron\""
   },
   "eslintConfig": {
@@ -57,13 +57,12 @@
   "devDependencies": {
     "concurrently": "^6.2.0",
     "electron": "^13.2.3",
+    "electron-builder": "^22.11.7",
     "wait-on": "^6.0.0"
   },
   "build": {
     "appId": "lasso.downloader",
     "productName": "Lasso - Downloader",
-    "win": {
-      "target": "portable"
-    }
+    "win": { "target": "portable" }
   }
 }

@@ -6,6 +6,7 @@ const path = require('path');
 function createWindow() {
   let win = new BrowserWindow({
     width: 950, height: 700,
+    icon: path.join(__dirname, 'icon.ico'),
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
