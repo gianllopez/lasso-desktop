@@ -11,13 +11,24 @@ export function Editor(props) {
 
   let { data, toClose, onSave } = props;
 
-  const [edition, setEdition] = useState(data || {});
+  const [edition, setEdition] = useState(data);
+  const [coverPreview, setCoverPreview] = useState(null);
 
-  useEffect(() => { data && setEdition(data) }, [data]);
+  useEffect(() => {
+    if (data) {
+      setEdition(data);
+      setCoverPreview(data.cover);
+    };
+  }, [data]);
 
   const changeHandler = e => {
-    let { name, value } = e.target;
-    setEdition({ ...edition, [name]: value });
+    let { name, value } = e.target,
+    newData = { ...edition, [name]: value };
+    if (name === 'cover') {
+      newData.coverpath = value;
+      setCoverPreview(value);
+    };
+    setEdition(newData);
   };
 
   const onUploadCover = () => {
@@ -27,8 +38,15 @@ export function Editor(props) {
       let buffer = fs.readFileSync(path),
       file = new File([buffer], path),
       url = URL.createObjectURL(file);
-      setEdition({ ...edition, cover: url });
+      setEdition({ ...edition, cover: url, coverpath: path });
+      setCoverPreview(url);
     };
+  };
+
+  const closeHandler = () => {
+    toClose();
+    setEdition(null);
+    setCoverPreview(null);
   };
 
   return (
@@ -37,7 +55,7 @@ export function Editor(props) {
         <div className="header-info">
           <h2>Package song editor</h2>
           <p className="c-gray">
-            {data?.title} - {data?.artist}
+            {edition?.title} - {edition?.artist}
           </p>
         </div>
         <div className="entries">
@@ -46,32 +64,32 @@ export function Editor(props) {
               name="cover"
               placeholder="Cover"
               onChange={changeHandler}
-              value={edition.cover || ''}
+              value={edition?.coverpath || edition?.cover || ''}
             />
             <figure onClick={onUploadCover}>
-              <img src={edition.cover} onError={notFoundCover} alt=""/>
+              <img src={coverPreview} onError={notFoundCover} alt=""/>
             </figure>
           </div>
           <TagInput            
-            value={edition.title || ''}
+            value={edition?.title || ''}
             onChange={changeHandler}
             placeholder="Title"
             name="title"
           />
           <TagInput            
-            value={edition.artist || ''}
+            value={edition?.artist || ''}
             onChange={changeHandler}
             placeholder="Artist" 
             name="artist"
           />
           <TagInput            
-            value={edition.album || ''}
+            value={edition?.album || ''}
             onChange={changeHandler}
             placeholder="Album"
             name="album"
           />
           <TagInput            
-            value={edition.url || ''}
+            value={edition?.url || ''}
             onChange={changeHandler}
             placeholder="Youtube URL"
             name="url"
@@ -89,7 +107,7 @@ export function Editor(props) {
             onClick={() => onSave(edition)}
           />
         </div>
-        <i className="uil uil-times-circle" onClick={toClose}/>        
+        <i className="uil uil-times-circle" onClick={closeHandler}/>        
       </div>
     </div>
   );
