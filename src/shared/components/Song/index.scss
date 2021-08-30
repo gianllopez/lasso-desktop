@@ -10,7 +10,11 @@
   figure {
     width: 55px; height: 100%;
     margin-right: 7px;
-    img { width: 100%; height: 100%; border-radius: 7px }
+    img {
+      width: 100%; height: 100%;
+      border-radius: 7px;
+      object-fit: cover;
+    }
   }
   .tags { font-size: .85em;
     .artist, .album { color: $darkGray }

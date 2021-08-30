@@ -65,14 +65,9 @@ class Download {
     valid = ytdl.validateURL(url);
     if (valid) {
       let tags = { ...data },
-      albumName = this.validFilename(album);
-      
-      
-      // tags.APIC = await this.cover(cover, albumName);
+      albumName = this.validFilename(album);      
+      tags.APIC = coverpath || await this.cover(cover, albumName);
       this.tags = tags;
-
-
-
       await this.downloader(url, title);
     } else {
       dialog.showErrorBox('Invalid Youtube URL',
