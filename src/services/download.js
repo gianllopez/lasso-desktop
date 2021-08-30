@@ -61,13 +61,18 @@ class Download {
 
   async get_song(data, _title) {
     let title = this.validFilename(_title),
-    { url, album, cover } = data,
+    { url, album, cover, coverpath } = data,
     valid = ytdl.validateURL(url);
     if (valid) {
       let tags = { ...data },
       albumName = this.validFilename(album);
-      tags.APIC = await this.cover(cover, albumName);
+      
+      
+      // tags.APIC = await this.cover(cover, albumName);
       this.tags = tags;
+
+
+
       await this.downloader(url, title);
     } else {
       dialog.showErrorBox('Invalid Youtube URL',
