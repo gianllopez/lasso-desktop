@@ -31,33 +31,34 @@
       padding: 7px;
     }
     .entries, .grouped-btns { width: 80% }
-    .entries .cover-input {
-      display: flex;
-      .tag-input { flex: 1; margin-right: 10px }
-    }
-    .cover-input figure {
+    .cover-input {
       position: relative;
-      cursor: pointer;
-      width: 60px;
-      transition-duration: .25s;
-      &::before, img {
-        display: flex;
-        width: 100%; height: 100%;
-        object-fit: cover;
-        border-radius: 5px;
+      display: flex;
+      .tag-input { width: calc(100% - 70px) }
+      figure {
+        position: absolute; right: 0;
+        width: 60px;
+        height: calc(100% - 10px);
+        cursor: pointer;
+        &::before, img {
+          display: flex;
+          width: 100%; height: 100%;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+        &::before {
+          content: '+';
+          position: absolute;
+          align-items: center;
+          justify-content: center;
+          background-color: #0000008a;
+          color: white;
+          font-size: 2.5em;
+          transition-duration: .15s;
+          opacity: 0;
+        }
+        &:hover::before { opacity: 1 }
       }
-      &::before {
-        content: '+';
-        position: absolute;
-        align-items: center;
-        justify-content: center;
-        background-color: #0000008a;
-        color: white;
-        font-size: 2.5em;
-        transition-duration: .15s;
-        opacity: 0;
-      }
-      &:hover::before { opacity: 1 }
     }
     .grouped-btns {
       .cancel-edit, .save-edit {
