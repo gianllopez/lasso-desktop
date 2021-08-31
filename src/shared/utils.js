@@ -42,4 +42,12 @@ const notFoundCover = ({ target }) => {
   target.src = noCover;
 };
 
-export { fileLoader, manageFolder, messageBox, compare, notFoundCover };
+const getLocalURL = cover => {
+  try {    
+    let buffer = fs.readFileSync(cover),
+    file = new File([buffer], cover);
+    return URL.createObjectURL(file);
+  } catch (_) { return cover };
+};
+
+export { fileLoader, manageFolder, messageBox, compare, notFoundCover, getLocalURL };

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import cls from 'classnames';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { Download } from '../../../services/download';
+import { getLocalURL, notFoundCover } from '../../utils';
 import noCover from '../../../assets/no-cover.jpg'
 import 'react-circular-progressbar/dist/styles.css';
 import './index.scss';
-import { Fragment } from 'react';
-import { notFoundCover } from '../../utils';
 
 export function Song(props) {
 
@@ -16,6 +15,7 @@ export function Song(props) {
   // on downloading props:
   let { downloading, _downloaded, allReady, turn, onComplete } = props;
 
+  const [coverPrev, setCoverPrev] = useState(null);
   const [downloaded, setDownloaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -29,6 +29,11 @@ export function Song(props) {
       setProgress(50);
     };
   };
+
+  useEffect(() => {
+    let prev = data.localcover ? getLocalURL(cover) : cover;
+    setCoverPrev(prev);
+  }, [data]);
 
   useEffect(() => {
     if (turn) {
@@ -48,7 +53,7 @@ export function Song(props) {
   return (
     <div className="song">
       <figure>
-        <img src={cover || noCover} onError={notFoundCover} alt=""/>
+        <img src={coverPrev || noCover} onError={notFoundCover} alt=""/>
       </figure>
       <div className="tags">
         <p className="title">{ title || 'Unknow' }</p>

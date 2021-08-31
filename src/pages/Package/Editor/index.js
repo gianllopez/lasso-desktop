@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import cls from 'classnames';
 import { TagInput } from './TagInput';
 import { Button } from '../../../shared/components/Button'
-import { fileLoader, notFoundCover } from '../../../shared/utils';
+import { fileLoader, getLocalURL, notFoundCover } from '../../../shared/utils';
 import './index.scss';
 
 const fs = window.require('fs');
@@ -17,28 +17,29 @@ export function Editor(props) {
   useEffect(() => {
     if (data) {
       setEdition(data);
-      setCoverPreview(data.cover);
+      let { cover, localcover } = data;
+      if (localcover) {
+        let url = getLocalURL(cover);
+        setCoverPreview(url);
+      };
     };
   }, [data]);
 
   const changeHandler = e => {
-    let { name, value } = e.target,
-    newData = { ...edition, [name]: value };
+    let { name, value } = e.target;
+    setEdition({ ...edition, [name]: value });
     if (name === 'cover') {
-      newData.coverpath = value;
-      setCoverPreview(value);
+      let url = getLocalURL(value);
+      setCoverPreview(url);
     };
-    setEdition(newData);
   };
 
   const onUploadCover = () => {
     let cnf = { name: 'Cover', extensions: ['jpg', 'png'] },
     { path } = fileLoader(cnf, 'pictures');
     if (path) {
-      let buffer = fs.readFileSync(path),
-      file = new File([buffer], path),
-      url = URL.createObjectURL(file);
-      setEdition({ ...edition, cover: url, coverpath: path });
+      let url = getLocalURL(path);
+      setEdition({ ...edition, cover: path, localcover: true });
       setCoverPreview(url);
     };
   };
@@ -64,7 +65,7 @@ export function Editor(props) {
               name="cover"
               placeholder="Cover"
               onChange={changeHandler}
-              value={edition?.coverpath || edition?.cover || ''}
+              value={edition?.cover || ''}
             />
             <figure onClick={onUploadCover}>
               <img src={coverPreview} onError={notFoundCover} alt=""/>

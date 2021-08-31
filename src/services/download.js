@@ -61,12 +61,15 @@ class Download {
 
   async get_song(data, _title) {
     let title = this.validFilename(_title),
-    { url, album, cover, coverpath } = data,
+    { url, album, cover, localcover } = data,
     valid = ytdl.validateURL(url);
     if (valid) {
       let tags = { ...data },
-      albumName = this.validFilename(album);      
-      tags.APIC = coverpath || await this.cover(cover, albumName);
+      albumName = this.validFilename(album);
+      if (!localcover) {
+        cover = await this.cover(cover, albumName);
+      };
+      tags.APIC = cover;
       this.tags = tags;
       await this.downloader(url, title);
     } else {
