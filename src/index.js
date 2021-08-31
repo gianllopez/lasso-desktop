@@ -7,7 +7,14 @@ import { Home, Package } from './pages';
 import { NavBar } from './shared/components';
 import './index.scss';
 
+const { shell } = window.require('electron@remote');
+
 function App() {
+
+  const toPortfolio = () => {
+    shell.openExternal('gianlop3z-dev.web.app');
+  };
+
   return (
     <HashRouter>
       <Provider store={store}>
@@ -17,9 +24,10 @@ function App() {
           <Route path="/package" component={Package} exact/>
         </Switch>
       </Provider>
-      <p id="my-creds">by @gianlop3z</p>
+      <p id="my-creds" onClick={toPortfolio}>by @gianlop3z</p>
     </HashRouter>
   );
+
 };
 
 ReactDOM.render(<App/>, document.getElementById('root'));

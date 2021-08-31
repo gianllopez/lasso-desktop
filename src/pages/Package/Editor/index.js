@@ -5,8 +5,6 @@ import { Button } from '../../../shared/components/Button'
 import { fileLoader, getLocalURL, notFoundCover } from '../../../shared/utils';
 import './index.scss';
 
-const fs = window.require('fs');
-
 export function Editor(props) {
 
   let { data, toClose, onSave } = props;
@@ -17,11 +15,9 @@ export function Editor(props) {
   useEffect(() => {
     if (data) {
       setEdition(data);
-      let { cover, localcover } = data;
-      if (localcover) {
-        let url = getLocalURL(cover);
-        setCoverPreview(url);
-      };
+      let { cover, localcover } = data,
+      src = localcover ? getLocalURL(cover) : cover;
+      setCoverPreview(src);
     };
   }, [data]);
 
