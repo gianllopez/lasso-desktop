@@ -104,7 +104,7 @@ export function Editor(props) {
             onClick={() => onSave(edition)}
           />
         </div>
-        <i className="uil uil-times-circle" onClick={closeHandler}/>        
+        <i className="uil uil-times-circle" onClick={closeHandler}/>
       </div>
     </div>
   );
