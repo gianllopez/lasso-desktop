@@ -7,12 +7,12 @@ import { Home, Package } from './pages';
 import { NavBar } from './shared/components';
 import './index.scss';
 
-const { shell } = window.require('electron@remote');
+const { shell } = window.require('@electron/remote');
 
 function App() {
 
   const toPortfolio = () => {
-    shell.openExternal('gianlop3z-dev.web.app');
+    shell.openExternal('https://gianlop3z-dev.web.app/');
   };
 
   return (

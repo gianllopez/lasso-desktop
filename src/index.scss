@@ -23,6 +23,10 @@
   color: $darkGray;
   margin: 10px;
   cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    color: $lightBlue;
+  }
 }
 
 body {
