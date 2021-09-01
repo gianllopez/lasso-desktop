@@ -10,19 +10,16 @@ function createWindow() {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true
+      contextIsolation: false
     }
   });
-  let indexPath = `file://${path.join(__dirname, '../build/index.html')}`;
-  win.loadURL(isDev ? 'http://localhost:3000' : indexPath);
+  let prod = `file://${path.join(__dirname, '../build/index.html')}`;
+  win.loadURL(isDev ? 'http://localhost:3000' : prod);
   require('@electron/remote/main').initialize();
 };
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  };
+  if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('ready', () => {  
