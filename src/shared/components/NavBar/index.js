@@ -14,7 +14,7 @@ function NavBar({ downloading }) {
     messageBox({
       type: 'info',
       title: 'Information',
-      detail: `Development versions: \
+      detail: `Lasso versions: \
         \nNode: ${node} \
         \nElectron: ${electron} \
         \nChrome: ${chrome}`
@@ -22,8 +22,7 @@ function NavBar({ downloading }) {
   };
 
   const pageRedirect = () => {
-    // Replace with the hosted page.
-    electron.shell.openExternal('https://www.google.com/');
+    electron.shell.openExternal('https://lassodl.web.app/');
   };
 
   return (

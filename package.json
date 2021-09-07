@@ -63,6 +63,11 @@
   "build": {
     "appId": "lasso.downloader",
     "productName": "Lasso - Downloader",
-    "win": { "target": "portable" }
+    "directories": { "buildResources": "resources" },
+    "artifactName": "lasso-${version}.${ext}",
+    "win": {
+      "target": "portable",
+      "icon": "build/icon.ico"
+    }
   }
 }

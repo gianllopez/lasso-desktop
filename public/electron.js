@@ -10,7 +10,8 @@ function createWindow() {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   });
   let prod = `file://${path.join(__dirname, '../build/index.html')}`;
