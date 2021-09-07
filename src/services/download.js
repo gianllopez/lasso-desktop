@@ -3,16 +3,18 @@ import { store } from '../redux/store';
 const { dialog } = window.require('@electron/remote');
 const ytdl = window.require('ytdl-core');
 const ffmpeg = window.require('fluent-ffmpeg');
-const ffmpegPath = window.require('ffmpeg-static');
+const ffmpegStatic = window.require('ffmpeg-static');
 const imgdl = window.require('image-downloader');
 const NodeID3 = window.require('node-id3');
 const fs = window.require('fs');
 const path = window.require('path');
 
+const ffmpegPath = ffmpegStatic.replace('app.asar', 'app.asar.unpacked');
+ffmpeg.setFfmpegPath(ffmpegPath);
+
 class Download {
 
   constructor(manager) {
-    ffmpeg.setFfmpegPath(ffmpegPath);
     this.manager = manager;
     this.folder = store.getState()?.folder;
   };

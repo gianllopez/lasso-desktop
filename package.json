@@ -65,6 +65,7 @@
     "productName": "Lasso - Downloader",
     "directories": { "buildResources": "resources" },
     "artifactName": "lasso-${version}.${ext}",
+    "asarUnpack": [ "**/app/node_modules/ffmpeg-static/*" ],
     "win": {
       "target": "portable",
       "icon": "build/icon.ico"
